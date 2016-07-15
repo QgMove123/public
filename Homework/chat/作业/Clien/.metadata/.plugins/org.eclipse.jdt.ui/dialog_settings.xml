@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="FatJarPackageWizard">
+		<item value="C:\Users\Mr_Do\Desktop\Clien" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
+		<item value="Clien - Clien" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="C:\Users\Mr_Do\Desktop\RP\Clien.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
+		<item value="2" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
+		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="C:\Users\Mr_Do\Desktop\RP\Clien.jar"/>
+		</list>
+		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
+			<item value="C:\Users\Mr_Do\Desktop\Clien.xml"/>
+			<item value=".xml"/>
+		</list>
+	</section>
+	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
+		<item value="2" key="layout"/>
+		<item value="true" key="group_libraries"/>
+		<item value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;packageExplorer group_libraries=&quot;1&quot; layout=&quot;2&quot; linkWithEditor=&quot;0&quot; rootMode=&quot;1&quot;/&gt;" key="memento"/>
+		<item value="1" key="rootMode"/>
+		<item value="false" key="linkWithEditor"/>
+	</section>
+	<section name="NewClassWizardPage">
+		<item value="false" key="create_constructor"/>
+		<item value="true" key="create_unimplemented"/>
+	</section>
+	<section name="OptionalMessageDialog.hide.">
+		<item value="true" key="org.eclipse.jdt.ui.typecomment.deprecated"/>
+	</section>
+	<section name="NewPackageWizardPage">
+		<item value="false" key="create_package_info_java"/>
+	</section>
+	<section name="quick_assist_proposal_size">
+	</section>
+	<section name="completion_proposal_size">
+	</section>
+</section>
