@@ -1,0 +1,119 @@
+package student;
+
+import java.sql.*;
+
+public class Student {
+	String major;
+	String name;
+	String sex;
+	int cla;
+	int num;
+	int chinese;
+	int math;
+	int english;
+	static Connection con;
+	static PreparedStatement sql;
+	static ResultSet res;
+	public Connection getConnection(){
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("数据库驱动加载成功");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		try{
+			con=DriverManager.getConnection("jdbc:mysql://127.0.0.1/student_db","root","");
+			System.out.println("数据库连接成功");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return con;
+	}
+	public void add(int num,String major,String name,String sex,int cla,
+			int chinese,int math,int english){
+		try{
+			sql = con.prepareStatement("insert into students values(?,?,?,?,?,?,?,?)");
+			sql.setInt(1, num);
+			sql.setString(2, major);
+			sql.setString(3, name);
+			sql.setString(4, sex);
+			sql.setInt(5, cla);
+			sql.setInt(6, chinese);
+			sql.setInt(7, math);
+			sql.setInt(8, english);
+			sql.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	public void del(int num){
+		try{
+			sql = con.prepareStatement("delete from students where num = ?)");
+			sql.setInt(1, num);
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	public void uptodata(int num,String major,String name,String sex,int cla,
+			int chinese,int math,int english){
+		try{
+			sql = con.prepareStatement("update students set major = ? where num = ?"
+					+" update students set name = ? where num = ?"
+					+" update students set sex = ? where num = ?"
+					+" update students set cla = ? where num = ?"
+					+" update students set chines = ? where num = ?"
+					+" update students set math = ? where num = ?"
+					+" update students set english = ? where num = ?");
+			sql.setString(1, major);
+			sql.setInt(2, 1);
+			sql.setString(3, name);
+			sql.setInt(4, 1);
+			sql.setString(5, sex);
+			sql.setInt(6, 1);
+			sql.setInt(7, cla);
+			sql.setInt(8, 1);
+			sql.setInt(9, chinese);
+			sql.setInt(10, 1);
+			sql.setInt(11, math);
+			sql.setInt(12, 1);
+			sql.setInt(13, english);
+			sql.setInt(14, 1);
+			sql.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	public void show(){
+		try{
+			sql = con.prepareStatement("select * from students");
+			res = sql.executeQuery();
+			System.out.println("The data :");
+			while(res.next()){
+				System.out.println("ID : "+res.getInt(1));
+				System.out.println("Major : "+res.getString("major"));
+				System.out.println("Name : "+res.getString("name"));
+				System.out.println("Sex : "+res.getString("sex"));
+				System.out.println("Class : "+res.getInt("cla"));
+				System.out.println("Chinese : "+res.getInt("chinese"));
+				System.out.println("Math : "+res.getInt("math"));
+				System.out.println("English : "+res.getInt("english"));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	public static void main(String[] args){
+		Student st = new Student();
+		st.getConnection();
+		try{
+			//sql = con.prepareStatement("delete from students");
+			//sql.executeUpdate();
+			//st.add(1,"computer", "Mike", "Male", 1,89, 99, 98);
+			//st.show();
+			st.uptodata(1,"computer", "Li", "Male", 2, 89, 99, 98);
+			st.show();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+}
