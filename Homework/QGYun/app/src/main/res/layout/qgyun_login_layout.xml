@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/bg">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,61 +19,50 @@
             />
 
         <TextView
-            style="@style/MyToolBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/wordStyle"
             android:layout_centerInParent="true"
             android:text="登录"
             />
     </RelativeLayout>
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal"
-        android:background="@drawable/input_up_round">
-
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp">
         <EditText
-            android:id="@+id/edit_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="邮箱/账号"
-            android:textColorHint="@color/gray1"
-            android:textSize="25sp"
-            android:layout_gravity="center_vertical"
+            android:id="@+id/phone"
+            android:drawableStart="@drawable/me_1"
+            android:hint="手机/邮箱"
+            android:background="@drawable/input_up_round"
+            style="@style/lineStyle"
             />
+
+
+        <EditText
+            android:layout_marginTop="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password"
+            android:drawableStart="@drawable/password"
+            android:hint="密码(6-14字符)"
+            android:background="@drawable/input_down_round"
+            style="@style/lineStyle"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="下一步"
+            android:id="@+id/button_next"
+            style="@style/wordStyle"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal"
-        android:background="@drawable/input_down_round">
-
-        <EditText
-            android:id="@+id/edit_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="密码"
-            android:textColorHint="@color/gray1"
-            android:textSize="25sp"
-            android:layout_gravity="center_vertical"
-            />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/button_login"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="登陆"
-        />
 </LinearLayout>

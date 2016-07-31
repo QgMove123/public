@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/bg">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,64 +16,64 @@
             android:layout_height="50dp"
             android:src="@drawable/back_button"
             android:padding="15dp"
-            />
+/>
 
-        <TextView
-            style="@style/MyToolBar"
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/wordStyle"
             android:layout_centerInParent="true"
             android:text="QG Yun"
             />
 
-        <TextView
+        <Button
             android:id="@+id/person_info"
-            style="@style/MyToolBar"
+            style="@style/wordStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:text="个人中心"/>
+            android:layout_marginRight="10dp"
+            android:text="个人中心"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp" >
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_margin="@dimen/activity_horizontal_margin">
+       <LinearLayout
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           >
+           <EditText
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:background="@drawable/bg_searchview"
+               android:hint="搜索"
+               android:gravity="center"
+               android:layout_weight="1"/>
+           <ImageButton
+               android:id="@+id/Button_search"
+               android:text="搜索"
+               android:background="@color/bg"
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+               android:src="@drawable/search" />
+       </LinearLayout>
+       <ListView
+           android:id="@+id/list_view"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="1" />
+       <Button
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_gravity="bottom"
+           android:text="上传"
+           android:id="@+id/button_upload"
+           style="@style/wordStyle"/>
+   </LinearLayout>
 
-        <EditText
-            android:id="@+id/edit_search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="你就不需要找点什么？"
-            android:textColorHint="@color/gray1"
-            android:textSize="25sp"
-            android:layout_weight="1"
-            />
-
-        <Button
-            android:id="@+id/button_search"
-            style="@style/MyButton"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="查找"
-            />
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
-    <Button
-        android:id="@+id/button_upload"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:text="上传"
-        />
 </LinearLayout>

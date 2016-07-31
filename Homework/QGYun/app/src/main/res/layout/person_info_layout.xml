@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -18,53 +19,59 @@
             />
 
         <TextView
-            style="@style/MyToolBar"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/wordStyle"
             android:layout_centerInParent="true"
             android:text="个人信息"
             />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
 
         <ImageView
             android:id="@+id/info_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
             android:src="@drawable/type_unknow"/>
 
         <TextView
-            android:id="@+id/info_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="账号/邮箱"
-            android:textSize="25sp"
-            android:layout_gravity="center_vertical"
-            />
+            android:layout_centerHorizontal="true"
+            android:hint="账号:"
+            android:layout_marginTop="50dp"
+            android:textSize="30dp"
+            android:layout_below="@id/info_head" />
 
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin">
+        <Button
+            android:layout_height="wrap_content"
+            android:id="@+id/button_head"
+            style="@style/wordStyle"
+            android:layout_width="match_parent"
+            android:text="选择新头像"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:id="@+id/button_modify"
+            style="@style/wordStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="修改密码"
+            />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_head"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="选择新头像"
-        />
-    <Button
-        android:id="@+id/button_modify"
-        style="@style/MyButton"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="修改密码"
-        />
 </LinearLayout>
