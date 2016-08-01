@@ -1,4 +1,4 @@
-package com.example.ricco.qgyun;
+package com.example.ricco.entity;
 
 /**
  * 
@@ -21,7 +21,7 @@ public class UserModel {
 	 * @param userPassword 用户密码
 	 * @param userPicture 用户头像
 	 */
-	public UserModel( String userName, String userPassword, String userPicture){
+	public UserModel(String userName, String userPassword, String userPicture){
 		this.userName = userName;
 		this.userPassword = userPassword;
 		this.userPicture = userPicture;
