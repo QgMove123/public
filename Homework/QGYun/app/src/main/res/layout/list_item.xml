@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <ImageView
+        android:id="@+id/image_type"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/type_unknow"
+        />
+
+    <TextView
+        android:id="@+id/file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/image_type"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="40dp"
+        android:text="文件名"
+        />
+    <TextView
+        android:id="@+id/file_time"
+        android:layout_below="@id/file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/image_type"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:text="时间"
+        />
+    <TextView
+        android:id="@+id/file_man"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textSize="30dp"
+        android:text="上传人"
+        />
+</RelativeLayout>
