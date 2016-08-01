@@ -1,7 +1,8 @@
-package com.example.ricco.qgyun;
+package com.example.ricco.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
 /***
  * 
  * @author dragon
@@ -18,14 +19,14 @@ public class ResourceModel implements Serializable{
 	private String resourcePath;
 	
 	public ResourceModel(){}
-	public ResourceModel(int resourceId,int uploadId,String resourceName,Date resourceUploadTime,String resourcePath){
+	public ResourceModel(int resourceId, int uploadId, String resourceName, Date resourceUploadTime, String resourcePath){
 		this.resourceId=resourceId;
 		this.uploadId=uploadId;
 		this.resourceName=resourceName;
 		this.resourcePath=resourcePath;
 		this.resourceUploadTime=resourceUploadTime;
 	}
-	public ResourceModel(int uploadId,String resourceName,Date resourceUploadTime,String resourcePath){
+	public ResourceModel(int uploadId, String resourceName, Date resourceUploadTime, String resourcePath){
 		this.uploadId=uploadId;
 		this.resourceName=resourceName;
 		this.resourcePath=resourcePath;
