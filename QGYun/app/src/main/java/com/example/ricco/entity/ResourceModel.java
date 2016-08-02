@@ -1,8 +1,6 @@
 package com.example.ricco.entity;
 
-import java.io.Serializable;
 import java.util.Date;
-
 /***
  * 
  * @author dragon
@@ -10,28 +8,33 @@ import java.util.Date;
  *这是一个关于资料的类
  *</pre>
  */
-public class ResourceModel implements Serializable{
+public class ResourceModel {
 
 	private int resourceId;
+	private String uploader;
 	private int uploadId;
 	private String resourceName;
 	private Date resourceUploadTime;
 	private String resourcePath;
 	
 	public ResourceModel(){}
-	public ResourceModel(int resourceId, int uploadId, String resourceName, Date resourceUploadTime, String resourcePath){
+	public ResourceModel(int resourceId,int uploadId,String resourceName,Date resourceUploadTime,String resourcePath){
 		this.resourceId=resourceId;
 		this.uploadId=uploadId;
 		this.resourceName=resourceName;
 		this.resourcePath=resourcePath;
 		this.resourceUploadTime=resourceUploadTime;
 	}
-	public ResourceModel(int uploadId, String resourceName, Date resourceUploadTime, String resourcePath){
+	public ResourceModel(int uploadId,String resourceName,Date resourceUploadTime,String resourcePath){
 		this.uploadId=uploadId;
 		this.resourceName=resourceName;
 		this.resourcePath=resourcePath;
 		this.resourceUploadTime=resourceUploadTime;
 	}
+	public void setuploader(String uploader){
+		this.uploader=uploader;
+	}
+	
 	/**
 	 * 这是一个获取资源ID的的方法
 	 * @return
