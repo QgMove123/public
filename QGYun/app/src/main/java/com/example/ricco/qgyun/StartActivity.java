@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.ricco.myinterface.*;
-
 public class StartActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {

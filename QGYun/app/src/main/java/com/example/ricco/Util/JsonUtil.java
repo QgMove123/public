@@ -1,4 +1,4 @@
-package com.example.ricco.myinterface;
+package com.example.ricco.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,4 +15,5 @@ public class JsonUtil {
 		Gson gson = gb.create();
 		return gson.fromJson(json, clazz);
 	}
+
 }
