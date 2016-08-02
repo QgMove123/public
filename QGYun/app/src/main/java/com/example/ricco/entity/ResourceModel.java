@@ -14,11 +14,11 @@ public class ResourceModel {
 	private String uploaderName;
 	private int uploaderId;
 	private String resourceName;
-	private Date resourceUploadTime;
+	private String resourceUploadTime;
 	private String resourcePath;
 	
 	public ResourceModel(){}
-	public ResourceModel(int resourceId,int uploaderId,String resourceName,Date resourceUploadTime,String resourcePath){
+	public ResourceModel(int resourceId,int uploaderId,String resourceName,String resourceUploadTime,String resourcePath){
 		this.resourceId=resourceId;
 		this.uploaderId=uploaderId;
 		this.resourceName=resourceName;
@@ -90,12 +90,12 @@ public class ResourceModel {
 	 * 这是一个获取上传时间的方法
 	 * @return 文件上传的时间
 	 */
-	public Date getResourceUploadTime(){
+	public String getResourceUploadTime(){
 		return resourceUploadTime;
 	}
 	/**
 	 * 这是一个设置文件上传者的方法
-	 * @param uploader 文件上传者的名字
+	 * @param uploaderId 文件上传者的名字
 	 */
 	public void setUploaderId(int uploaderId) {
 		this.uploaderId = uploaderId;
@@ -118,7 +118,7 @@ public class ResourceModel {
 	 * 这是一个设置文件上传时间的方法
 	 * @param resourceUploadTime 文件上传的时间
 	 */
-	public void setResourceUploadTime(Date resourceUploadTime){
+	public void setResourceUploadTime(String resourceUploadTime){
 		this.resourceUploadTime=resourceUploadTime;
 	}
 }

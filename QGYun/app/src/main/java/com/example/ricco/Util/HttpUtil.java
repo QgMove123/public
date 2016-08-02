@@ -29,7 +29,9 @@ public class HttpUtil {
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(8000);
                     conn.setReadTimeout(8000);
+                    Log.e("tag",conn.getResponseCode()+"");
                     br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    Log.e("tag","ok2");
                     StringBuilder result = new StringBuilder();
                     String line;
                     while((line = br.readLine())!=null) {
@@ -38,10 +40,12 @@ public class HttpUtil {
                    if(listener != null){
                        //回调onFinish()方法
                        listener.onFinish(result.toString());
+                       Log.e("tag","Finish");
                    }
                 } catch (IOException e) {
                     //回调onError()方法
                     listener.onError(e);
+                    Log.e("tag","Error");
                 } finally {
                     try {
                         br.close();
