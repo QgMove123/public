@@ -40,6 +40,7 @@
             android:id="@+id/phone"
             android:drawableStart="@drawable/me_1"
             android:hint="手机/邮箱"
+            android:maxLength="10"
             android:background="@drawable/input_up_round"
             style="@style/lineStyle"
             />
@@ -51,7 +52,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/password"
             android:drawableStart="@drawable/password"
-            android:hint="密码(6-14字符)"
+            android:hint="密码(6-10字符)"
+            android:maxLength="10"
+            android:inputType="textPassword"
             android:background="@drawable/input_down_round"
             style="@style/lineStyle"/>
 
