@@ -43,6 +43,7 @@ public class RegisterActivity extends Activity {
                     break;
                 case 2:
                     Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                    password.setText("");
                     break;
                 default:
                     break;
@@ -52,7 +53,7 @@ public class RegisterActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.qgyun_login_layout);
+        setContentView(R.layout.qgyun_register_layout);
         phone = (EditText) findViewById(R.id.phone);
         password = (EditText) findViewById(R.id.password);
         next_step = (Button) findViewById(R.id.button_next);
@@ -70,14 +71,14 @@ public class RegisterActivity extends Activity {
         next_step.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String str_phone = phone.getText().toString();
-                String str_password = password.getText().toString();
+                final String str_phone = phone.getText().toString();
+                final String str_password = password.getText().toString();
                 if (str_phone.equals("") || str_password.equals("")) {
                     Toast.makeText(RegisterActivity.this,
                             "密码或账号不能为空！", Toast.LENGTH_SHORT).show();
                 } else {
                     UserModel userModel = new UserModel(str_phone, str_password, "");
-                    HttpUtil.getJson("http://主机号:8080/QGYun/UserRegister?orderJson=" +
+                    HttpUtil.getJson("http://192.168.199.151:8080/QGYun/UserRegister?orderJson=" +
                             JsonUtil.toJson(userModel), new CallbackListener() {
                         @Override
                         public void onFinish(Object result) {
