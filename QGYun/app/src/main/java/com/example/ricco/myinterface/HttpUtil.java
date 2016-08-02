@@ -11,7 +11,7 @@ import java.net.URL;
  * @author yason
  * Get、Post工具类
  */
-public class GetPostUtil {
+public class HttpUtil {
 
     public static void get(final String url, final CallbackListener listener){
         new Thread(){
