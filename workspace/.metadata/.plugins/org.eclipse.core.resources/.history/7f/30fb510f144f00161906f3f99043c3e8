@@ -1,0 +1,97 @@
+package com.client;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.BindException;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+import com.model.Common;
+import com.view.View;
+
+public class Client extends Thread{
+	private Socket socket;
+	public ObjectInputStream myin;
+	public ObjectOutputStream myout;
+	public Common com;
+	
+	//无参构造方法，初始化参数，并连接
+	public Client() {
+		try {
+			socket = new Socket("127.0.0.1", 7777);
+			
+			/*绑定socket的输入与输出流*/
+			myin = new ObjectInputStream(socket.getInputStream());
+			myout = new ObjectOutputStream(socket.getOutputStream());
+			
+		} catch(BindException e) {
+			System.out.println("找不到指定的服务器");
+		} catch(UnknownHostException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	@Override
+	//解包，并转发
+	public void run() {
+		try {
+			while(true){
+				Common com = (Common)myin.readObject();
+			}
+		} catch (SocketException e) {
+			System.out.println("服务器拒绝访问");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	//断开连接
+	private void disConnect() {
+		try {
+			if (socket != null) {
+				socket.close();
+			}
+
+			if (myout != null) {
+				myout.close();
+			}
+
+			if (myin != null) {
+				myin.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void main(String args[]){
+		Client client = new Client();
+		client.com = new Common();
+		
+		try {
+			switch (View.showMenu()) {
+			case 1:
+				View.register(0, client.com);
+				break;
+			case 2:
+				View.register(1, client.com);
+				break;
+			case 3:
+				View.login(0, client.com);
+				break;
+			case 4:
+				View.login(1, client.com);
+			default:
+				View.showEnd();
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
