@@ -11,28 +11,51 @@ import java.util.Date;
 public class ResourceModel {
 
 	private int resourceId;
-	private String uploader;
-	private int uploadId;
+	private String uploaderName;
+	private int uploaderId;
 	private String resourceName;
 	private Date resourceUploadTime;
 	private String resourcePath;
 	
 	public ResourceModel(){}
-	public ResourceModel(int resourceId,int uploadId,String resourceName,Date resourceUploadTime,String resourcePath){
+	public ResourceModel(int resourceId,int uploaderId,String resourceName,Date resourceUploadTime,String resourcePath){
 		this.resourceId=resourceId;
-		this.uploadId=uploadId;
+		this.uploaderId=uploaderId;
 		this.resourceName=resourceName;
 		this.resourcePath=resourcePath;
 		this.resourceUploadTime=resourceUploadTime;
 	}
-	public ResourceModel(int uploadId,String resourceName,Date resourceUploadTime,String resourcePath){
-		this.uploadId=uploadId;
-		this.resourceName=resourceName;
-		this.resourcePath=resourcePath;
-		this.resourceUploadTime=resourceUploadTime;
+//	public ResourceModel(int uploaderId,String resourceName,Date resourceUploadTime,String resourcePath){
+//		this.uploaderId=uploaderId;
+//		this.resourceName=resourceName;
+//		this.resourcePath=resourcePath;
+//		this.resourceUploadTime=resourceUploadTime;
+//	}
+//	public ResourceModel(String uploaderName,String resourceName){
+//		this.uploaderName=uploaderName;
+//		this.resourceName=resourceName;
+//		this.resourcePath="";
+//	}
+	/**
+	 * 这是一个设置上传者名字的方法
+	 * @param uploaderName
+	 */
+	public void setUploaderName(String uploaderName){
+		this.uploaderName=uploaderName;
 	}
-	public void setuploader(String uploader){
-		this.uploader=uploader;
+	/***
+	 * 这是一个获得上传者名字的方法
+	 * @return
+	 */
+	public String getUploaderName(){
+		return uploaderName;
+		}
+	/***
+	 * 这是一个设置资源ID的方法
+	 * @param resourceId
+	 */
+	public void setResourceId(int resourceId){
+		this.resourceId=resourceId;
 	}
 	
 	/**
@@ -46,8 +69,8 @@ public class ResourceModel {
 	 * 这是一个获取上传者的方法
 	 * @return 上传者的名字
 	 */
-	public int getUploadId() {
-		return uploadId;
+	public int getUploaderId() {
+		return uploaderId;
 	}
 	/**
 	 * 这是一个获取资料名字的方法
@@ -74,8 +97,8 @@ public class ResourceModel {
 	 * 这是一个设置文件上传者的方法
 	 * @param uploader 文件上传者的名字
 	 */
-	public void setUploader(int uploadId) {
-		this.uploadId = uploadId;
+	public void setUploaderId(int uploaderId) {
+		this.uploaderId = uploaderId;
 	}
 	/**
 	 * 这是一个设置文件名字的方法
