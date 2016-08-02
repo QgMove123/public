@@ -10,7 +10,6 @@
         android:padding="@dimen/activity_horizontal_margin">
 
         <Button
-            android:onClick="login"
             android:id="@+id/button_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,7 +20,6 @@
             />
 
         <Button
-            android:onClick="register"
             android:id="@+id/button_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
