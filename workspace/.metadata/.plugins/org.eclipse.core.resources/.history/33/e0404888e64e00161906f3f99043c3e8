@@ -1,0 +1,36 @@
+package Client;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.BindException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class client {
+	private Socket socket;
+	private ObjectInputStream myin;
+	private ObjectOutputStream myout;
+
+	Thread t = new Thread(new RecToServer());
+	
+	//无参构造方法，初始化参数
+	private client() {
+		try {
+			
+			socket = new Socket("127.0.0.1", 7777);
+			
+			/*绑定socket的输入与输出流*/
+			myin = new ObjectInputStream(socket.getInputStream());
+			myout = new ObjectOutputStream(socket.getOutputStream());
+			
+		} catch(BindException e) {
+			System.out.println("找不到指定的服务器");
+		} catch(UnknownHostException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+}

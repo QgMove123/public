@@ -3,6 +3,7 @@ package com.example.ricco.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -25,10 +26,13 @@ public class HttpUtil {
                 try {
                     URL httpUrl = new URL(url);
                     conn = (HttpURLConnection)httpUrl.openConnection();
+
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(8000);
                     conn.setReadTimeout(8000);
+                    Log.e("tag",conn.getResponseCode()+"");
                     br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    Log.e("tag","ok2");
                     StringBuilder result = new StringBuilder();
                     String line;
                     while((line = br.readLine())!=null) {
@@ -37,10 +41,12 @@ public class HttpUtil {
                    if(listener != null){
                        //回调onFinish()方法
                        listener.onFinish(result.toString());
+                       Log.e("tag","Finish");
                    }
                 } catch (IOException e) {
                     //回调onError()方法
                     listener.onError(e);
+                    Log.e("tag","Error");
                 } finally {
                     try {
                         br.close();
@@ -51,7 +57,6 @@ public class HttpUtil {
                 }
             }
         }.start();
-
     }
 
     public static void getPic(final String url,final CallbackListener listener){
@@ -87,52 +92,4 @@ public class HttpUtil {
         }.start();
 
     }
-
-
-
-//    public static void post(final String url,final String params, final CallbackListener listener){
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                HttpURLConnection conn = null;
-//                BufferedReader br = null;
-//                PrintWriter pw = null;
-//                try {
-//                    URL httpUrl = new URL(url);
-//                    conn = (HttpURLConnection)httpUrl.openConnection();
-//                    conn.setRequestMethod("POST");
-//                    conn.setConnectTimeout(8000);
-//                    conn.setReadTimeout(8000);
-//                    conn.setDoOutput(true);
-//                    conn.setDoInput(true);
-//                    //发送请求参数
-//                    pw = new PrintWriter(conn.getOutputStream());
-//                    pw.print(params);
-//                     //读取URL的响应
-//                    br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//                    StringBuilder result = new StringBuilder();
-//                    String line;
-//                    while((line = br.readLine())!=null) {
-//                        result.append(line);
-//                    }
-//                    if(listener != null){
-//                        //回调onFinish()方法
-//                        listener.onFinish(result.toString());
-//                    }
-//                } catch (IOException e) {
-//                    //回调onError()方法
-//                    listener.onError(e);
-//                } finally {
-//                    try {
-//                        pw.close();
-//                        br.close();
-//                        conn.disconnect();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }.start();
-//
-//    }
 }
