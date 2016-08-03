@@ -38,6 +38,7 @@
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/file_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:src="@drawable/type_unknow"
@@ -61,7 +62,7 @@
         <Button
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:id="@+id/button_register"
+            android:id="@+id/button_download"
             style="@style/wordStyle"
             android:layout_weight="1"
             android:layout_marginStart="5dp"
