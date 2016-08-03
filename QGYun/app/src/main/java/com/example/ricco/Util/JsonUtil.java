@@ -15,5 +15,4 @@ public class JsonUtil {
 		Gson gson = gb.create();
 		return gson.fromJson(json, clazz);
 	}
-
 }
