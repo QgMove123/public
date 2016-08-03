@@ -2,12 +2,9 @@ package com.example.ricco.qgyun;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -15,13 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Switch;
 
 import com.example.ricco.util.DataUtil;
 import com.example.ricco.util.ListAdapter;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +60,8 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this,ItemInfoActivity.class);
                 //将文件类型、文件id传给下载页面
                 Map<String,Object> map = (Map<String,Object>)sip.getItem(position);
-//                ItemInfoActivity.actionStart(MainActivity.this,map.get("ResourceName"),map.get("ResourceId"));
+                ItemInfoActivity.actionStart(MainActivity.this,
+                        map.get("ResourceName").toString(), map.get("ResourceId").toString());
 
                 //此打开页面方式作废
 //                intent.putExtra("file", (Serializable) map);
