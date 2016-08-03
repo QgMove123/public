@@ -2,20 +2,35 @@ package com.example.ricco.qgyun;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.ricco.util.DataUtil;
+import com.example.ricco.util.HttpPost;
 import com.example.ricco.util.ListAdapter;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +43,12 @@ public class MainActivity extends Activity {
     private ImageButton imgbtn_clear;
     private ImageButton imgbtn_back;
     private Button btn_info;
+    private Button btn_upload;
     private ListView lv;
     private List<Map<String,Object>> dataList;
     private ListAdapter sip;
 
+    private Intent intent;
     private final String url = "http://192.168.199.200:8080/Server/ResourceGet?page=";
     private int page = 1;
 
@@ -45,6 +62,7 @@ public class MainActivity extends Activity {
         imgbtn_back = (ImageButton) findViewById(R.id.imgbtn_back);
         btn_info = (Button) findViewById(R.id.person_info);
         lv = (ListView) findViewById(R.id.list_view);
+        btn_upload = (Button) findViewById(R.id.button_upload);
 
         //显示ListView列表
         dataList = DataUtil.getData(url+(page++));
@@ -60,8 +78,7 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this,ItemInfoActivity.class);
                 //将文件类型、文件id传给下载页面
                 Map<String,Object> map = (Map<String,Object>)sip.getItem(position);
-                ItemInfoActivity.actionStart(MainActivity.this,
-                        map.get("ResourceName").toString(), map.get("ResourceId").toString());
+                ItemInfoActivity.actionStart(MainActivity.this,map.get("ResourceName"),map.get("ResourceId"));
 
                 //此打开页面方式作废
 //                intent.putExtra("file", (Serializable) map);
@@ -135,5 +152,45 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        //设置上传按钮事件
+        btn_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                try {
+                    startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
+                            1);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    // Potentially direct the user to the Market with a Dialog
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    String[] proj = {MediaStore.Images.Media.DATA};
+                    Cursor actualimagecursor = this.getContentResolver().query(uri, proj, null, null, null);
+                    int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    actualimagecursor.moveToFirst();
+                    String path = actualimagecursor.getString(actual_image_column_index);
+                    File file = new File(path);
+                    if(file.exists()){
+                        String fileName = path.substring(path.lastIndexOf("//"));
+                        SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
+                        String userName = pref.getString("userName","");
+                        new HttpPost(url,userName,fileName,path).start();
+                    }
+                }
+                break;
+        }
     }
 }
