@@ -20,8 +20,6 @@ import com.example.ricco.util.JsonUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,8 +41,9 @@ public class LoginActivity extends Activity {
             switch (msg.what){
                 case 1:
                     Toast.makeText(LoginActivity.this, "登陆成功！", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LoginActivity.this, PersonInfoActivity.class));
+                    finish();
 //                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                    finish();
                     break;
                 case 2:
                     Toast.makeText(LoginActivity.this, "密码或账号错误！", Toast.LENGTH_SHORT).show();
@@ -78,33 +77,27 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 final String str_phone = phone.getText().toString();
                 final String str_password = password.getText().toString();
-                String encode = null;
 
                 if (str_phone.equals("") || str_password.equals("")) {
                     Toast.makeText(LoginActivity.this,
                             "密码或账号不能为空！", Toast.LENGTH_SHORT).show();
                 } else {
-                    final UserModel userModel = new UserModel(str_phone, str_password, "");
-                    try {
-                        encode = URLEncoder.encode(JsonUtil.toJson(userModel), "utf-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    HttpUtil.getJson("http://192.168.199.151:8080/QGYun/UserLogin?orderJson=" +
-                            encode, new CallbackListener() {
+                    UserModel userModel = new UserModel(str_phone, str_password, "");
+                    HttpUtil.getJson("http://192.168.1.112:8080/QGYun/UserLogin?orderJson=" +
+                            JsonUtil.toJson(userModel), new CallbackListener() {
                         @Override
                         public void onFinish(Object result) {
                             Message msg = new Message();
                             String json = (String) result;
-                            Log.i("Json", json);
                             Gson gson = new Gson();
                             Map<String, Boolean> map = gson
                                     .fromJson(json, new TypeToken<HashMap<String, Boolean>>(){}.getType());
                             if (map.get("login")) {
                                 msg.what = SUCCESS;
-                                //保存数据
+                                //保存数据到手机
                                 SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
                                 editor.putString("userName", str_phone);
+                                editor.putString("userPassword", str_password);
                                 editor.apply();
                             } else {
                                 msg.what = ERROR;

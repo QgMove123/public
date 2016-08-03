@@ -25,17 +25,6 @@ public class ResourceModel {
 		this.resourcePath=resourcePath;
 		this.resourceUploadTime=resourceUploadTime;
 	}
-//	public ResourceModel(int uploaderId,String resourceName,Date resourceUploadTime,String resourcePath){
-//		this.uploaderId=uploaderId;
-//		this.resourceName=resourceName;
-//		this.resourcePath=resourcePath;
-//		this.resourceUploadTime=resourceUploadTime;
-//	}
-//	public ResourceModel(String uploaderName,String resourceName){
-//		this.uploaderName=uploaderName;
-//		this.resourceName=resourceName;
-//		this.resourcePath="";
-//	}
 	/**
 	 * 这是一个设置上传者名字的方法
 	 * @param uploaderName
