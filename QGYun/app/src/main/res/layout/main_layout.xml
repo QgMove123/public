@@ -14,6 +14,7 @@
             android:id="@+id/imgbtn_back"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:background="@color/blue"
             android:src="@drawable/back_button"
             android:padding="15dp"
 />
@@ -56,7 +57,7 @@
                android:id="@+id/edi_search"
                android:layout_width="wrap_content"
                android:layout_height="match_parent"
-               android:background="null"
+               android:background="@null"
                android:paddingLeft="10dp"
                android:hint="你就不搜索点什么？"
                android:layout_weight="1"/>
