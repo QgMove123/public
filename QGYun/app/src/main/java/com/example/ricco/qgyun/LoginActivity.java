@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,9 +40,8 @@ public class LoginActivity extends Activity {
             switch (msg.what){
                 case 1:
                     Toast.makeText(LoginActivity.this, "登陆成功！", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, PersonInfoActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
-//                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     break;
                 case 2:
                     Toast.makeText(LoginActivity.this, "密码或账号错误！", Toast.LENGTH_SHORT).show();
