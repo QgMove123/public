@@ -30,7 +30,7 @@ public class ItemInfoActivity extends Activity{
         Intent intent = new Intent(context, ItemInfoActivity.class);
         intent.putExtra("name", fileName);
         intent.putExtra("id", id);
-
+        context.startActivity(intent);
     }
 
     private Handler handler = new Handler() {

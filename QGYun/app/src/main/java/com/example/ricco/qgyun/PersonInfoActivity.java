@@ -108,7 +108,7 @@ public class PersonInfoActivity extends Activity {
         tv_info.setText(pref.getString("userName", ""));
         //初始化头像
         HttpUtil.getPic("http://192.168.1.125:8080/QGYun/com/qg/servlet/DownloadPictureServlet?user_name="
-                + tv_info.getText().toString(), new CallbackListener() {
+                + tv_info.getText().toString(),iv_head.getWidth(), iv_head.getHeight(), new CallbackListener() {
             @Override
             public void onFinish(Object result) {
                 Bitmap bitmap = (Bitmap) result;
