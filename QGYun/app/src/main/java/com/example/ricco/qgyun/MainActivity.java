@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ import java.util.Map;
  */
 public class MainActivity extends Activity {
     private EditText edi_search;
+    private ImageButton imgbtn_clear;
     private ListView lv;
     private List<Map<String,Object>> dataList;
     private ListAdapter sip;
@@ -43,6 +45,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main_layout);
         //控件初始化
         edi_search = (EditText) findViewById(R.id.edi_search);
+        imgbtn_clear = (ImageButton) findViewById(R.id.imgbtn_clear);
         lv = (ListView) findViewById(R.id.list_view);
 
         //显示ListView列表
@@ -85,12 +88,14 @@ public class MainActivity extends Activity {
         edi_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                 sip.getFilter().filter(s);
-//                if(s.length()>0) {
-//                    button_clear.setVisibility(View.VISIBLE);
-//                } else {
-//                    button_clear.setVisibility(View.GONE);
-//                }
+                if(s.length()>0) {
+
+                    imgbtn_clear.setVisibility(View.VISIBLE);
+                } else {
+                    imgbtn_clear.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -100,6 +105,14 @@ public class MainActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        //设置清除按钮点击时间
+        imgbtn_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edi_search.setText("");
             }
         });
 
