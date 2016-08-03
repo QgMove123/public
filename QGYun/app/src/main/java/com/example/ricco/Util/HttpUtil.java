@@ -59,7 +59,9 @@ public class HttpUtil {
         }.start();
     }
 
-    public static void getPic(final String url, final CallbackListener listener){
+
+    public static void getPic(final String url,final int requestWidth ,final int requestHeight ,final CallbackListener listener){
+
         new Thread() {
             @Override
             public void run() {
@@ -72,7 +74,21 @@ public class HttpUtil {
                     conn.setConnectTimeout(8000);
                     conn.setReadTimeout(8000);
                     bis = new BufferedInputStream(conn.getInputStream());
-                    final Bitmap result = BitmapFactory.decodeStream(bis);
+                    //图片压缩
+                    BitmapFactory.Options opt = new BitmapFactory.Options();
+                    opt.inJustDecodeBounds = true;
+                    BitmapFactory.decodeStream(bis, null, opt);
+                    int width = opt.outWidth;
+                    int height = opt.outHeight;
+                    opt.inSampleSize = 1;
+                    if(width>requestWidth||height>requestHeight){
+                        int wRatio = (int) width / requestWidth;
+                        int hRatio = (int) height / requestHeight;
+                        opt.inSampleSize = wRatio>hRatio?wRatio:hRatio;
+                    }
+                    opt.inJustDecodeBounds = false;
+                    Bitmap result = BitmapFactory.decodeStream(bis,null,opt);
+                    
                     if(listener != null){
                         //回调onFinish()方法
                         listener.onFinish(result);
