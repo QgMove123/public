@@ -64,10 +64,14 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this,ItemInfoActivity.class);
-                //将用户名字、文件类型、文件id传给下载页面
+                //将文件类型、文件id传给下载页面
                 Map<String,Object> map = (Map<String,Object>)sip.getItem(position);
-                intent.putExtra("file", (Serializable) map);
-                startActivity(intent);
+                ItemInfoActivity.actionStar(MainActivity.this,map.get("ResourceName"),map.get("ResourceId"));
+
+                //此打开页面方式作废
+//                intent.putExtra("file", (Serializable) map);
+//                startActivity(intent);
+
             }
         });
         //设置滚动监听事件

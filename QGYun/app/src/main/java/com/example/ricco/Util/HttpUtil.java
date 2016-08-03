@@ -61,7 +61,7 @@ public class HttpUtil {
 
     }
 
-    public static void getPic(final String url,final CallbackListener listener){
+    public static void getPic(final String url, final CallbackListener listener){
         new Thread() {
             @Override
             public void run() {
