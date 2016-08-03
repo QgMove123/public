@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
@@ -16,17 +19,24 @@ import android.widget.SimpleAdapter;
 import android.widget.Switch;
 
 import com.example.ricco.util.DataUtil;
+import com.example.ricco.util.ListAdapter;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author yason
+ * 主界面
+ */
 public class MainActivity extends Activity {
     private EditText edi_search;
-    private ImageButton imgbtn_search;
+    private ImageButton imgbtn_clear;
+    private ImageButton imgbtn_back;
+    private Button btn_info;
     private ListView lv;
     private List<Map<String,Object>> dataList;
-    private SimpleAdapter sip;
+    private ListAdapter sip;
 
     private final String url = "http://192.168.199.200:8080/Server/ResourceGet?page=";
     private int page = 1;
@@ -37,12 +47,14 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main_layout);
         //控件初始化
         edi_search = (EditText) findViewById(R.id.edi_search);
-        imgbtn_search = (ImageButton) findViewById(R.id.imgbtn_search);
+        imgbtn_clear = (ImageButton) findViewById(R.id.imgbtn_clear);
+        imgbtn_back = (ImageButton) findViewById(R.id.imgbtn_back);
+        btn_info = (Button) findViewById(R.id.person_info);
         lv = (ListView) findViewById(R.id.list_view);
-        Log.e("tag",lv+"");
+
         //显示ListView列表
         dataList = DataUtil.getData(url+(page++));
-        sip = new SimpleAdapter(this,dataList,R.layout.list_item,
+        sip = new ListAdapter(this,dataList,R.layout.list_item,
                 new String[]{"ResourceType","ResourceName","ResourceUploadTime","uploader"},
                 new int[]{R.id.image_type,R.id.file_name,R.id.file_time,R.id.file_man});
         lv.setAdapter(sip);
@@ -58,7 +70,7 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
-
+        //设置滚动监听事件
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {
              @Override
              public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -76,13 +88,53 @@ public class MainActivity extends Activity {
              }
         });
 
-        //设置搜索按钮点击事件
-        imgbtn_search.setOnClickListener(new View.OnClickListener() {
+        //给EditText设置内容更改监听
+        edi_search.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                sip.getFilter().filter(s);
+                if(s.length()>0) {
+
+                    imgbtn_clear.setVisibility(View.VISIBLE);
+                } else {
+                    imgbtn_clear.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
 
             }
         });
 
+        //设置清除按钮点击时间
+        imgbtn_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edi_search.setText("");
+            }
+        });
+
+        //设置返回按钮监听事件
+        imgbtn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        //设置个人中心按钮监听事件
+        btn_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,PersonInfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
