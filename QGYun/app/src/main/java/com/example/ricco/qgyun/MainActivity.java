@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this,ItemInfoActivity.class);
                 //将文件类型、文件id传给下载页面
                 Map<String,Object> map = (Map<String,Object>)sip.getItem(position);
-                ItemInfoActivity.actionStar(MainActivity.this,map.get("ResourceName"),map.get("ResourceId"));
+//                ItemInfoActivity.actionStart(MainActivity.this,map.get("ResourceName"),map.get("ResourceId"));
 
                 //此打开页面方式作废
 //                intent.putExtra("file", (Serializable) map);
