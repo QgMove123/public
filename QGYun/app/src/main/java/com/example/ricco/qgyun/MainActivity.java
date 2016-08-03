@@ -32,6 +32,8 @@ import java.util.Map;
 public class MainActivity extends Activity {
     private EditText edi_search;
     private ImageButton imgbtn_clear;
+    private ImageButton imgbtn_back;
+    private Button btn_info;
     private ListView lv;
     private List<Map<String,Object>> dataList;
     private ListAdapter sip;
@@ -46,6 +48,8 @@ public class MainActivity extends Activity {
         //控件初始化
         edi_search = (EditText) findViewById(R.id.edi_search);
         imgbtn_clear = (ImageButton) findViewById(R.id.imgbtn_clear);
+        imgbtn_back = (ImageButton) findViewById(R.id.imgbtn_back);
+        btn_info = (Button) findViewById(R.id.person_info);
         lv = (ListView) findViewById(R.id.list_view);
 
         //显示ListView列表
@@ -116,5 +120,21 @@ public class MainActivity extends Activity {
             }
         });
 
+        //设置返回按钮监听事件
+        imgbtn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        //设置个人中心按钮监听事件
+        btn_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,PersonInfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
