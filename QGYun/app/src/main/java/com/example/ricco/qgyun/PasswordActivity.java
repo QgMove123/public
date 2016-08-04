@@ -68,17 +68,17 @@ public class PasswordActivity extends Activity {
             public void onClick(View view) {
                 String toast = null;
                 if (!et_oldPassword.getText().toString().equals(password)) {
-                    toast = "旧密码错误！";
+                    Toast.makeText(PasswordActivity.this, "旧密码错误！", Toast.LENGTH_SHORT).show();
                 } else {
                     String nstr = et_newPassword.getText().toString();
                     final String astr = et_againPassword.getText().toString();
                     if (nstr.equals("") || astr.equals("")) {
-                        toast = "新密码不能为空！";
+                        Toast.makeText(PasswordActivity.this, "新密码不能为空！", Toast.LENGTH_SHORT).show();
                     } else if (!nstr.equals(astr)) {
-                        toast = "输入的密码不相同！";
+                        Toast.makeText(PasswordActivity.this, "输入密码不相同！", Toast.LENGTH_SHORT).show();
                     } else {
                         UserModel userModel = new UserModel(account, astr, "");
-                        HttpUtil.getJson("http://192.168.1.112:8080/QGYun/UserAlterInformation?orderJson=" +
+                        HttpUtil.getJson("http://192.168.1.102:8080/QGYun/UserAlterInformation?orderJson=" +
                                 JsonUtil.toJson(userModel), new CallbackListener() {
                             @Override
                             public void onFinish(Object result) {
@@ -107,7 +107,6 @@ public class PasswordActivity extends Activity {
 
                     }
                 }
-                Toast.makeText(PasswordActivity.this, toast, Toast.LENGTH_SHORT).show();
             }
         });
 
