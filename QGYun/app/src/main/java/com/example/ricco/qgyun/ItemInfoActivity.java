@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,12 +22,12 @@ import java.io.IOException;
  * Created by zydx on 2016/8/1.
  */
 public class ItemInfoActivity extends Activity{
-    private final String url = null;
+    private final String url = "http://192.168.1.119:8080/QGYun/ResourceDownload?resourceId=";
     private ImageView fileImage;
     private Button download;
     private Bitmap bitmap;
 
-    public static void actionStart(Context context, String fileName, String id) {
+    public static void actionStart(Context context, String fileName, int id) {
         Intent intent = new Intent(context, ItemInfoActivity.class);
         intent.putExtra("name", fileName);
         intent.putExtra("id", id);
@@ -36,9 +37,13 @@ public class ItemInfoActivity extends Activity{
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (bitmap != null) {
-                fileImage.setImageBitmap(bitmap);// display image
+            switch (msg.what){
+                case 1:
+                    if (bitmap != null) {
+                    fileImage.setImageBitmap(bitmap);// display image
+                }
             }
+
         }
     };
 
@@ -46,7 +51,6 @@ public class ItemInfoActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_info);
-        Intent intent = getIntent();
         //Map<String, Object> map = intent.getExtras();
         fileImage = (ImageView) findViewById(R.id.file_image);
         //点击下载按钮进入下载
@@ -59,10 +63,12 @@ public class ItemInfoActivity extends Activity{
                     @Override
                     public void run() {
                         //处理活动的信息，提供给下载
-                        String fileName = null;
-                        String type = null;
+                        Intent intent = getIntent();
+                        String fileName = intent.getStringExtra("name");
+                        String type = fileName.split(".")[1];
+                        Log.e("fileName+type", fileName+"type:"+type);
                         //新建一个下载
-                        Download download = new Download(url, handler);
+                        Download download = new Download(url + intent.getIntExtra("id", 1), handler);
                         try {
                             bitmap = download.saveFile(fileName, type);
                         } catch (IOException e) {
