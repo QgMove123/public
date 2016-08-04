@@ -57,6 +57,7 @@ public class HttpPost extends Thread {
             }
             //out.writeBytes(end);
             //out.writeBytes(prefix+boundary+prefix+end);
+
             fromFile.close();
             out.close();
         } catch (ProtocolException e) {
