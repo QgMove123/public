@@ -60,7 +60,7 @@
         android:padding="@dimen/activity_horizontal_margin">
 
         <Button
-            android:id="@+id/button_modify"
+            android:id="@+id/button_modefy"
             style="@style/wordStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

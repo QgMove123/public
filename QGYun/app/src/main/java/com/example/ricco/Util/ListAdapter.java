@@ -52,6 +52,7 @@ public class ListAdapter extends SimpleAdapter {
             }
             return filterResults;
         }
+
         //结果设置
         @Override
         protected void publishResults(CharSequence s, FilterResults filterResults) {

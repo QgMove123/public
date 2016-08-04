@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
     private ListAdapter sip;
 
     private Intent intent;
-    private final String url = "http://192.168.199.200:8080/Server/ResourceGet?page=";
+    private final String url = "http://192.168.1.119:8080/QGYun/ResourceGet?page=";
     private int page = 1;
 
     @Override
@@ -78,7 +78,8 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this,ItemInfoActivity.class);
                 //将文件类型、文件id传给下载页面
                 Map<String,Object> map = (Map<String,Object>)sip.getItem(position);
-                ItemInfoActivity.actionStart(MainActivity.this,map.get("ResourceName"),map.get("ResourceId"));
+                ItemInfoActivity.actionStart(MainActivity.this
+                        , (String)map.get("ResourceName"),(String )map.get("ResourceId"));
 
                 //此打开页面方式作废
 //                intent.putExtra("file", (Serializable) map);
@@ -108,6 +109,7 @@ public class MainActivity extends Activity {
         edi_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.e("MainActivity",s.toString());
 
                 sip.getFilter().filter(s);
                 if(s.length()>0) {

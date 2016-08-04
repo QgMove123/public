@@ -63,7 +63,6 @@ public class RegisterActivity extends Activity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegisterActivity.this, StartActivity.class));
                 finish();
             }
         });
@@ -78,7 +77,7 @@ public class RegisterActivity extends Activity {
                             "密码或账号不能为空！", Toast.LENGTH_SHORT).show();
                 } else {
                     UserModel userModel = new UserModel(str_phone, str_password, "");
-                    HttpUtil.getJson("http://192.168.199.151:8080/QGYun/UserRegister?orderJson=" +
+                    HttpUtil.getJson("http://192.168.1.112:8080/QGYun/UserRegister?orderJson=" +
                             JsonUtil.toJson(userModel), new CallbackListener() {
                         @Override
                         public void onFinish(Object result) {
