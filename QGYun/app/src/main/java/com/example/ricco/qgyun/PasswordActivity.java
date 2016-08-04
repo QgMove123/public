@@ -8,6 +8,8 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.ricco.entity.UserModel;
@@ -27,8 +29,9 @@ public class PasswordActivity extends Activity {
 
     private EditText et_oldPassword = null;
     private EditText et_newPassword = null;
-    private EditText getEt_againPassword = null;
+    private EditText et_againPassword = null;
     private Button btn_modefy = null;
+    private ImageView btn_back = null;
     private String account = null;
     private String password = null;
     private final int SUCCESS = 1;
@@ -53,6 +56,11 @@ public class PasswordActivity extends Activity {
     public void onCreate(Bundle savedInstancestates) {
         super.onCreate(savedInstancestates);
         setContentView(R.layout.password_layout);
+        et_oldPassword = (EditText) findViewById(R.id.edit_account);
+        et_newPassword = (EditText) findViewById(R.id.edit_password);
+        et_againPassword = (EditText) findViewById(R.id.edit_password_again);
+        btn_back =  (ImageView) findViewById(R.id.back_button);
+        btn_modefy = (Button) findViewById(R.id.button_modefy);
         init();
 
         btn_modefy.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +71,7 @@ public class PasswordActivity extends Activity {
                     toast = "旧密码错误！";
                 } else {
                     String nstr = et_newPassword.getText().toString();
-                    final String astr = getEt_againPassword.getText().toString();
+                    final String astr = et_againPassword.getText().toString();
                     if (nstr.equals("") || astr.equals("")) {
                         toast = "新密码不能为空！";
                     } else if (!nstr.equals(astr)) {
@@ -102,13 +110,17 @@ public class PasswordActivity extends Activity {
                 Toast.makeText(PasswordActivity.this, toast, Toast.LENGTH_SHORT).show();
             }
         });
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
 
     private void init() {
-        et_oldPassword = (EditText) findViewById(R.id.edit_account);
-        et_newPassword = (EditText) findViewById(R.id.edit_password);
-        getEt_againPassword = (EditText) findViewById(R.id.edit_password_again);
-        btn_modefy = (Button) findViewById(R.id.button_modify);
         SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
         account = pref.getString("userName", "");
         password = pref.getString("userPassword", "");

@@ -30,9 +30,8 @@ public class HttpUtil {
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(8000);
                     conn.setReadTimeout(8000);
-                    Log.e("tag",conn.getResponseCode()+"");
+                    Log.e("HttpUtil",conn.getResponseCode()+"");
                     br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    Log.e("tag","ok2");
                     StringBuilder result = new StringBuilder();
                     String line;
                     while((line = br.readLine())!=null) {
@@ -41,16 +40,18 @@ public class HttpUtil {
                    if(listener != null){
                        //回调onFinish()方法
                        listener.onFinish(result.toString());
-                       Log.e("tag","Finish");
+                       Log.e("HttpUtil","Finish");
                    }
                 } catch (IOException e) {
                     //回调onError()方法
                     listener.onError(e);
-                    Log.e("tag","Error");
+                    Log.e("HttpUtil","Error");
                 } finally {
                     try {
                         br.close();
                         conn.disconnect();
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -75,31 +76,36 @@ public class HttpUtil {
                     conn.setReadTimeout(8000);
                     bis = new BufferedInputStream(conn.getInputStream());
                     //图片压缩
-                    BitmapFactory.Options opt = new BitmapFactory.Options();
-                    opt.inJustDecodeBounds = true;
-                    BitmapFactory.decodeStream(bis, null, opt);
-                    int width = opt.outWidth;
-                    int height = opt.outHeight;
-                    opt.inSampleSize = 1;
-                    if(width>requestWidth||height>requestHeight){
-                        int wRatio = (int) width / requestWidth;
-                        int hRatio = (int) height / requestHeight;
-                        opt.inSampleSize = wRatio>hRatio?wRatio:hRatio;
-                    }
-                    opt.inJustDecodeBounds = false;
-                    Bitmap result = BitmapFactory.decodeStream(bis,null,opt);
+//                    BitmapFactory.Options opt = new BitmapFactory.Options();
+//                    opt.inJustDecodeBounds = true;
+//                    BitmapFactory.decodeStream(bis, null, opt);
+//                    int width = opt.outWidth;
+//                    int height = opt.outHeight;
+//                    opt.inSampleSize = 1;
+//                    if(width>requestWidth||height>requestHeight){
+//                        int wRatio = (int) width / requestWidth;
+//                        int hRatio = (int) height / requestHeight;
+//                        opt.inSampleSize = wRatio>hRatio?wRatio:hRatio;
+//                    }
+//                    opt.inJustDecodeBounds = false;
+//                    Bitmap result = BitmapFactory.decodeStream(bis,null,opt);
+                    Bitmap result = BitmapFactory.decodeStream(bis);
                     
                     if(listener != null){
                         //回调onFinish()方法
                         listener.onFinish(result);
                     }
-                } catch (IOException e) {
+                } catch (IOException e ) {
                     //回调onError()方法
                     listener.onError(e);
+                } catch (ArithmeticException e) {
+                    e.printStackTrace();
                 } finally {
                     try {
                         bis.close();
                         conn.disconnect();
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
