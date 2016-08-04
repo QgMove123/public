@@ -25,41 +25,43 @@ public class HttpPost extends Thread {
     private String userName;
     private String fileName;
     private String filePath;
-
+    private static final String URL= "http://192.168.199.200:8080/QGYun/ResourceAdd";
     public HttpPost(String url, String userName, String fileName, String filePath) {
         this.url = url;
         this.userName = userName;
         this.fileName = fileName;
         this.filePath = filePath;
     }
-
+    @Override
     public void run() {
         try {
-            String boundary = "---------------------------";
+            String boundary = "---------------------------7de2c25201d48";
             String prefix = "--";
             String end = "\r\n";
-            URL httpurl = new URL(url+"?userName="+userName+"&fileName="+fileName);
-            HttpURLConnection con = (HttpURLConnection) httpurl.openConnection();
+            URL httpUrl = new URL(URL+"?userName="+userName);
+            Log.e("con","go");
+            HttpURLConnection con = (HttpURLConnection) httpUrl.openConnection();
             con.setRequestMethod("POST");
+            con.setRequestProperty("Connection", "Keep-Alive");
             con.setDoOutput(true);
             con.setDoInput(true);
-            //con.setRequestProperty("Content-Type","multipart/form-data;boundary=" + boundary);
+            Log.e("con3",con+"");
+            con.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            Log.e("connect","connect-ok");
             DataOutputStream out = new DataOutputStream(con.getOutputStream());
-            //out.writeBytes(prefix+boundary+end);
-            //out.writeBytes("Content-Disposition:form-data;"+
-                    //"name=\"orderJson\""+end);
+            out.writeBytes(prefix+boundary+end);
+            out.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\""+fileName+"\"" + end);
+            out.writeBytes(end);
             File file = new File(filePath);
             BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(file));
-            byte[] bytes = new byte[1024];
+            byte[] bytes = new byte[1024*8];
             int len;
             while((len = fromFile.read(bytes))>0){
                 out.write(bytes,0,len);
             }
-            //out.writeBytes(end);
-            //out.writeBytes(prefix+boundary+prefix+end);
-
-            fromFile.close();
-            out.close();
+            out.writeBytes(end);
+            out.writeBytes(prefix+boundary+prefix+end);
+            Log.e("code",con.getResponseCode()+"");
         } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e2) {

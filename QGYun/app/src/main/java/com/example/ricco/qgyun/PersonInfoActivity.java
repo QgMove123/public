@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.ricco.entity.UserModel;
 import com.example.ricco.util.CallbackListener;
+import com.example.ricco.util.HttpPost;
 import com.example.ricco.util.HttpUtil;
 import com.example.ricco.util.JsonUtil;
 
@@ -120,12 +121,14 @@ public class PersonInfoActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //1.获取图片path
         Uri uri = data.getData();
-        //获得路径
+        //获得路径并上传图片
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor actualimagecursor = this.getContentResolver().query(uri, proj, null, null, null);
         int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         actualimagecursor.moveToFirst();
         String path = actualimagecursor.getString(actual_image_column_index);
+        new HttpPost("url", tv_info.getText().toString(),
+                path.substring(path.lastIndexOf("/")), path).start();
         //设置图片
         FileDescriptor fileDescriptor;
         try {
