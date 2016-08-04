@@ -38,11 +38,11 @@ public class StartActivity extends Activity{
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
         SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
         UserModel userModel = new UserModel(pref.getString("userName", ""), "", "");
-        HttpUtil.getJson("http://192.168.1.112:8080/QGYun/UserExit?orderJson=" +
+        HttpUtil.getJson("http://192.168.1.102:8080/QGYun/UserExit?orderJson=" +
                 JsonUtil.toJson(userModel), new CallbackListener() {
             @Override
             public void onFinish(Object result) {
@@ -60,7 +60,7 @@ public class StartActivity extends Activity{
         super.onDestroy();
         SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
         UserModel userModel = new UserModel(pref.getString("userName", ""), "", "");
-        HttpUtil.getJson("http://192.168.1.112:8080/QGYun/UserExit?orderJson=" +
+        HttpUtil.getJson("http://192.168.1.102:8080/QGYun/UserExit?orderJson=" +
                 JsonUtil.toJson(userModel), new CallbackListener() {
             @Override
             public void onFinish(Object result) {
