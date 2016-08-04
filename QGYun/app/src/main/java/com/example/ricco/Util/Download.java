@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -113,6 +114,9 @@ public class Download {
         }
         bos.flush();
         bos.close();
+        Message message = new Message();
+        message.what = 1;
+        handler.sendMessage(message);
         return bm;
     }
 }
