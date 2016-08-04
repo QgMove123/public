@@ -5,12 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -19,18 +16,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import com.example.ricco.util.DataUtil;
 import com.example.ricco.util.HttpPost;
 import com.example.ricco.util.ListAdapter;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +41,7 @@ public class MainActivity extends Activity {
     private ListAdapter sip;
 
     private Intent intent;
-    private final String url = "http://192.168.1.119:8080/QGYun/ResourceGet?page=";
+    private final String url = "http://192.168.1.102:8080/QGYun/ResourceGet?page=";
     private int page = 1;
 
     @Override
@@ -79,7 +71,7 @@ public class MainActivity extends Activity {
                 //将文件类型、文件id传给下载页面
                 Map<String,Object> map = (Map<String,Object>)sip.getItem(position);
                 ItemInfoActivity.actionStart(MainActivity.this
-                        , (String)map.get("ResourceName"), (int)map.get("ResourceId"));
+                        , (String)map.get("ResourceName"),(int)map.get("ResourceId"));
 
                 //此打开页面方式作废
 //                intent.putExtra("file", (Serializable) map);
@@ -89,20 +81,20 @@ public class MainActivity extends Activity {
         });
         //设置滚动监听事件
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-             @Override
-             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                 if (scrollState == SCROLL_STATE_IDLE) {
-                     if (view.getLastVisiblePosition() == view.getCount() - 1) {
-                         dataList = DataUtil.getData(url+(page++));
-                         sip.notifyDataSetChanged();
-                     }
-                 }
-             }
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == SCROLL_STATE_IDLE) {
+                    if (view.getLastVisiblePosition() == view.getCount() - 1) {
+                        dataList = DataUtil.getData(url+(page++));
+                        sip.notifyDataSetChanged();
+                    }
+                }
+            }
 
-             @Override
-             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
 
-             }
+            }
         });
 
         //给EditText设置内容更改监听
@@ -184,9 +176,10 @@ public class MainActivity extends Activity {
                     int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                     actualimagecursor.moveToFirst();
                     String path = actualimagecursor.getString(actual_image_column_index);
+                    Log.d("path", path);
                     File file = new File(path);
                     if(file.exists()){
-                        String fileName = path.substring(path.lastIndexOf("//"));
+                        String fileName = path.substring(path.lastIndexOf("/") + 1);
                         SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
                         String userName = pref.getString("userName","");
                         new HttpPost(url,userName,fileName,path).start();

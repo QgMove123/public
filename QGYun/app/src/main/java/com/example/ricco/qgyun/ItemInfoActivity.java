@@ -22,7 +22,7 @@ import java.io.IOException;
  * Created by zydx on 2016/8/1.
  */
 public class ItemInfoActivity extends Activity{
-    private final String url = "http://192.168.1.119:8080/QGYun/ResourceDownload?resourceId=";
+    private final String url = "http://192.168.1.102:8080/QGYun/ResourceDownload?resourceId=";
     private ImageView fileImage;
     private Button download;
     private Bitmap bitmap;
