@@ -25,7 +25,6 @@ public class HttpPost extends Thread {
     private String userName;
     private String fileName;
     private String filePath;
-    private static final String URL= "http://192.168.199.200:8080/QGYun/ResourceAdd";
     public HttpPost(String url, String userName, String fileName, String filePath) {
         this.url = url;
         this.userName = userName;
@@ -38,7 +37,7 @@ public class HttpPost extends Thread {
             String boundary = "---------------------------7de2c25201d48";
             String prefix = "--";
             String end = "\r\n";
-            URL httpUrl = new URL(URL+"?userName="+userName);
+            URL httpUrl = new URL(url+"?userName="+userName);
             Log.e("con","go");
             HttpURLConnection con = (HttpURLConnection) httpUrl.openConnection();
             con.setRequestMethod("POST");

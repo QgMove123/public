@@ -81,7 +81,7 @@ public class LoginActivity extends Activity {
                             "密码或账号不能为空！", Toast.LENGTH_SHORT).show();
                 } else {
                     UserModel userModel = new UserModel(str_phone, str_password, "");
-                    HttpUtil.getJson("http://192.168.1.112:8080/QGYun/UserLogin?orderJson=" +
+                    HttpUtil.getJson("http://192.168.1.102:8080/QGYun/UserLogin?orderJson=" +
                             JsonUtil.toJson(userModel), new CallbackListener() {
                         @Override
                         public void onFinish(Object result) {

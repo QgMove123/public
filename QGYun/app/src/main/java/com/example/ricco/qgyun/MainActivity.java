@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
     private ListAdapter sip;
 
     private Intent intent;
-    private final String url = "http://192.168.1.119:8080/QGYun/ResourceGet?page=";
+    private final String url = "http://192.168.1.102:8080/QGYun/ResourceGet?page=";
     private int page = 1;
 
     @Override
@@ -176,9 +176,10 @@ public class MainActivity extends Activity {
                     int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                     actualimagecursor.moveToFirst();
                     String path = actualimagecursor.getString(actual_image_column_index);
+                    Log.d("path", path);
                     File file = new File(path);
                     if(file.exists()){
-                        String fileName = path.substring(path.lastIndexOf("/"));
+                        String fileName = path.substring(path.lastIndexOf("/") + 1);
                         SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
                         String userName = pref.getString("userName","");
                         new HttpPost(url,userName,fileName,path).start();
