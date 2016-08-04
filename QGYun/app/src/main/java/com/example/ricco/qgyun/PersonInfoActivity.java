@@ -3,6 +3,7 @@ package com.example.ricco.qgyun;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -119,6 +120,13 @@ public class PersonInfoActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //1.获取图片path
         Uri uri = data.getData();
+        //获得路径
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor actualimagecursor = this.getContentResolver().query(uri, proj, null, null, null);
+        int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        actualimagecursor.moveToFirst();
+        String path = actualimagecursor.getString(actual_image_column_index);
+        //设置图片
         FileDescriptor fileDescriptor;
         try {
             ParcelFileDescriptor r = getContentResolver().openFileDescriptor(uri, "r");
@@ -157,8 +165,8 @@ public class PersonInfoActivity extends Activity {
         SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
         tv_info.setText(pref.getString("userName", ""));
         //初始化头像
-        HttpUtil.getPic("http://192.168.1.106:8080/QGYun/com/qg/servlet/DownloadPictureServlet?user_name=123"
-                /*+ tv_info.getText().toString()*/,iv_head.getWidth(), iv_head.getHeight(), new CallbackListener() {
+        HttpUtil.getPic("http://192.168.1.106:8080/QGYun/com/qg/servlet/DownloadPictureServlet?user_name="
+                + tv_info.getText().toString(),iv_head.getWidth(), iv_head.getHeight(), new CallbackListener() {
             @Override
             public void onFinish(Object result) {
                 Bitmap bitmap = (Bitmap) result;
@@ -173,7 +181,6 @@ public class PersonInfoActivity extends Activity {
             @Override
             public void onError(Exception e) {
                 e.printStackTrace();
-                Log.d("textbitmap", "test!");
             }
         });
     }

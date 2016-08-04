@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
                 //将文件类型、文件id传给下载页面
                 Map<String,Object> map = (Map<String,Object>)sip.getItem(position);
                 ItemInfoActivity.actionStart(MainActivity.this
-                        , (String)map.get("ResourceName"),(String )map.get("ResourceId"));
+                        , (String)map.get("ResourceName"), (int)map.get("ResourceId"));
 
                 //此打开页面方式作废
 //                intent.putExtra("file", (Serializable) map);
