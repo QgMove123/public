@@ -1,8 +1,6 @@
 package com.example.ricco.constant;
 
-/**
- * Created by Ricco on 2016/8/9.
- */
+
 public class Constant {
 
     //Btn的标识

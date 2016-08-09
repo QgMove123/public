@@ -5,9 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.ricco.utils.ActivityCollector;
 
-/**
- * Created by Ricco on 2016/8/8.
- */
+
 public class BaseActivity extends AppCompatActivity {
 
     @Override

@@ -25,10 +25,5 @@ public class JsonUtil {
 		Gson gson = new Gson();
 		return gson.fromJson(json, new TypeToken<Map<String, String>>(){}.getType());
 	}
-	//将json转化为List<T>集合
-	public static <T> List<T> toList(String json, Class<T> clazz){
-		Gson gson = new Gson();
-		return gson.fromJson(json, new TypeToken<List<T>>(){}.getType());
 
-	}
 }
