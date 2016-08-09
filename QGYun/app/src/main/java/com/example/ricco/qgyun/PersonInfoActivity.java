@@ -98,7 +98,7 @@ public class PersonInfoActivity extends Activity {
             @Override
             public void onClick(View view) {
                 UserModel userModel = new UserModel(tv_info.getText().toString(), "", "");
-                HttpUtil.getJson("http://192.168.1.113:8080/QGYun/UserExit?orderJson=" +
+                HttpUtil.getJson("http://192.168.1.112:8080/QGYun/UserExit?orderJson=" +
                         JsonUtil.toJson(userModel), new CallbackListener() {
                     @Override
                     public void onFinish(Object result) {
@@ -127,7 +127,7 @@ public class PersonInfoActivity extends Activity {
         int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         actualimagecursor.moveToFirst();
         String path = actualimagecursor.getString(actual_image_column_index);
-        new HttpPost("http://192.168.1.113:8080/QGYun/UploadPicture",
+        new HttpPost("http://192.168.1.102:8080/QGYun/UploadPicture",
                 tv_info.getText().toString(), path.substring(path.lastIndexOf("/") + 1), path).start();
         //设置图片
         FileDescriptor fileDescriptor;
@@ -168,7 +168,7 @@ public class PersonInfoActivity extends Activity {
         SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
         tv_info.setText(pref.getString("userName", ""));
         //初始化头像
-        HttpUtil.getPic("http://192.168.1.113:8080/QGYun/DownloadPicture?user_name="
+        HttpUtil.getPic("http://192.168.1.102:8080/QGYun/DownloadPicture?user_name="
                 + tv_info.getText().toString(), iv_head.getWidth(),
                 iv_head.getHeight(), new CallbackListener() {
             @Override

@@ -78,7 +78,7 @@ public class PasswordActivity extends Activity {
                         Toast.makeText(PasswordActivity.this, "输入密码不相同！", Toast.LENGTH_SHORT).show();
                     } else {
                         UserModel userModel = new UserModel(account, astr, "");
-                        HttpUtil.getJson("http://192.168.1.113:8080/QGYun/UserAlterInformation?orderJson=" +
+                        HttpUtil.getJson("http://192.168.1.102:8080/QGYun/UserAlterInformation?orderJson=" +
                                 JsonUtil.toJson(userModel), new CallbackListener() {
                             @Override
                             public void onFinish(Object result) {

@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.example.ricco.util.DataUtil;
 import com.example.ricco.util.HttpPost;
@@ -33,23 +32,17 @@ import java.util.Map;
  */
 public class MainActivity extends Activity {
     private EditText edi_search;
-    private ImageButton imgbtn_search;
     private ImageButton imgbtn_clear;
     private ImageButton imgbtn_back;
     private Button btn_info;
     private Button btn_upload;
     private ListView lv;
     private List<Map<String,Object>> dataList;
-    private SimpleAdapter sip;
+    private ListAdapter sip;
+
     private Intent intent;
-
+    private final String url = "http://192.168.1.102:8080/QGYun/ResourceGet?page=";
     private int page = 1;
-    private String sourceName;
-    private final String url = "http://192.168.1.113:8080/QGYun/ResourceGet?page=";
-    private final String url2 = "http://192.168.1.113:8080/QGYun/ResourceSearch?page=";
-    private final String param2 = "&sourceName=";
-    private boolean flag = true; //true：加载全部列表 false：加载搜索列表
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +50,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main_layout);
         //控件初始化
         edi_search = (EditText) findViewById(R.id.edi_search);
-        imgbtn_search = (ImageButton) findViewById(R.id.imgbtn_search);
         imgbtn_clear = (ImageButton) findViewById(R.id.imgbtn_clear);
         imgbtn_back = (ImageButton) findViewById(R.id.imgbtn_back);
         btn_info = (Button) findViewById(R.id.person_info);
@@ -65,7 +57,7 @@ public class MainActivity extends Activity {
         btn_upload = (Button) findViewById(R.id.button_upload);
 
         //显示ListView列表
-        dataList = new DataUtil().getData(url+(page++));
+        dataList = DataUtil.getData(url+(page++));
         sip = new ListAdapter(this,dataList,R.layout.list_item,
                 new String[]{"ResourceType","ResourceName","ResourceUploadTime","uploader"},
                 new int[]{R.id.image_type,R.id.file_name,R.id.file_time,R.id.file_man});
@@ -81,22 +73,20 @@ public class MainActivity extends Activity {
                 ItemInfoActivity.actionStart(MainActivity.this
                         , (String)map.get("ResourceName"),(int)map.get("ResourceId"));
 
+                //此打开页面方式作废
+//                intent.putExtra("file", (Serializable) map);
+//                startActivity(intent);
+
             }
         });
-
         //设置滚动监听事件
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_IDLE) {
                     if (view.getLastVisiblePosition() == view.getCount() - 1) {
-                        if(flag) {
-                            dataList.addAll(new DataUtil().getData(url + (page++)));
-                            sip.notifyDataSetChanged();
-                        }else{
-                            dataList = new DataUtil().getData(url2 + (page++) + param2 + sourceName);
-                            sip.notifyDataSetChanged();
-                        }
+                        dataList = DataUtil.getData(url+(page++));
+                        sip.notifyDataSetChanged();
                     }
                 }
             }
@@ -107,49 +97,36 @@ public class MainActivity extends Activity {
             }
         });
 
-        //设置搜索按钮监听事件
-        imgbtn_search.setOnClickListener(new View.OnClickListener() {
+        //给EditText设置内容更改监听
+        edi_search.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                sourceName = edi_search.getText().toString();
-                if(sourceName.length()>0) {
-                    page = 1;
-                    flag = false;
-                    dataList = new DataUtil().getData(url2 + (page++) + param2 + sourceName);
-                    sip.notifyDataSetChanged();
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.e("MainActivity",s.toString());
+
+                sip.getFilter().filter(s);
+                if(s.length()>0) {
+
+                    imgbtn_clear.setVisibility(View.VISIBLE);
+                } else {
+                    imgbtn_clear.setVisibility(View.GONE);
                 }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
-        //设置清除按钮点击事件
+        //设置清除按钮点击时间
         imgbtn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 edi_search.setText("");
-                page = 1;
-                flag = true;
-                dataList = new DataUtil().getData(url2 + (page++));
-                sip.notifyDataSetChanged();
-            }
-        });
-
-        //给EditText设置内容更改监听
-        edi_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0) {
-                    imgbtn_clear.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
