@@ -6,9 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Ricco on 2016/8/8.
- */
+
 public class ActivityCollector {
 
     public static List<Activity> activities = new ArrayList<Activity>();

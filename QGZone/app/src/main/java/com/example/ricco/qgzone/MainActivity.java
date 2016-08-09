@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.fragment.BaseFragment;
 import com.example.ricco.fragment.BottomControlPanel;
-import com.example.ricco.utils.MyToast;
+import com.example.ricco.utils.ToastUtil;
 
 public class MainActivity extends BaseActivity implements BottomControlPanel.BottomPanelCallback {
 
@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
             default:
                 break;
         }
-        MyToast.showShort(MainActivity.this, tag);
+        ToastUtil.showShort(MainActivity.this, tag);
 
         if (tag.equals(Constant.FRAGMENT_FLAG_SEND)) {
             //发表说说和其他控件不同

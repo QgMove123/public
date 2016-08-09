@@ -1,6 +1,7 @@
 package com.example.ricco.util;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Filter;
 import android.widget.SimpleAdapter;
 
@@ -38,11 +39,13 @@ public class ListAdapter extends SimpleAdapter {
         //过滤内容
         @Override
         protected FilterResults performFiltering(CharSequence s) {
+            Log.e("ListApadter","here");
+            String str = s.toString();
             FilterResults filterResults = new FilterResults();
-            if(s.length() > 0){
+            if(str.length() > 0){
                 fdataList.clear();
                 for (Map<String,Object> map:dataList) {
-                    if(map.get("ResourceName").equals(s)){
+                    if(map.get("ResourceName").equals(str)){
                         fdataList.add(map);
                     }
                 }
@@ -50,6 +53,7 @@ public class ListAdapter extends SimpleAdapter {
             }else {
                 filterResults.values = dataList;
             }
+            Log.e("ListApadter","here2");
             return filterResults;
         }
 

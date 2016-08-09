@@ -144,7 +144,7 @@ public class ItemInfoActivity extends Activity{
                         file_name.setText(str+"."+type);
                         //通过URL传递信息给服务器
                         HttpUtil.getJson(url+"ResourceRename?newSourceName="+str+"."+type+
-                                "&resourceId="+ 1443, new CallbackListener() {
+                                "&resourceId="+ intent.putExtra("id", 0), new CallbackListener() {
                             @Override
                             public void onFinish(Object result) {
                                 Message msg = new Message();

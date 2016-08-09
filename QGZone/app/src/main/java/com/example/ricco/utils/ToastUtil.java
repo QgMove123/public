@@ -3,15 +3,13 @@ package com.example.ricco.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-/**
- * Created by Ricco on 2016/8/8.
- */
-public class MyToast {
+
+public class ToastUtil {
 
     /**
      * 封闭构造方法,禁止创建实体类
      */
-    private MyToast(){};
+    private ToastUtil(){};
 
     public static boolean isShow = true;
 
