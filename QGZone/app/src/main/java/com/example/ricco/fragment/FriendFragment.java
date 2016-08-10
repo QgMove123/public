@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.example.ricco.constant.Constant;
@@ -18,6 +23,10 @@ import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.ToastUtil;
 import com.example.ricco.utils.TopBar;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 好友列表
  */
@@ -25,6 +34,18 @@ public class FriendFragment extends BaseFragment {
 
     private Activity mActivity = null;
     private TopBar mTopBar = null;
+    private SwipeRefreshLayout mSwipelayout = null;
+    private ListView mListview = null;
+    private ArrayAdapter<String> mAdapter = null;
+    private List<String> mDatas = new ArrayList<String>(Arrays.asList("1", "2", "3",
+            "4", "5", "6", "7", "8"));
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            mDatas.addAll(Arrays.asList("10", "10", "10", "10", "10", "10"));
+            mAdapter.notifyDataSetChanged();
+            mSwipelayout.setRefreshing(false);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +61,21 @@ public class FriendFragment extends BaseFragment {
 
         mActivity = getActivity();
         mTopBar = (TopBar) mActivity.findViewById(R.id.tb_friend);
+        mListview = (ListView) mActivity.findViewById(R.id.lv_friend);
+        mSwipelayout = (SwipeRefreshLayout) mActivity.findViewById(R.id.swipe_container);
+        mAdapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1, mDatas);
+        mListview.setAdapter(mAdapter);
+
         mTopBar.setLeftIsVisable(false);
+        mSwipelayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_red_light);
+
+        mSwipelayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mHandler.sendEmptyMessageDelayed(0, 2000);
+            }
+        });
+
         mTopBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
             @Override
             public void LeftClick(View view) {
