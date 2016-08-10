@@ -16,7 +16,7 @@ public class ZoneFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.zone_layout,
+        View layout = inflater.inflate(R.layout.fragment_zone,
                 container, false);
         return layout;
     }

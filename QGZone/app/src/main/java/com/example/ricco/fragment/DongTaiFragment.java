@@ -17,7 +17,7 @@ public class DongTaiFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.dongtai_layout,
+        View layout = inflater.inflate(R.layout.fragment_dongtai,
                 container, false);
         return layout;
     }

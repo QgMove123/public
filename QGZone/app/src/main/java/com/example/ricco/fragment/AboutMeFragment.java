@@ -17,7 +17,7 @@ public class AboutMeFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View Layout = inflater.inflate(R.layout.about_me_layout,
+        View Layout = inflater.inflate(R.layout.fragment_aboutme,
                 container, false);
         return Layout;
     }
