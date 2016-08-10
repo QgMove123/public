@@ -62,8 +62,9 @@ public class CircleImageVIew extends ImageView {
 
     /**
      * 初始Bitmap对象的缩放裁剪过程
-     * @param bmp        初始Bitmap对象
-     * @param radius    圆形图片直径大小
+     *
+     * @param bmp    初始Bitmap对象
+     * @param radius 圆形图片直径大小
      * @return 返回一个圆形的缩放裁剪过后的Bitmap对象
      */
     public static Bitmap getCroppedBitmap(Bitmap bmp, int radius) {
