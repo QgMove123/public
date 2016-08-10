@@ -14,17 +14,17 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 
-public class CircleImageView extends ImageView {
+public class CircleImageVIew extends ImageView {
     //基本的三个构造函数
-    public CircleImageView(Context context) {
+    public CircleImageVIew(Context context) {
         super(context);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
+    public CircleImageVIew(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
+    public CircleImageVIew(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -94,4 +94,3 @@ public class CircleImageView extends ImageView {
         return output;
     }
 }
-

@@ -12,13 +12,10 @@ import android.widget.TextView;
 
 import com.example.ricco.qgzone.R;
 
-import java.security.PublicKey;
-import java.util.jar.Attributes;
-
 /**
  * 导航栏
  */
-public class Topbar extends RelativeLayout{
+public class TopBar extends RelativeLayout{
     //1.声明导航栏中包含以下子控件
     private TextView midTextView;
     private Button leftButton;
@@ -34,7 +31,7 @@ public class Topbar extends RelativeLayout{
         this.listener = listener;
     }
 
-    public Topbar(Context context, AttributeSet attrs) {
+    public TopBar(Context context, AttributeSet attrs) {
         super(context,attrs);
         //2.初始化子控件
         midTextView = new TextView(context);
@@ -42,15 +39,15 @@ public class Topbar extends RelativeLayout{
         rightButton = new Button(context);
 
         //3.给子控件添加自定义属性
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.Topbar);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TopBar);
 
-        midTextView.setText(ta.getString(R.styleable.Topbar_title));
+        midTextView.setText(ta.getString(R.styleable.TopBar_title));
 
-        leftButton.setText(ta.getString(R.styleable.Topbar_leftText));
-        leftButton.setBackground(ta.getDrawable(R.styleable.Topbar_leftBackground));
+        leftButton.setText(ta.getString(R.styleable.TopBar_leftText));
+        leftButton.setBackground(ta.getDrawable(R.styleable.TopBar_leftBackground));
 
-        rightButton.setText(ta.getString(R.styleable.Topbar_rightText));
-        rightButton.setBackground(ta.getDrawable(R.styleable.Topbar_rightBackground));
+        rightButton.setText(ta.getString(R.styleable.TopBar_rightText));
+        rightButton.setBackground(ta.getDrawable(R.styleable.TopBar_rightBackground));
 
         ta.recycle();
 

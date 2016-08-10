@@ -1,10 +1,9 @@
 package com.example.ricco.qgzone;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.ricco.utils.Topbar;
+import com.example.ricco.utils.TopBar;
 
 /**
  * 相册列表
@@ -13,14 +12,14 @@ import com.example.ricco.utils.Topbar;
  */
 public class AlbumListActivity extends BaseActivity{
 
-    private Topbar topBar;
+    private TopBar topBar;
     private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_albumlist);
-        topBar = (Topbar) findViewById(R.id.topbar);
+        topBar = (TopBar) findViewById(R.id.topbar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
 //        topBar.setOnTopBarClickListener(new Topbar.TopBarClickListener() {
