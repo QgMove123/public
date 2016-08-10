@@ -12,7 +12,7 @@ import com.example.ricco.qgzone.R;
 /**
  * Created by Ricco on 2016/8/9.
  */
-public class DongTaiFragment extends BaseFragment {
+public class DynamicFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -10,16 +10,15 @@ import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
 
 /**
- * Created by Ricco on 2016/8/9.
+ * 好友列表
  */
-public class AboutMeFragment extends BaseFragment {
-
+public class FriListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View Layout = inflater.inflate(R.layout.about_me_layout,
+        View layout = inflater.inflate(R.layout.friend_layout,
                 container, false);
-        return Layout;
+        return layout;
     }
 
     @Override
@@ -27,6 +26,6 @@ public class AboutMeFragment extends BaseFragment {
         // TODO Auto-generated method stub
         super.onResume();
 
-        MainActivity.nowFragTag = Constant.FRAGMENT_FLAG_ABOUTME;
+        MainActivity.nowFragTag = Constant.FRAGMENT_FLAG_FRIEND;
     }
 }
