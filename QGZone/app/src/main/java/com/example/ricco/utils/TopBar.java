@@ -23,8 +23,8 @@ public class TopBar extends RelativeLayout{
     private TopBarClickListener listener;
 
     public interface TopBarClickListener{
-        public void LeftClick();
-        public void RightClick();
+        public void LeftClick(View view);
+        public void RightClick(View view);
     }
 
     public void setOnTopBarClickListener(TopBarClickListener listener){
@@ -53,7 +53,7 @@ public class TopBar extends RelativeLayout{
 
         //4.给子控件添加固定样式(未完善)
         midTextView.setGravity(Gravity.CENTER);
-        this.setBackgroundColor(Color.rgb(0,0,255));
+        this.setBackgroundColor(Color.TRANSPARENT);
 
         //5.将子控件以LayoutParams形式加入到ViewGroup中
         LayoutParams MidParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
@@ -62,24 +62,26 @@ public class TopBar extends RelativeLayout{
 
         LayoutParams LeftParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
         LeftParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,TRUE);
+        LeftParams.addRule(RelativeLayout.CENTER_VERTICAL, TRUE);
         addView(leftButton, LeftParams);
 
         LayoutParams RightParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
         RightParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,TRUE);
+        LeftParams.addRule(RelativeLayout.CENTER_VERTICAL, TRUE);
         addView(rightButton, RightParams);
 
         //6.接口回调，实现用户的具体行为
         leftButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.LeftClick();
+                listener.LeftClick(v);
             }
         });
 
         rightButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.RightClick();
+                listener.RightClick(v);
             }
         });
     }

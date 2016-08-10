@@ -16,6 +16,7 @@ import com.example.ricco.constant.Constant;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.ToastUtil;
+import com.example.ricco.utils.TopBar;
 
 /**
  * 好友列表
@@ -23,7 +24,7 @@ import com.example.ricco.utils.ToastUtil;
 public class FriendFragment extends BaseFragment {
 
     private Activity mActivity = null;
-    private Button mMenu = null;
+    private TopBar mTopBar = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,11 +39,18 @@ public class FriendFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         mActivity = getActivity();
-        mMenu = (Button) mActivity.findViewById(R.id.btn_menu);
-        mMenu.setOnClickListener(new View.OnClickListener() {
+        mTopBar = (TopBar) mActivity.findViewById(R.id.tb_friend);
+        mTopBar.setLeftIsVisable(false);
+        mTopBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
             @Override
-            public void onClick(View v) {
-                showPopupWindow(v);
+            public void LeftClick(View view) {
+
+            }
+
+            @Override
+            public void RightClick(View view) {
+
+                showPopupWindow(view);
             }
         });
     }
@@ -81,7 +89,6 @@ public class FriendFragment extends BaseFragment {
 
         // 显示 默认显示View的正下方，可以使用重载方法设置偏移量来调整位置
         popupWindow.showAsDropDown(view);
-
     }
 
     @Override
