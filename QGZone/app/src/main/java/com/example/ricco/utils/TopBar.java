@@ -1,72 +1,92 @@
 package com.example.ricco.utils;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.security.PublicKey;
+import com.example.ricco.qgzone.R;
 
 /**
  * 导航栏
  */
 public class TopBar extends RelativeLayout{
     //1.声明导航栏中包含以下子控件
+    private TextView midTextView;
     private Button leftButton;
     private Button rightButton;
-    private TextView midTextView;
-    private onTopBarClickListener listener;
+    private TopBarClickListener listener;
 
-    public interface onTopBarClickListener{
-        public void onLeftClick();
-        public void onRightClick();
+    public interface TopBarClickListener{
+        public void LeftClick(View view);
+        public void RightClick(View view);
     }
 
-    public void setOnTopBarClickListener(onTopBarClickListener listener){
+    public void setOnTopBarClickListener(TopBarClickListener listener){
         this.listener = listener;
     }
 
-    public TopBar(Context context) {
-        super(context);
+    public TopBar(Context context, AttributeSet attrs) {
+        super(context,attrs);
         //2.初始化子控件
+        midTextView = new TextView(context);
         leftButton = new Button(context);
         rightButton = new Button(context);
-        midTextView = new Button(context);
 
-        //3.将子控件以LayoutParams形式加入到ViewGroup中
-        LayoutParams LeftParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-        LeftParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,TRUE);
-        addView(leftButton, LeftParams);
+        //3.给子控件添加自定义属性
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TopBar);
 
-        LayoutParams RightParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-        RightParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,TRUE);
-        addView(rightButton, RightParams);
+        midTextView.setText(ta.getString(R.styleable.TopBar_title));
 
+        leftButton.setText(ta.getString(R.styleable.TopBar_leftText));
+        leftButton.setBackground(ta.getDrawable(R.styleable.TopBar_leftBackground));
+
+        rightButton.setText(ta.getString(R.styleable.TopBar_rightText));
+        rightButton.setBackground(ta.getDrawable(R.styleable.TopBar_rightBackground));
+
+        ta.recycle();
+
+        //4.给子控件添加固定样式(未完善)
+        midTextView.setGravity(Gravity.CENTER);
+        this.setBackgroundColor(Color.TRANSPARENT);
+
+        //5.将子控件以LayoutParams形式加入到ViewGroup中
         LayoutParams MidParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
         MidParams.addRule(RelativeLayout.CENTER_IN_PARENT,TRUE);
         addView(midTextView, MidParams);
 
-        //4.接口回调，实现用户的具体行为
+        LayoutParams LeftParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        LeftParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,TRUE);
+        LeftParams.addRule(RelativeLayout.CENTER_VERTICAL, TRUE);
+        addView(leftButton, LeftParams);
+
+        LayoutParams RightParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        RightParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,TRUE);
+        LeftParams.addRule(RelativeLayout.CENTER_VERTICAL, TRUE);
+        addView(rightButton, RightParams);
+
+        //6.接口回调，实现用户的具体行为
         leftButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onLeftClick();
+                listener.LeftClick(v);
             }
         });
 
         rightButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onRightClick();
+                listener.RightClick(v);
             }
         });
     }
 
-    public void setMidText(String str){
-        midTextView.setText(str);
-    }
-
+    //左按钮隐藏或显示
     public void setLeftIsVisable(boolean flag){
         if(flag){
             leftButton.setVisibility(VISIBLE);
@@ -75,6 +95,7 @@ public class TopBar extends RelativeLayout{
         }
     }
 
+    //右按钮隐藏或显示
     public void setRightIsVisable(boolean flag){
         if(flag){
             rightButton.setVisibility(VISIBLE);
@@ -82,6 +103,5 @@ public class TopBar extends RelativeLayout{
             rightButton.setVisibility(INVISIBLE);
         }
     }
-
 
 }

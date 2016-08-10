@@ -1,16 +1,16 @@
 package com.example.ricco.qgzone;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
-
 /**
- * 发表说说
+ * Created by zydx on 2016/8/10.
  */
-public class TalkPubActivity extends BaseActivity {
-
+public class AddAlbumActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_talkpub);
     }
+
 }
