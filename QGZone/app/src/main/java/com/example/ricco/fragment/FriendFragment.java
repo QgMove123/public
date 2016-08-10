@@ -1,7 +1,6 @@
 package com.example.ricco.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.widget.PopupWindow;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.ToastUtil;
 
 /**
@@ -30,7 +28,7 @@ public class FriendFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.friend_layout,
+        View layout = inflater.inflate(R.layout.fragment_friend,
                 container, false);
         return layout;
     }
@@ -53,7 +51,7 @@ public class FriendFragment extends BaseFragment {
 
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(mActivity).inflate(
-                R.layout.add_friend_menu, null);
+                R.layout.menu_friend, null);
         // 设置按钮的点击事件
         Button button = (Button) contentView.findViewById(R.id.button_3);
         button.setOnClickListener(new View.OnClickListener() {
