@@ -20,7 +20,7 @@ import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.ToastUtil;
 
 /**
- * Created by Ricco on 2016/8/9.
+ * 好友列表
  */
 public class FriendFragment extends BaseFragment {
 

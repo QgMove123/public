@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
 
         if (tag.equals(Constant.FRAGMENT_FLAG_SEND)) {
             //发表说说和其他控件不同
-            startActivity(new Intent(MainActivity.this, SendActivity.class));
+            startActivity(new Intent(MainActivity.this, TalkPubActivity.class));
         } else {
             //切换Fragment
             setTabSelection(tag);

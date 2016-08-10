@@ -24,4 +24,5 @@ public class JsonUtil {
 		return gson.fromJson(json,
 				new TypeToken<Map<String, String>>(){}.getType());
 	}
+
 }

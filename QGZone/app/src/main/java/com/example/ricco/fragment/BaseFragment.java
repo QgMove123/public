@@ -29,7 +29,6 @@ public class BaseFragment extends Fragment {
                 break;
             default:break;
         }
-
         return baseFragment;
     }
 }

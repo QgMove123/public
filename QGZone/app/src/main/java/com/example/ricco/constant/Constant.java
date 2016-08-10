@@ -1,10 +1,9 @@
 package com.example.ricco.constant;
 
 /**
- * Created by Ricco on 2016/8/9.
+ *全局常量
  */
 public class Constant {
-
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;
     public static final int BTN_FLAG_ABOUTME = 2;

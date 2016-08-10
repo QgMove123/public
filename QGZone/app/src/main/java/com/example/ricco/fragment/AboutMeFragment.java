@@ -10,7 +10,7 @@ import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
 
 /**
- * Created by Ricco on 2016/8/9.
+ * 与我相关
  */
 public class AboutMeFragment extends BaseFragment {
 
