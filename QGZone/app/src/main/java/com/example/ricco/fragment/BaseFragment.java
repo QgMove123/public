@@ -16,16 +16,16 @@ public class BaseFragment extends Fragment {
 
         switch (tag) {
             case Constant.FRAGMENT_FLAG_DONGTAI:
-                baseFragment = new DynamicFragment();
+                baseFragment = new DongTaiFragment();
                 break;
             case Constant.FRAGMENT_FLAG_ABOUTME:
-                baseFragment = new RelatedFragment();
+                baseFragment = new AboutMeFragment();
                 break;
             case Constant.FRAGMENT_FLAG_ZONE:
                 baseFragment = new ZoneFragment();
                 break;
             case Constant.FRAGMENT_FLAG_FRIEND:
-                baseFragment = new FriListFragment();
+                baseFragment = new FriendFragment();
                 break;
             default:break;
         }

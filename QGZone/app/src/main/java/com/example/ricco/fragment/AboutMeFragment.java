@@ -12,7 +12,7 @@ import com.example.ricco.qgzone.R;
 /**
  * 与我相关
  */
-public class RelatedFragment extends BaseFragment {
+public class AboutMeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

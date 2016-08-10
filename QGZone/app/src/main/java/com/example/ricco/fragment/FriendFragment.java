@@ -12,7 +12,7 @@ import com.example.ricco.qgzone.R;
 /**
  * 好友列表
  */
-public class FriListFragment extends BaseFragment {
+public class FriendFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
