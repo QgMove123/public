@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.ricco.utils.TopBar;
+import com.example.ricco.utils.Topbar;
 
 /**
  * 相册列表
@@ -13,29 +13,29 @@ import com.example.ricco.utils.TopBar;
  */
 public class AlbumListActivity extends BaseActivity{
 
-    private TopBar topBar;
+    private Topbar topBar;
     private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        topBar = (TopBar) findViewById(R.id.topbar);
+        setContentView(R.layout.activity_albumlist);
+        topBar = (Topbar) findViewById(R.id.topbar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        topBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
-            @Override
-            public void LeftClick() {
-                finish();
-            }
+//        topBar.setOnTopBarClickListener(new Topbar.TopBarClickListener() {
+//            @Override
+//            public void LeftClick() {
+//                finish();
+//            }
+//
+//            @Override
+//            public void RightClick() {
+//                Intent intent = new Intent(AlbumListActivity.this,AddAlbumActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
-            @Override
-            public void RightClick() {
-                Intent intent = new Intent(AlbumListActivity.this,AddAlbumActivity.class);
-
-
-            }
-        });
 
     }
 }
