@@ -17,11 +17,11 @@ import java.util.Map;
  */
 public class DataUtil {
 
-    private  List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
+    private static List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
 
     //1.获取json数据
     //2.解析json数据到List中
-    public  List<Map<String, Object>> getData(String url){
+    public static List<Map<String, Object>> getData(String url){
 
         HttpUtil.getJson(url, new CallbackListener() {
             @Override

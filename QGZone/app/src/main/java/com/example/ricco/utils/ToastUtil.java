@@ -3,7 +3,9 @@ package com.example.ricco.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-
+/**
+ * Created by Ricco on 2016/8/8.
+ */
 public class ToastUtil {
 
     /**
