@@ -16,14 +16,14 @@ public class TopBar extends RelativeLayout{
     private Button leftButton;
     private Button rightButton;
     private TextView midTextView;
-    private onTopBarClickListener listener;
+    private TopBarClickListener listener;
 
-    public interface onTopBarClickListener{
-        public void onLeftClick();
-        public void onRightClick();
+    public interface TopBarClickListener{
+        public void LeftClick();
+        public void RightClick();
     }
 
-    public void setOnTopBarClickListener(onTopBarClickListener listener){
+    public void setOnTopBarClickListener(TopBarClickListener listener){
         this.listener = listener;
     }
 
@@ -51,20 +51,22 @@ public class TopBar extends RelativeLayout{
         leftButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onLeftClick();
+                listener.LeftClick();
             }
         });
 
         rightButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onRightClick();
+                listener.RightClick();
             }
         });
     }
 
     public void setMidText(String str){
+
         midTextView.setText(str);
+
     }
 
     public void setLeftIsVisable(boolean flag){
