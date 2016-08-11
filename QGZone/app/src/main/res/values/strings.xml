@@ -8,4 +8,8 @@
     <string name="text_password_problem">密保问题</string>
     <string name="prompt_answer">答案</string>
     <string name="action_sign_in">注册</string>
+    <string name="action_back">返回</string>
+    <string name="text_title">标题</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_ensure">确定</string>
 </resources>
