@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
- * Created by zydx on 2016/8/10.
+ * @author yason
+ * 创建相册
  */
 public class AddAlbumActivity extends BaseActivity{
     @Override
