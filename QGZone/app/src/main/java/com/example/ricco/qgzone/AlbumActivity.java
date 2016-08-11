@@ -30,7 +30,7 @@ public class AlbumActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
         //初始化
-        topBar = (TopBar) findViewById(R.id.topbar);
+        topBar = (TopBar) findViewById(R.id.topBar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         //topBar事件监听
         topBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
