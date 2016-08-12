@@ -12,46 +12,72 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
+import com.example.ricco.adapter.FriendAdapter;
 import com.example.ricco.constant.Constant;
+import com.example.ricco.entity.ResourceModel;
+import com.example.ricco.entity.MessageModel;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
+import com.example.ricco.utils.HttpUtil;
+import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.ToastUtil;
 import com.example.ricco.utils.TopBar;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
+ * @author Wzkang
+ *
  * 好友列表
  */
 public class FriendFragment extends BaseFragment {
 
     private Activity mActivity = null;
     private TopBar mTopBar = null;
-    private SwipeRefreshLayout mSwipelayout = null;
+    private SwipeRefreshLayout mSwipe = null;
     private ListView mListview = null;
-    private ArrayAdapter<String> mAdapter = null;
-    private List<String> mDatas = new ArrayList<String>(Arrays.asList("1", "2", "3",
-            "4", "5", "6", "7", "8"));
+    private FriendAdapter mAdapter = null;
+    private View headView = null;
+
+    private List<MessageModel> mDatas;
+
+    private String urlFriend = "http://主机号:8080/QGzone/MyFriends";
+
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            mDatas.addAll(Arrays.asList("10", "10", "10", "10", "10", "10"));
-            mAdapter.notifyDataSetChanged();
-            mSwipelayout.setRefreshing(false);
+
+            switch (msg.what) {
+                case 1:
+                    mDatas = (List<MessageModel>) msg.obj;
+                    mAdapter.notifyDataSetChanged();
+                    mSwipe.setRefreshing(false);
+                    break;
+                case 2:
+                    ToastUtil.showShort(mActivity, "真可怜，一个好友都没有，赶紧加一个吧~");
+                    break;
+                case 3:
+                    ToastUtil.showShort(mActivity, "服务器异常！");
+                    break;
+                case 4:
+                    //刷新处理
+                    getDatas();
+                    break;
+                default:break;
+            }
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_friend,
-                container, false);
+        View layout = inflater.inflate(R.layout.fragment_friend, container, false);
+
         return layout;
     }
 
@@ -59,20 +85,30 @@ public class FriendFragment extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mActivity = getActivity();
-        mTopBar = (TopBar) mActivity.findViewById(R.id.tb_friend);
-        mListview = (ListView) mActivity.findViewById(R.id.lv_friend);
-        mSwipelayout = (SwipeRefreshLayout) mActivity.findViewById(R.id.swipe_container);
-        mAdapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1, mDatas);
-        mListview.setAdapter(mAdapter);
+        // 初始化
+        init();
 
-        mTopBar.setLeftIsVisable(false);
-        mSwipelayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_red_light);
+        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ToastUtil.showShort(mActivity, "you click " + position);
+            }
+        });
 
-        mSwipelayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ToastUtil.showShort(mActivity, "you long click " + position);
+                return false;
+            }
+        });
+
+        // 初始化刷新页面
+        mSwipe.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_red_light);
+        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mHandler.sendEmptyMessageDelayed(0, 2000);
+                mHandler.sendEmptyMessageDelayed(0, 1000);
             }
         });
 
@@ -90,18 +126,30 @@ public class FriendFragment extends BaseFragment {
         });
     }
 
+    // 菜单方法
     private void showPopupWindow(View view) {
 
         // 一个自定义的布局，作为显示的内容
         View contentView = LayoutInflater.from(mActivity).inflate(
                 R.layout.menu_friend, null);
-        // 设置按钮的点击事件
-        Button button = (Button) contentView.findViewById(R.id.button_3);
-        button.setOnClickListener(new View.OnClickListener() {
 
+        // 设置按钮的点击事件
+        TextView tvName = (TextView) contentView.findViewById(R.id.tv_menu_name);
+        TextView tvAccount = (TextView) contentView.findViewById(R.id.tv_menu_account);
+
+        // 通过昵称添加
+        tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort(mActivity, "button is pressed!");
+                ToastUtil.showShort(mActivity, "You click the name!");
+            }
+        });
+
+        // 通过账号添加
+        tvAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showShort(mActivity, "You click the account!");
             }
         });
 
@@ -124,6 +172,47 @@ public class FriendFragment extends BaseFragment {
 
         // 显示 默认显示View的正下方，可以使用重载方法设置偏移量来调整位置
         popupWindow.showAsDropDown(view);
+    }
+
+    private void init() {
+        // 获取当前活动context
+        mActivity = getActivity();
+
+        mTopBar = (TopBar) mActivity.findViewById(R.id.tb_friend);
+        mListview = (ListView) mActivity.findViewById(R.id.lv_friend);
+        mSwipe = (SwipeRefreshLayout) mActivity.findViewById(R.id.swipe_container);
+        mDatas = new ArrayList<MessageModel>();
+
+        getDatas();
+
+        mAdapter = new FriendAdapter(mActivity, R.layout.item_friend, mDatas);
+        headView = LayoutInflater.from(mActivity).inflate(R.layout.head_view_friend, null);
+
+        mListview.addHeaderView(headView);
+        mListview.setAdapter(mAdapter);
+
+        mTopBar.setLeftIsVisable(false);
+    }
+
+    // 获取数据
+    private void getDatas() {
+        HttpUtil.Get(urlFriend, new HttpUtil.CallBackListener() {
+            @Override
+            public void OnFinish(Object result) {
+
+                Message msg = new Message();
+                ResourceModel resourceModel = JsonUtil.toObject((String) result, ResourceModel.class);
+                msg.what = Integer.valueOf(resourceModel.getState());
+                msg.obj = resourceModel.getObject();
+
+                mHandler.sendMessage(msg);
+            }
+
+            @Override
+            public void OnError(Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
