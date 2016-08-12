@@ -1,9 +1,27 @@
 package com.example.ricco.constant;
 
+import javax.net.ssl.HostnameVerifier;
+
 /**
  *全局常量
  */
-public class Constant {
+public final class Constant {
+    //主机号
+    public static final String host = "主机名";
+
+    //所有与相册相关url内部类
+    public static final class Album {
+        public static final String showAlbum = "http://"+host+":8080/QGzone/Albums";
+        public static final String deleteAlbum = "http://"+host+":8080/QGzone/DeleteAlbum";
+        public static final String clearAlbum = "http://"+host+":8080/QGzone/EmptyAlbum";
+        public static final String renameAlbum = "http://"+host+":8080/QGzone/RechristenAlbum";
+        public static final String showPhoto = "http://"+host+":8080/QGzone/CheckAlbum";
+        public static final String inspectAlbum = "http://"+host+":8080/QGzone/InspectAlbum";
+        public static final String alterAlbumInfo = "http://"+host+":8080/QGzone/AlterAlbumInformation";
+        public static final String uploadPhoto = "http://"+host+":8080/QGzone/UploadPhoto";
+        public static final String deletePhoto = "http://"+host+":8080/QGzone/DeletePhoto";
+    }
+
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;
     public static final int BTN_FLAG_ABOUTME = 2;
