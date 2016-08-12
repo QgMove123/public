@@ -11,12 +11,16 @@ import android.widget.Button;
 import com.example.ricco.qgzone.R;
 
 /**
+ * 注册功能Fragment
  * Created by chenyi on 2016/8/11.
  */
 public class SignFragment extends Fragment implements View.OnClickListener {
 
     private Button sign;
 
+    /**
+     * 设置注册按钮的回调
+     */
     public interface SignBtnClickListener
     {
         void onSignBtnClick();

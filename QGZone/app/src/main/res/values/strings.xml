@@ -12,4 +12,6 @@
     <string name="text_title">标题</string>
     <string name="action_edit">编辑</string>
     <string name="action_ensure">确定</string>
+    <string name="text_about_me">与我相关</string>
+    <string name="action_refresh">刷新</string>
 </resources>

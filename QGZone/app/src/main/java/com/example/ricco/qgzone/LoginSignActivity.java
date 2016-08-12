@@ -12,6 +12,7 @@ import com.example.ricco.fragment.LoginFragment;
 import com.example.ricco.fragment.SignFragment;
 
 /**
+ * 登录注册的Activity，在Fragment中切换不同的功能
  * Created by chenyi on 2016/8/11.
  */
 public class LoginSignActivity extends Activity implements LoginFragment.LoginBtnClickListener,
@@ -29,8 +30,10 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
         Intent intent = getIntent();
         String way = intent.getStringExtra("way");
 
+        //取得事务管理器
         FragmentManager fm = getFragmentManager();
         FragmentTransaction tx = fm.beginTransaction();
+        //通过接收的信息判断使用的功能Fragment
         if (way.equals("login")) {
             loginF = new LoginFragment();
             Log.e("onCreate: Login", "start");
@@ -43,6 +46,9 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
         tx.commit();
     }
 
+    /**
+     * 继承注册Fragment的按钮接口，跳转到登录Fragment
+     */
     @Override
     public void onSignBtnClick() {
         if (loginF == null)
@@ -55,28 +61,36 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
         tx.commit();
     }
 
+    /**
+     * 继承登录Fragment的登录按钮接口，跳转到系统首页
+     */
     @Override
     public void onLoginBtnClick() {
-        if (loginF == null)
-        {
-            loginF = new LoginFragment();
-        }
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction tx = fm.beginTransaction();
-        tx.replace(R.id.id_content, loginF);
-        tx.addToBackStack(null);
-        tx.commit();
+//        if (loginF == null)
+//        {
+//            loginF = new LoginFragment();
+//        }
+//        FragmentManager fm = getFragmentManager();
+//        FragmentTransaction tx = fm.beginTransaction();
+//        tx.replace(R.id.id_content, loginF);
+//        tx.addToBackStack(null);
+//        tx.commit();
     }
 
+    /**
+     * 继承登录Fragment的忘记密码按钮接口，跳转到忘记密码Fragment
+     */
     @Override
     public void onForgetPassClick() {
         if (ForgetF == null)
         {
             ForgetF = new ForgetPassFragment();
         }
+        //通过事务管理器切换不同功能Fragment
         FragmentManager fm = getFragmentManager();
         FragmentTransaction tx = fm.beginTransaction();
         tx.replace(R.id.id_content, ForgetF);
+        tx.addToBackStack(null);
         tx.commit();
     }
 }

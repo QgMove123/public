@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.ricco.qgzone.R;
 
 /**
+ * 登录功能Fragment
  * Created by chenyi on 2016/8/11.
  */
 public class LoginFragment extends Fragment implements View.OnClickListener {
@@ -28,7 +29,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * 设置登录按钮的回调
+     * 设置忘记密码按钮的回调
      */
     public interface ForgetPassClickListener
     {

@@ -7,9 +7,4 @@
         <attr name="rightText" format="string" />
         <attr name="rightBackground" format="reference|color" />
     </declare-styleable>
-
-    <declare-styleable name="item_info">
-        <attr name="info" format="string" />
-        <attr name="user_info" format="string" />
-    </declare-styleable>
 </resources>

@@ -12,6 +12,7 @@ import android.widget.Button;
  */
 public class FirstActivity extends Activity implements View.OnClickListener {
 
+    //首页面的登录注册按钮
     private Button login;
     private Button sign;
 
