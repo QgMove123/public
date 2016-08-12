@@ -1,17 +1,23 @@
 package com.example.ricco.qgzone;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.ricco.adapter.ApplyFriendAdapter;
+import com.example.ricco.adapter.FriendAdapter;
 import com.example.ricco.entity.FriendApplyModel;
 import com.example.ricco.entity.ResourceModel;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.ToastUtil;
 import com.example.ricco.utils.TopBar;
 
 import java.util.ArrayList;
@@ -28,12 +34,19 @@ public class ActivityCheckFriend extends BaseActivity {
     private List<FriendApplyModel> mDatas = null;
     private ApplyFriendAdapter alyAdapter = null;
 
-    private String url = null;
+    final private String url = "http://主机号:8080/QGzone/MyFriendApply";
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+            switch (msg.what) {
+                // 有好友
+                case 301:
+                    break;
+                // 没有好友
+                case 302:
+                    break;
+            }
         }
     };
 
@@ -43,8 +56,14 @@ public class ActivityCheckFriend extends BaseActivity {
         setContentView(R.layout.activity_check_friend);
 
         init();
-        mListView.setAdapter(alyAdapter);
 
+        mListView.setAdapter(alyAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ToastUtil.showShort(ActivityCheckFriend.this, "" + position);
+            }
+        });
     }
 
     // 获取数据
@@ -56,7 +75,10 @@ public class ActivityCheckFriend extends BaseActivity {
                 Message msg = new Message();
                 ResourceModel resourceModel = JsonUtil.toObject((String) result, ResourceModel.class);
                 msg.what = Integer.valueOf(resourceModel.getState());
-                msg.obj = resourceModel.getObject();
+                mDatas = (List<FriendApplyModel>) resourceModel.getObject();
+                if (mDatas == null) {
+                    mDatas = new ArrayList<FriendApplyModel>();
+                }
 
                 mHandler.sendMessage(msg);
             }
@@ -72,15 +94,8 @@ public class ActivityCheckFriend extends BaseActivity {
 
         mTopBar = (TopBar) findViewById(R.id.tb_apply);
         mListView = (ListView) findViewById(R.id.lv_friend);
-        mDatas = new ArrayList<FriendApplyModel>();
-        FriendApplyModel friendApplyModel = new FriendApplyModel();
-        friendApplyModel.setRequesterName("wzkang!");
-        mTopBar.setRightIsVisable(false);
-        for (int i=0; i<10 ;i++) {
-            mDatas.add(friendApplyModel);
-        }
-
-        alyAdapter = new ApplyFriendAdapter(getApplicationContext(), R.layout.item_apply, mDatas);
+        getDatas();
+        alyAdapter = new ApplyFriendAdapter(ActivityCheckFriend.this, R.layout.item_apply, mDatas);
     }
 
     // 方便启动
