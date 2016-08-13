@@ -2,12 +2,10 @@ package com.example.ricco.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.GpsStatus;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -16,6 +14,8 @@ import java.net.URL;
  * Get、Post请求
  */
 public class HttpUtil {
+
+    public static String sessionid;
 
     /**
      * 接口，用于回调
@@ -34,6 +34,9 @@ public class HttpUtil {
                 try {
                     URL httpUrl = new URL(url);
                     conn = (HttpURLConnection)httpUrl.openConnection();
+                    if(sessionid != null) {
+                        conn.setRequestProperty("cookie", sessionid);
+                    }
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(8000);
                     conn.setReadTimeout(8000);
