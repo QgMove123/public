@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--adjustPan用于使软键盘不闪退-->
         <activity android:name=".MainActivity"
-            <!--adjustPan用于使软键盘不闪退-->
             android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
