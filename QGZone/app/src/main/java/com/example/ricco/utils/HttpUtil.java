@@ -25,7 +25,7 @@ public class HttpUtil {
         public void OnError(Exception e);
     }
 
-    public static void Get(final String url, final CallBackListener listener){
+    public static void get(final String url, final CallBackListener listener){
         new Thread(){
             @Override
             public void run() {
@@ -59,6 +59,8 @@ public class HttpUtil {
                         br.close();
                         conn.disconnect();
                     } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

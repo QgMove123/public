@@ -74,7 +74,7 @@ public class FriendAdapter extends BaseAdapter {
     private void bindView(int position, ViewHolder viewHolder) {
 
         viewHolder.civ_head.setImageResource(R.mipmap.ic_launcher);
-        viewHolder.tv_name.setText(mData.get(position).getUserName() + String.format("%d", position));
+        viewHolder.tv_name.setText(mData.get(position).getUserName());
     }
 
     public class ViewHolder {

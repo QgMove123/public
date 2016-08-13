@@ -17,6 +17,30 @@ public class JsonModel<T,K> {
 	private List<T> jsonList;
 	private int state;
 	private K jsonObject;
+
+	public List<T> getJsonList() {
+		return jsonList;
+	}
+
+	public void setJsonList(List<T> jsonList) {
+		this.jsonList = jsonList;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
+	public K getJsonObject() {
+		return jsonObject;
+	}
+
+	public void setJsonObject(K jsonObject) {
+		this.jsonObject = jsonObject;
+	}
 	
 	public JsonModel(List<T> jsonList, int state, K jsonObject) {
 		this.jsonList = jsonList;

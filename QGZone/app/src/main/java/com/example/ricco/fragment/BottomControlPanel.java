@@ -126,10 +126,4 @@ public class BottomControlPanel extends LinearLayout implements View.OnClickList
             mDtaiBtn.setChecked(Constant.BTN_FLAG_DONGTAI);
         }
     }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        // TODO Auto-generated method stub
-        super.onLayout(changed, left, top, right, bottom);
-    }
 }
