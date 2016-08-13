@@ -36,6 +36,11 @@ public class HttpUtil {
                     conn = (HttpURLConnection)httpUrl.openConnection();
                     if(sessionid != null) {
                         conn.setRequestProperty("cookie", sessionid);
+                    } else {
+                        String cookieval = conn.getHeaderField("set-cookie");
+                        if(cookieval != null) {
+                            sessionid = cookieval.substring(0, cookieval.indexOf(";"));
+                        }
                     }
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(8000);
