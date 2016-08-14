@@ -147,7 +147,7 @@ public class FriendFragment extends BaseFragment {
                                     Message msg = new Message();
 
                                     @Override
-                                    public void OnFinish(Object result) {
+                                    public void OnFinish(String result) {
                                         Map<String, Integer> jsonModel =
                                                 JsonUtil.toModel((String) result,
                                                         new TypeToken<Map<String, Integer>>() {
@@ -268,8 +268,8 @@ public class FriendFragment extends BaseFragment {
             Message msg = new Message();
 
             @Override
-            public void OnFinish(Object result) {
-                JsonModel<MessageModel, String> jsonModel = JsonUtil.toModel((String) result,
+            public void OnFinish(String result) {
+                JsonModel<MessageModel, String> jsonModel = JsonUtil.toModel(result,
                         new TypeToken<JsonModel<MessageModel, String>>() {
                         }.getType());
                 msg.what = jsonModel.getState();
@@ -289,7 +289,7 @@ public class FriendFragment extends BaseFragment {
     private void refreshHaveFre() {
         HttpUtil.get(urlHaveFrd, new HttpUtil.CallBackListener() {
             @Override
-            public void OnFinish(Object result) {
+            public void OnFinish(String result) {
                 Map<String, Integer> jsonModel =
                         JsonUtil.toModel((String) result,
                                 new TypeToken<Map<String, Integer>>() {

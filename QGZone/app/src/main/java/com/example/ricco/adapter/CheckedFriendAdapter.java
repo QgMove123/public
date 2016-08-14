@@ -113,10 +113,10 @@ public class CheckedFriendAdapter extends BaseAdapter {
                                             HttpUtil.get(mUrl + mData.get(position).getFriendApplyId(),
                                                     new HttpUtil.CallBackListener() {
                                                 @Override
-                                                public void OnFinish(Object result) {
+                                                public void OnFinish(String result) {
                                                     Message msg = new Message();
                                                     Map<String, Integer> jsonModel =
-                                                            JsonUtil.toModel((String) result,
+                                                            JsonUtil.toModel(result,
                                                                     new TypeToken<Map<String, Integer>>(){}.getType());
                                                     msg.what = 4 + jsonModel.get("state").intValue();
                                                     msg.obj = position;

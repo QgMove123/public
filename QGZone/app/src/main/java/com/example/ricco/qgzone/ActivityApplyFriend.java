@@ -152,8 +152,8 @@ public class ActivityApplyFriend extends BaseActivity {
             Message msg = new Message();
 
             @Override
-            public void OnFinish(Object result) {
-                JsonModel<MessageModel, String> jsonModel = JsonUtil.toModel((String) result,
+            public void OnFinish(String result) {
+                JsonModel<MessageModel, String> jsonModel = JsonUtil.toModel(result,
                         new TypeToken<JsonModel<MessageModel, String>>() {
                         }.getType());
                 msg.what = jsonModel.getState();

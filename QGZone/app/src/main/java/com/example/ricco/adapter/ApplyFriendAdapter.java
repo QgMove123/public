@@ -108,9 +108,9 @@ public class ApplyFriendAdapter extends BaseAdapter {
                                 HttpUtil.get(mUrl + mData.get(position).getUserId(), new HttpUtil.CallBackListener() {
                                     Message msg = new Message();
                                     @Override
-                                    public void OnFinish(Object result) {
+                                    public void OnFinish(String result) {
                                         Map<String, Integer> jsonModel =
-                                                JsonUtil.toModel((String) result,
+                                                JsonUtil.toModel(result,
                                                         new TypeToken<Map<String, Integer>>(){}.getType());
                                         msg.what = 2 + jsonModel.get("state").intValue();
                                         mHandler.sendMessage(msg);

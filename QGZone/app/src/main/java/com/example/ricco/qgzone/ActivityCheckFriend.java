@@ -126,10 +126,10 @@ public class ActivityCheckFriend extends BaseActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 HttpUtil.get(urlDelete + mDatas.get(position).getFriendApplyId(), new HttpUtil.CallBackListener() {
                                     @Override
-                                    public void OnFinish(Object result) {
+                                    public void OnFinish(String result) {
                                         Message msg = new Message();
                                         Map<String, Integer> jsonModel =
-                                                JsonUtil.toModel((String) result,
+                                                JsonUtil.toModel(result,
                                                         new TypeToken<Map<String, Integer>>(){}.getType());
                                         msg.what = 2 + jsonModel.get("state").intValue();
                                         msg.obj = position;
@@ -155,10 +155,10 @@ public class ActivityCheckFriend extends BaseActivity {
         HttpUtil.get(urlCheck, new HttpUtil.CallBackListener() {
             Message msg = new Message();
             @Override
-            public void OnFinish(Object result) {
+            public void OnFinish(String result) {
 
                 JsonModel<FriendApplyModel, String> resourceModel =
-                        JsonUtil.toModel((String) result,
+                        JsonUtil.toModel(result,
                                 new TypeToken<JsonModel<FriendApplyModel, String>>(){}.getType());
                 msg.what = resourceModel.getState();
                 msg.obj = resourceModel.getJsonList();
