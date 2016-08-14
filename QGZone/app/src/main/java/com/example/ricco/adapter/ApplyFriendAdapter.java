@@ -2,6 +2,8 @@ package com.example.ricco.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,31 +12,38 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.ricco.entity.FriendApplyModel;
+import com.example.ricco.entity.MessageModel;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.CircleImageVIew;
+import com.example.ricco.utils.HttpUtil;
+import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.ToastUtil;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
+import java.util.Map;
 
 /**
+ * 添加好友适配器
  * Created by Ricco on 2016/8/11.
  * @author Wzkang
- * 添加好友、审核好友的适配器
  */
 public class ApplyFriendAdapter extends BaseAdapter {
 
     private Context mContext = null;
     private int mResource = 0;
-    private List<FriendApplyModel> mData = null;
+    private List<MessageModel> mData = null;
     private LayoutInflater mInflater = null;
+    private String mUrl = "http://192.168.3.33:8080/QGzone/SendFriendApply?addFriendId=";
+    private Handler mHandler = null;
 
     public ApplyFriendAdapter(Context context, int resource,
-                         List<FriendApplyModel> FriendApplyModel) {
+                                Handler handler, List<MessageModel> messageList) {
         mContext = context;
         mResource = resource;
-        mData = FriendApplyModel;
+        mHandler = handler;
+        mData = messageList;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -81,33 +90,40 @@ public class ApplyFriendAdapter extends BaseAdapter {
     private void bindView(final int position, ViewHolder viewHolder) {
 
         viewHolder.civ_head.setImageResource(R.mipmap.ic_launcher);
-        viewHolder.tv_item_name.setText(mData.get(position).getRequesterName());
-        LogUtil.d("state","" + position + ":" + mData.get(position).getApplyState() + "");
-        if (mData.get(position).getApplyState() == 1) {
-            viewHolder.btn_apply.setClickable(false);
-            viewHolder.btn_apply.setText("已添加");
-        } else {
-            viewHolder.btn_apply.setText("添加");
-            viewHolder.btn_apply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ToastUtil.showShort(mContext, position + "");
-                    new AlertDialog.Builder(mContext)
-                            .setTitle("添加请求")
-                            .setMessage("请问你是否要添加其为好友")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            ToastUtil.showShort(mContext, "You click the positive!");
-                                            mData.get(position).setApplyState(1);
-                                            notifyDataSetChanged();
-                                            LogUtil.d("state2", "" + position);
-                                        }
-                                    })
-                            .setNegativeButton("取消", null).create().show();
-                }
-            });
-        }
+        viewHolder.tv_item_name.setText(mData.get(position).getUserName());
+
+        viewHolder.btn_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.d("ApplyAdapter", "" + position);
+                new AlertDialog.Builder(mContext)
+                        .setTitle("添加请求")
+                        .setMessage("请问你是否要添加其为好友")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                HttpUtil.get(mUrl + mData.get(position).getUserId(), new HttpUtil.CallBackListener() {
+                                    Message msg = new Message();
+                                    @Override
+                                    public void OnFinish(Object result) {
+                                        Map<String, Integer> jsonModel =
+                                                JsonUtil.fromJson((String) result,
+                                                        new TypeToken<Map<String, Integer>>(){}.getType());
+                                        msg.what = 2 + jsonModel.get("state").intValue();
+                                        mHandler.sendMessage(msg);
+                                    }
+
+                                    @Override
+                                    public void OnError(Exception e) {
+                                        msg.what = 0;
+                                        mHandler.sendMessage(msg);
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("取消", null).create().show();
+            }
+        });
     }
 
     public class ViewHolder {
