@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.SimpleAdapter;
 
 import com.example.ricco.utils.SipAdapter;
 import com.example.ricco.utils.TopBar;
@@ -30,7 +29,7 @@ public class AlbumActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
         //初始化
-        topBar = (TopBar) findViewById(R.id.topbar);
+        topBar = (TopBar) findViewById(R.id.topBar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         //topBar事件监听
         topBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {

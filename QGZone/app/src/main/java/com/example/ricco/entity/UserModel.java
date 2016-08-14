@@ -4,17 +4,17 @@ package com.example.ricco.entity;
  * Created by chenyi on 2016/8/13.
  */
 public class UserModel {
-    private int userId;//账号
+    private String userId;//账号
     private String userName;//昵称
     private String password;//密码
     private int userSecretId;//密保编号
     private String userSecretAnswer;//密保答案
     private String userImage;//照片
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
     public String getUserName() {

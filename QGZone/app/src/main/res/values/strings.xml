@@ -14,4 +14,5 @@
     <string name="action_ensure">确定</string>
     <string name="text_about_me">与我相关</string>
     <string name="action_refresh">刷新</string>
+    <string name="action_log_out">退出登录</string>
 </resources>

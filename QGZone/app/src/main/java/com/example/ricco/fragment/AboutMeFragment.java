@@ -9,7 +9,7 @@ import android.widget.ListView;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.utils.AboutAdapter;
+import com.example.ricco.adapter.AboutAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class AboutMeFragment extends BaseFragment {
      * @return
      */
     public List<Map<String, Object>> getData(){
-        List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 
         return list;
     }

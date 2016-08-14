@@ -1,13 +1,11 @@
 package com.example.ricco.constant;
 
-import javax.net.ssl.HostnameVerifier;
-
 /**
  *全局常量
  */
 public final class Constant {
     //主机号
-    public static final String host = "主机名";
+    public static final String host = "10.21.56.121";
 
     //所有与相册相关url内部类
     public static final class Album {
@@ -20,6 +18,15 @@ public final class Constant {
         public static final String alterAlbumInfo = "http://"+host+":8080/QGzone/AlterAlbumInformation";
         public static final String uploadPhoto = "http://"+host+":8080/QGzone/UploadPhoto";
         public static final String deletePhoto = "http://"+host+":8080/QGzone/DeletePhoto";
+    }
+
+    //所有与用户相关url内部类
+    public static final class Account {
+        public static final String userSignUp = "http://"+host+":8080/QGzone/UserSignUp";
+        public static final String userSignIn = "http://"+host+":8080/QGzone/UserSignIn";
+        public static final String userCheckSecret = "http://"+host+":8080/QGzone/UserCheckSecret";
+        public static final String userForgetPassword = "http://"+host+":8080/QGzone/UserForgetPassword";
+        public static final String MessageGet = "http://"+host+":8080/QGzone/MessageGet";
     }
 
     //Btn的标识

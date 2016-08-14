@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/prompt_nickname"
             android:imeOptions="actionUnspecified"
-            android:inputType="textEmailAddress"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -68,7 +67,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/prompt_answer"
             android:imeOptions="actionUnspecified"
-            android:inputType="textPassword"
             android:maxLines="1"
             android:singleLine="true" />
 

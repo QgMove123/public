@@ -5,7 +5,8 @@
     android:paddingTop="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_horizontal_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin">
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="#fdfdfe">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="160dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@drawable/sign_pic"/>
 
                 <LinearLayout
                     android:id="@+id/id_content"

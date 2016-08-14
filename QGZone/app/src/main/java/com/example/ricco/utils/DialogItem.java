@@ -34,4 +34,8 @@ public class DialogItem extends LinearLayout{
     public String getPass2() {
         return pass2.getText().toString();
     }
+
+    public EditText getEditText() {
+        return pass1;
+    }
 }

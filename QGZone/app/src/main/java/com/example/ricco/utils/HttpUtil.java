@@ -2,6 +2,7 @@ package com.example.ricco.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -34,6 +35,11 @@ public class HttpUtil {
                 try {
                     URL httpUrl = new URL(url);
                     conn = (HttpURLConnection)httpUrl.openConnection();
+                    Log.e( "run: ", url);
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(8000);
+                    conn.setReadTimeout(8000);
+                    Log.e("run: url",conn+"");
                     if(sessionid != null) {
                         conn.setRequestProperty("cookie", sessionid);
                     } else {
@@ -41,18 +47,16 @@ public class HttpUtil {
                         if(cookieval != null) {
                             sessionid = cookieval.substring(0, cookieval.indexOf(";"));
                         }
-                    }
-                    conn.setRequestMethod("GET");
-                    conn.setConnectTimeout(8000);
-                    conn.setReadTimeout(8000);
+                    }Log.e("run: session", sessionid+"");
                     conn.connect();
-                    LogUtil.e("HttpUtil",conn.getResponseCode()+"");
+
                     StringBuilder str = new StringBuilder("");
                     br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
                     String line = null;
                     while((line=br.readLine())!=null){
                         str.append(line);
                     }
+
                     if(listener!=null){
                         //回调OnFinish()
                         listener.OnFinish(str.toString());
@@ -67,6 +71,8 @@ public class HttpUtil {
                         br.close();
                         conn.disconnect();
                     } catch (IOException e) {
+                        e.printStackTrace();
+                    }catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

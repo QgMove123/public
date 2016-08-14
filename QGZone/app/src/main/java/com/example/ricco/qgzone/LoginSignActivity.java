@@ -21,6 +21,7 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
     private LoginFragment loginF;
     private SignFragment signF;
     private ForgetPassFragment ForgetF;
+    private String account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,10 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
         {
             loginF = new LoginFragment();
         }
+        Bundle bundle = new Bundle();
+        bundle.putString("account", account);
+        Log.e("onSignBtnClick: 注册的帐号", account);
+        loginF.setArguments(bundle);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction tx = fm.beginTransaction();
         tx.replace(R.id.id_content, loginF);
@@ -66,6 +71,8 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
      */
     @Override
     public void onLoginBtnClick() {
+        Intent intent = new Intent(LoginSignActivity.this, InfoActivity.class);
+        InfoActivity.actionStart(LoginSignActivity.this, "me", 0);
 //        if (loginF == null)
 //        {
 //            loginF = new LoginFragment();
@@ -92,5 +99,9 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
         tx.replace(R.id.id_content, ForgetF);
         tx.addToBackStack(null);
         tx.commit();
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 }
