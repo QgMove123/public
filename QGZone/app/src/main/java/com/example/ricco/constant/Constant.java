@@ -27,6 +27,9 @@ public final class Constant {
         public static final String userCheckSecret = "http://"+host+":8080/QGzone/UserCheckSecret";
         public static final String userForgetPassword = "http://"+host+":8080/QGzone/UserForgetPassword";
         public static final String MessageGet = "http://"+host+":8080/QGzone/MessageGet";
+        public static final String RelationGet = "http://"+host+":8080/QGzone/RelationsGet";
+        public static final String RelationDelete = "http://"+host+":8080/QGzone/RelationsDelete";
+        public static final String Picture = "http://"+host+":8080/QGzone/jpg/";
     }
 
     //Btn的标识

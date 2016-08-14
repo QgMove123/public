@@ -2,12 +2,11 @@ package com.example.ricco.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.GpsStatus;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -47,7 +46,8 @@ public class HttpUtil {
                         if(cookieval != null) {
                             sessionid = cookieval.substring(0, cookieval.indexOf(";"));
                         }
-                    }Log.e("run: session", sessionid+"");
+                    }
+                    Log.e("run: session", sessionid+"");
                     conn.connect();
                     LogUtil.e("HttpUtil",conn.getResponseCode()+"");
                     StringBuilder str = new StringBuilder("");

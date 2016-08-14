@@ -124,7 +124,7 @@ public class ActivityCheckFriend extends BaseActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                HttpUtil.get(urlDelete + mDatas.get(position).getFriendApplyId(), new HttpUtil.CallBackListener() {
+                                HttpUtil.Get(urlDelete + mDatas.get(position).getFriendApplyId(), new HttpUtil.CallBackListener() {
                                     @Override
                                     public void OnFinish(Object result) {
                                         Message msg = new Message();
@@ -152,7 +152,7 @@ public class ActivityCheckFriend extends BaseActivity {
 
     // 获取数据
     private void getDatas() {
-        HttpUtil.get(urlCheck, new HttpUtil.CallBackListener() {
+        HttpUtil.Get(urlCheck, new HttpUtil.CallBackListener() {
             Message msg = new Message();
             @Override
             public void OnFinish(Object result) {

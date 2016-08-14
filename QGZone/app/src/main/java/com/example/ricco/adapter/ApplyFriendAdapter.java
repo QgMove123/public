@@ -18,7 +18,6 @@ import com.example.ricco.utils.CircleImageVIew;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.LogUtil;
-import com.example.ricco.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
@@ -102,7 +101,7 @@ public class ApplyFriendAdapter extends BaseAdapter {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                HttpUtil.get(mUrl + mData.get(position).getUserId(), new HttpUtil.CallBackListener() {
+                                HttpUtil.Get(mUrl + mData.get(position).getUserId(), new HttpUtil.CallBackListener() {
                                     Message msg = new Message();
                                     @Override
                                     public void OnFinish(Object result) {

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ricco.constant.Constant;
+import com.example.ricco.others.ImageLoader;
 import com.example.ricco.utils.CircleImageVIew;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.InfoItem;
@@ -137,6 +138,7 @@ public class InfoActivity extends BaseActivity{
                         }
                     }
                     try {
+                        ImageLoader.getInstance(1).loadImage(Constant.Account.Picture+map.getString("userImage"), headPic, false);
                         name.setText(map.getString("userName"));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -149,6 +151,4 @@ public class InfoActivity extends BaseActivity{
             }
         }
     };
-
-
 }

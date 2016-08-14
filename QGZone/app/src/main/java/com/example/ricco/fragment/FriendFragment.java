@@ -141,7 +141,7 @@ public class FriendFragment extends BaseFragment {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                HttpUtil.get(urlDelete + mDatas.get(position - 1).getUserId(), new HttpUtil.CallBackListener() {
+                                HttpUtil.Get(urlDelete + mDatas.get(position - 1).getUserId(), new HttpUtil.CallBackListener() {
                                     Message msg = new Message();
 
                                     @Override
@@ -260,7 +260,7 @@ public class FriendFragment extends BaseFragment {
 
     // 获取数据
     private void getDatas() {
-        HttpUtil.get(urlFriend, new HttpUtil.CallBackListener() {
+        HttpUtil.Get(urlFriend, new HttpUtil.CallBackListener() {
 
             Message msg = new Message();
 
@@ -283,7 +283,7 @@ public class FriendFragment extends BaseFragment {
     }
 
     private void refreshHaveFre() {
-        HttpUtil.get(urlHaveFrd, new HttpUtil.CallBackListener() {
+        HttpUtil.Get(urlHaveFrd, new HttpUtil.CallBackListener() {
             @Override
             public void OnFinish(Object result) {
                 Map<String, Integer> jsonModel =

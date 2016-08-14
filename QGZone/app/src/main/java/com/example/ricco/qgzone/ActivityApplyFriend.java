@@ -148,7 +148,7 @@ public class ActivityApplyFriend extends BaseActivity {
 
     private void getDatas(String identifier) {
 
-        HttpUtil.get(mUrl + identifier, new HttpUtil.CallBackListener() {
+        HttpUtil.Get(mUrl + identifier, new HttpUtil.CallBackListener() {
             Message msg = new Message();
 
             @Override

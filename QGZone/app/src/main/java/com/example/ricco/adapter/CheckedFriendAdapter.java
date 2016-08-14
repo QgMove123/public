@@ -17,7 +17,6 @@ import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.CircleImageVIew;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
-import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
 
@@ -107,7 +106,7 @@ public class CheckedFriendAdapter extends BaseAdapter {
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            HttpUtil.get(mUrl + mData.get(position).getFriendApplyId(),
+                                            HttpUtil.Get(mUrl + mData.get(position).getFriendApplyId(),
                                                     new HttpUtil.CallBackListener() {
                                                 @Override
                                                 public void OnFinish(Object result) {
