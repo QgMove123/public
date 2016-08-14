@@ -129,7 +129,7 @@ public class ActivityCheckFriend extends BaseActivity {
                                     public void OnFinish(Object result) {
                                         Message msg = new Message();
                                         Map<String, Integer> jsonModel =
-                                                JsonUtil.fromJson((String) result,
+                                                JsonUtil.toModel((String) result,
                                                         new TypeToken<Map<String, Integer>>(){}.getType());
                                         msg.what = 2 + jsonModel.get("state").intValue();
                                         msg.obj = position;
@@ -158,7 +158,7 @@ public class ActivityCheckFriend extends BaseActivity {
             public void OnFinish(Object result) {
 
                 JsonModel<FriendApplyModel, String> resourceModel =
-                        JsonUtil.fromJson((String) result,
+                        JsonUtil.toModel((String) result,
                                 new TypeToken<JsonModel<FriendApplyModel, String>>(){}.getType());
                 msg.what = resourceModel.getState();
                 msg.obj = resourceModel.getJsonList();

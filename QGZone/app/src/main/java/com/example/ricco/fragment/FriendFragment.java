@@ -23,6 +23,7 @@ import com.example.ricco.adapter.FriendAdapter;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.entity.MessageModel;
+import com.example.ricco.others.ImageLoader;
 import com.example.ricco.qgzone.ActivityApplyFriend;
 import com.example.ricco.qgzone.ActivityCheckFriend;
 import com.example.ricco.qgzone.MainActivity;
@@ -41,6 +42,7 @@ import java.util.Map;
 
 /**
  * 好友列表
+ *
  * @author Wzkang
  */
 public class FriendFragment extends BaseFragment {
@@ -74,7 +76,7 @@ public class FriendFragment extends BaseFragment {
                     if (mDatas.size() > 0) {
                         mDatas.clear();
                     }
-                    for (MessageModel mm:(List<MessageModel>) msg.obj) {
+                    for (MessageModel mm : (List<MessageModel>) msg.obj) {
                         mDatas.add(mm);
                     }
                     mSwipe.setRefreshing(false);
@@ -147,8 +149,9 @@ public class FriendFragment extends BaseFragment {
                                     @Override
                                     public void OnFinish(Object result) {
                                         Map<String, Integer> jsonModel =
-                                                JsonUtil.fromJson((String) result,
-                                                        new TypeToken<Map<String, Integer>>(){}.getType());
+                                                JsonUtil.toModel((String) result,
+                                                        new TypeToken<Map<String, Integer>>() {
+                                                        }.getType());
                                         msg.what = jsonModel.get("state").intValue() + 2;
                                         msg.obj = position - 1;
                                         mHandler.sendMessage(msg);
@@ -266,8 +269,9 @@ public class FriendFragment extends BaseFragment {
 
             @Override
             public void OnFinish(Object result) {
-                JsonModel<MessageModel, String> jsonModel = JsonUtil.fromJson((String) result,
-                                new TypeToken<JsonModel<MessageModel, String>>(){}.getType());
+                JsonModel<MessageModel, String> jsonModel = JsonUtil.toModel((String) result,
+                        new TypeToken<JsonModel<MessageModel, String>>() {
+                        }.getType());
                 msg.what = jsonModel.getState();
                 msg.obj = jsonModel.getJsonList();
 
@@ -287,8 +291,9 @@ public class FriendFragment extends BaseFragment {
             @Override
             public void OnFinish(Object result) {
                 Map<String, Integer> jsonModel =
-                        JsonUtil.fromJson((String) result,
-                                new TypeToken<Map<String, Integer>>(){}.getType());
+                        JsonUtil.toModel((String) result,
+                                new TypeToken<Map<String, Integer>>() {
+                                }.getType());
                 mHandler.sendEmptyMessage(4 + jsonModel.get("state").intValue());
             }
 

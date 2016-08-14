@@ -7,7 +7,7 @@ import javax.net.ssl.HostnameVerifier;
  */
 public final class Constant {
     //主机号
-    public static final String host = "主机名";
+    public static final String host = "192.168.3.33";
 
     //所有与相册相关url内部类
     public static final class Album {
@@ -21,6 +21,9 @@ public final class Constant {
         public static final String uploadPhoto = "http://"+host+":8080/QGzone/UploadPhoto";
         public static final String deletePhoto = "http://"+host+":8080/QGzone/DeletePhoto";
     }
+
+    // 获取的头像的url
+    public static final String civUrl = "http://"+ host + ":8080/QGzone/jpg/";
 
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;

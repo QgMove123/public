@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.MessageModel;
+import com.example.ricco.others.ImageLoader;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.CircleImageVIew;
 
@@ -73,7 +75,8 @@ public class FriendAdapter extends BaseAdapter {
 
     private void bindView(int position, ViewHolder viewHolder) {
 
-        viewHolder.civ_head.setImageResource(R.mipmap.ic_launcher);
+        ImageLoader.getInstance(1).loadImage(Constant.civUrl + mData.get(position).getUserImage() ,
+                viewHolder.civ_head, false);
         viewHolder.tv_name.setText(mData.get(position).getUserName());
     }
 

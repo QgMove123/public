@@ -12,7 +12,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.FriendApplyModel;
+import com.example.ricco.others.ImageLoader;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.CircleImageVIew;
 import com.example.ricco.utils.HttpUtil;
@@ -89,7 +91,8 @@ public class CheckedFriendAdapter extends BaseAdapter {
 
     private void bindView(final int position, ViewHolder viewHolder) {
 
-        viewHolder.civ_head.setImageResource(R.mipmap.ic_launcher);
+        ImageLoader.getInstance(1).loadImage(Constant.civUrl + mData.get(position).getResponserId() + ".jpg",
+                viewHolder.civ_head, false);
         viewHolder.tv_item_name.setText(mData.get(position).getRequesterName());
         if (mData.get(position).getApplyState() == 1) {
             viewHolder.btn_apply.setClickable(false);
@@ -113,7 +116,7 @@ public class CheckedFriendAdapter extends BaseAdapter {
                                                 public void OnFinish(Object result) {
                                                     Message msg = new Message();
                                                     Map<String, Integer> jsonModel =
-                                                            JsonUtil.fromJson((String) result,
+                                                            JsonUtil.toModel((String) result,
                                                                     new TypeToken<Map<String, Integer>>(){}.getType());
                                                     msg.what = 4 + jsonModel.get("state").intValue();
                                                     msg.obj = position;
