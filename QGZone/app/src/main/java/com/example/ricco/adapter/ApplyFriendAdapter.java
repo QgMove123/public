@@ -12,7 +12,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.MessageModel;
+import com.example.ricco.others.ImageLoader;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.CircleImageVIew;
 import com.example.ricco.utils.HttpUtil;
@@ -88,7 +90,8 @@ public class ApplyFriendAdapter extends BaseAdapter {
 
     private void bindView(final int position, ViewHolder viewHolder) {
 
-        viewHolder.civ_head.setImageResource(R.mipmap.ic_launcher);
+        ImageLoader.getInstance(1).loadImage(Constant.civUrl + mData.get(position).getUserImage(),
+                viewHolder.civ_head, false);
         viewHolder.tv_item_name.setText(mData.get(position).getUserName());
 
         viewHolder.btn_apply.setOnClickListener(new View.OnClickListener() {
@@ -104,9 +107,9 @@ public class ApplyFriendAdapter extends BaseAdapter {
                                 HttpUtil.Get(mUrl + mData.get(position).getUserId(), new HttpUtil.CallBackListener() {
                                     Message msg = new Message();
                                     @Override
-                                    public void OnFinish(Object result) {
+                                    public void OnFinish(String result) {
                                         Map<String, Integer> jsonModel =
-                                                JsonUtil.fromJson((String) result,
+                                                JsonUtil.toModel(result,
                                                         new TypeToken<Map<String, Integer>>(){}.getType());
                                         msg.what = 2 + jsonModel.get("state").intValue();
                                         mHandler.sendMessage(msg);

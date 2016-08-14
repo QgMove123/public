@@ -1,5 +1,7 @@
 package com.example.ricco.constant;
 
+import javax.net.ssl.HostnameVerifier;
+
 /**
  *全局常量
  */
@@ -31,6 +33,9 @@ public final class Constant {
         public static final String RelationDelete = "http://"+host+":8080/QGzone/RelationsDelete";
         public static final String Picture = "http://"+host+":8080/QGzone/jpg/";
     }
+
+    // 获取的头像的url
+    public static final String civUrl = "http://"+ host + ":8080/QGzone/jpg/";
 
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;
