@@ -41,7 +41,7 @@ public class AboutMeFragment extends BaseFragment {
 
         aboutList = (ListView) view.findViewById(R.id.list_about_me);
         sendRelation(Constant.Account.RelationGet+"?jsonObject={\"page\"=\""+page+"\"}");
--
+
         aboutList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
