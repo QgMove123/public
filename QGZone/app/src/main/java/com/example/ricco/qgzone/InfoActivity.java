@@ -27,16 +27,15 @@ import java.util.List;
 /**
  * 个人资料
  */
-public class InfoActivity extends BaseActivity{
+public class InfoActivity extends BaseActivity {
 
     private List<InfoItem> infoArry = new ArrayList<InfoItem>();
-    private TextView problem;
-    private TextView password;
     private CircleImageVIew headPic;
     private TextView name;
     private Button exit;
     private TopBar tb;
     private String url;
+    private String message;
 
     public static void actionStart(Context context, String data1, int data2) {
         Intent intent = new Intent(context, InfoActivity.class);
@@ -50,24 +49,30 @@ public class InfoActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_layout);
 
-        initInfo();
         tb = (TopBar) findViewById(R.id.topBar);
+        headPic = (CircleImageVIew) findViewById(R.id.user_pic);
+        name = (TextView) findViewById(R.id.user_name);
+        initInfo();
         Intent intent = getIntent();
         if(intent != null && intent.getStringExtra("user").equals("friend")) {
             tb.setRightIsVisable(false);
             findViewById(R.id.exit).setVisibility(View.GONE);
-            findViewById(R.id.problem).setVisibility(View.GONE);
-            findViewById(R.id.password).setVisibility(View.GONE);
         } else {
-            exit = (Button) findViewById(R.id.exit);
-            problem = (TextView) findViewById(R.id.problem);
-            password = (TextView) findViewById(R.id.password);
+            tb.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
+                @Override
+                public void LeftClick(View view) {
+                    finish();
+                }
 
+                @Override
+                public void RightClick(View view) {
+                    EditInfoActivity.actionStart(InfoActivity.this, message);
+                }
+            });
+            exit = (Button) findViewById(R.id.exit);
             url = Constant.Account.MessageGet;
         }
 
-        headPic = (CircleImageVIew) findViewById(R.id.user_pic);
-        name = (TextView) findViewById(R.id.user_name);
         requestInfo(url);
     }
 
@@ -99,15 +104,16 @@ public class InfoActivity extends BaseActivity{
     private void requestInfo(String url) {
         HttpUtil.Get(url, new HttpUtil.CallBackListener() {
             @Override
-            public void OnFinish(Object result) {
+            public void OnFinish(String result) {
 
                 Message msg = new Message();
                 try {
                     //通过JSONObject取出服务器传回的状态和信息
-                    JSONObject dataJson = new JSONObject((String) result);
-                    Log.e("OnFinish: result", result.toString());
+                    JSONObject dataJson = new JSONObject(result);
+                    Log.e("OnFinish: result", result);
                     msg.what = Integer.valueOf(dataJson.getString("state"));
                     msg.obj = dataJson.get("message");
+                    message = dataJson.getString("message");
                     mHandler.sendMessage(msg);
                 } catch (JSONException e) {
                     e.printStackTrace();

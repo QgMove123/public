@@ -79,35 +79,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/problem"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="@string/text_password_problem"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:gravity="center_vertical"
-                android:visibility="gone"
-                android:drawableRight="@drawable/edit"
-                android:paddingRight="10dp"/>
-
-            <TextView
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="@string/prompt_password"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:gravity="center_vertical"
-                android:visibility="gone"
-                android:drawableRight="@drawable/edit"
-                android:paddingRight="10dp"/>
-
             <Button
                 android:id="@+id/exit"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/action_log_out"
-                android:visibility="gone"/>
+                android:text="@string/action_log_out"/>
 
         </LinearLayout>
             </ScrollView>

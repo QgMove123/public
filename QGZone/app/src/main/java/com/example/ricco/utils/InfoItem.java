@@ -29,6 +29,8 @@ public class InfoItem extends LinearLayout{
         switch (textView.getText().toString()) {
             case "帐号":
                 str = "userId";break;
+            case "昵称":
+                str = "userName";break;
             case "性别":
                 str = "userSex";break;
             case "邮箱":
