@@ -1,10 +1,7 @@
 package com.example.ricco.utils;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,7 +13,7 @@ import java.net.URL;
  */
 public class HttpUtil {
 
-    public static String sessionid;
+    public static String sessionid = null;
 
     /**
      * 接口，用于回调
@@ -36,9 +33,6 @@ public class HttpUtil {
                     URL httpUrl = new URL(url);
                     conn = (HttpURLConnection)httpUrl.openConnection();
                     conn.setRequestMethod("GET");
-                    conn.setConnectTimeout(8000);
-                    conn.setReadTimeout(8000);
-                    Log.e("run: url",conn+"");
                     if(sessionid != null) {
                         conn.setRequestProperty("cookie", sessionid);
                     } else {
@@ -47,16 +41,17 @@ public class HttpUtil {
                             sessionid = cookieval.substring(0, cookieval.indexOf(";"));
                         }
                     }
-                    Log.e("run: session", sessionid+"");
+                    conn.setConnectTimeout(8000);
+                    conn.setReadTimeout(8000);
                     conn.connect();
-                    LogUtil.e("HttpUtil",conn.getResponseCode()+"");
+                    Log.e("run: connect", conn+"");
+                    Log.e("run: session", sessionid+"");
                     StringBuilder str = new StringBuilder("");
                     br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
                     String line = null;
                     while((line=br.readLine())!=null){
                         str.append(line);
                     }
-
                     if(listener!=null){
                         //回调OnFinish()
                         listener.OnFinish(str.toString());
@@ -80,7 +75,4 @@ public class HttpUtil {
         }.start();
     }
 
-    public static void Post(final String url, final CallBackListener listener){
-
-    }
 }

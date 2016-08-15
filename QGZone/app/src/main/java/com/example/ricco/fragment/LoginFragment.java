@@ -1,6 +1,7 @@
 package com.example.ricco.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,8 +42,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
      */
     public interface LoginBtnClickListener
     {
-
-
         void onLoginBtnClick();
     }
     /**
@@ -63,6 +63,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             String str = bundle.getString("account");
             if(str != null) {
                 account.setText(str);
+                password.requestFocus();
+                InputMethodManager imm = (InputMethodManager) password.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
             }
         }
         login = (Button) view.findViewById(R.id.login_button);
@@ -149,18 +152,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private void sendLogin(String json) {
         HttpUtil.Get(Constant.Account.userSignIn+"?jsonObject="+json, new HttpUtil.CallBackListener() {
             @Override
-            public void OnFinish(Object result) {
+            public void OnFinish(String result) {
 
                 Message msg = new Message();
                 try {
                     //通过JSONObject取出服务器传回的状态和信息
-                    JSONObject dataJson = new JSONObject((String) result);
+                    JSONObject dataJson = new JSONObject(result);
                     Log.e("OnFinish: result", result+"");
                     msg.what = Integer.valueOf(dataJson.getString("state"));
                     msg.obj = dataJson.get("user");
-                    mHandler.sendMessage(msg);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } finally {
+                    mHandler.sendMessage(msg);
                 }
             }
 
@@ -182,7 +186,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     }
                     break;
                 case 112:
+                    Log.e("handleMessage: ", "登录失败");
                     ToastUtil.showShort(getActivity(), "登录失败");
+                    HttpUtil.sessionid = null;
                     break;
                 default:break;
             }

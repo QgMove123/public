@@ -21,6 +21,7 @@
         <activity android:name=".TalkPubActivity" />
         <activity android:name=".LoginSignActivity" />
         <activity android:name=".InfoActivity" />
+        <activity android:name=".EditInfoActivity" />
     </application>
 
 </manifest>

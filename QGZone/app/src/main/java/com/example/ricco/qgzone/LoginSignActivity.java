@@ -71,18 +71,9 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
      */
     @Override
     public void onLoginBtnClick() {
-        Intent intent = new Intent(LoginSignActivity.this, MainActivity.class);
-        startActivity(intent);
-//        InfoActivity.actionStart(LoginSignActivity.this, "me", 0);
-//        if (loginF == null)
-//        {
-//            loginF = new LoginFragment();
-//        }
-//        FragmentManager fm = getFragmentManager();
-//        FragmentTransaction tx = fm.beginTransaction();
-//        tx.replace(R.id.id_content, loginF);
-//        tx.addToBackStack(null);
-//        tx.commit();
+//        Intent intent = new Intent(LoginSignActivity.this, MainActivity.class);
+//        startActivity(intent);
+        InfoActivity.actionStart(LoginSignActivity.this, "me", 0);
     }
 
     /**

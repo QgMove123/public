@@ -27,6 +27,7 @@ import com.example.ricco.utils.JsonUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -115,6 +116,8 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
     private void NewPassDialog() {
         //对话框的自定义样式
         final DialogItem dialogItem = new DialogItem(getActivity());
+        dialogItem.setPass1("新密码");
+        dialogItem.setPass1("确认新密码");
         //添加对话框
         AlertDialog.Builder show = new AlertDialog.Builder(getActivity());
         show.setTitle("请输入...");
@@ -123,30 +126,47 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String password = dialogItem.getPass1();
-                if (dialogItem.getPass2().equals(password)) {
+                if (dialogItem.getPass2().equals(password) && !password.isEmpty()) {
+                    canCloseDialog(dialog, true);
                     jsonObjiect.put("newPassword" , password);
                     sendProblem(Constant.Account.userForgetPassword+"?jsonObject="+JsonUtil.toJson(jsonObjiect));
                 } else {
+                    canCloseDialog(dialog, false);
                     dialogItem.getEditText().setError("两次输入的密码不一致");
                     View focusView = dialogItem.getEditText();
                     focusView.requestFocus();
                 }
             }
         });
-        show.setNegativeButton("取消", null);
+        show.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                canCloseDialog(dialog, true);
+            }
+        });
         show.create().show();
+    }
+
+    private void canCloseDialog(DialogInterface dialogInterface, boolean close) {
+        try {
+            Field field = dialogInterface.getClass().getSuperclass().getDeclaredField("mShowing");
+            field.setAccessible(true);
+            field.set(dialogInterface, close);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // 发送注册信息给服务器
     private void sendProblem(String url) {
         HttpUtil.Get(url, new HttpUtil.CallBackListener() {
             @Override
-            public void OnFinish(Object result) {
+            public void OnFinish(String result) {
 
                 Message msg = new Message();
                 try {
                     //通过JSONObject取出服务器传回的状态和信息
-                    JSONObject dataJson = new JSONObject((String) result);
+                    JSONObject dataJson = new JSONObject(result);
                     Log.e("OnFinish: ", result+"");
                     msg.what = Integer.valueOf(dataJson.getString("state"));
                     mHandler.sendMessage(msg);
@@ -173,6 +193,7 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
                     Toast.makeText(getActivity(), "找不到帐号或密保答案错误", Toast.LENGTH_SHORT).show();
                     break;
                 case 121:
+                    jsonObjiect.remove("newPassword");
                     Toast.makeText(getActivity(), "密码修改成功", Toast.LENGTH_SHORT).show();
                     break;
                 case 122:

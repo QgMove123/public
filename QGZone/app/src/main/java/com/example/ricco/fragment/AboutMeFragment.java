@@ -32,6 +32,7 @@ public class AboutMeFragment extends BaseFragment {
     private int page = 1;
     private static int leight = 0;
     private boolean flag = true;
+    private List<RelationModel> data;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,14 +40,14 @@ public class AboutMeFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_aboutme, container, false);
 
         aboutList = (ListView) view.findViewById(R.id.list_about_me);
-        sendRelation(Constant.Account.RelationGet+"?jsonObject={\"page\"=\""+(page++)+"\"}");
-
+        sendRelation(Constant.Account.RelationGet+"?jsonObject={\"page\"=\""+page+"\"}");
+-
         aboutList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_IDLE) {
                     if (view.getLastVisiblePosition() == view.getCount() - 1 && flag) {
-                        sendRelation(Constant.Account.RelationGet+"?page="+(page++));
+                        sendRelation(Constant.Account.RelationGet+"?jsonObject={\"page\"=\""+(++page)+"\"}");
                     }
                 }
             }
@@ -56,6 +57,8 @@ public class AboutMeFragment extends BaseFragment {
 
             }
         });
+        AboutAdapter aa = new AboutAdapter(getActivity(), data);
+        aboutList.setAdapter(aa);
         return view;
     }
 
@@ -70,13 +73,14 @@ public class AboutMeFragment extends BaseFragment {
     // 发送注册信息给服务器
     private void sendRelation(String url) {
         HttpUtil.Get(url, new HttpUtil.CallBackListener() {
+
             @Override
-            public void OnFinish(Object result) {
+            public void OnFinish(String result) {
 
                 Message msg = new Message();
                 Log.e("OnFinish: result", result+"");
 
-                AboutJsonModel object = JsonUtil.toObject(result.toString(), AboutJsonModel.class);
+                AboutJsonModel object = JsonUtil.toObject(result, AboutJsonModel.class);
                 msg.what = object.state;
                 msg.obj = object.relations;
 
@@ -95,18 +99,19 @@ public class AboutMeFragment extends BaseFragment {
 
             switch (msg.what) {
                 case 401:
-                    List<RelationModel> data = new ArrayList<RelationModel>();
+                    data = new ArrayList<RelationModel>();
                     data.addAll((Collection<? extends RelationModel>) msg.obj);
                     if(leight == data.size()) {
                         flag = false;
                     } else {
                         leight = data.size();
                     }
-                    AboutAdapter aa = new AboutAdapter(getActivity(), data);
-                    aboutList.setAdapter(aa);
                     break;
                 case 402:
                     Toast.makeText(getActivity(), "查看失败，请查看网络连接", Toast.LENGTH_SHORT).show();
+                    break;
+                case 403:
+                    Toast.makeText(getActivity(), "没有新的信息", Toast.LENGTH_SHORT).show();
                     break;
                 default:break;
             }

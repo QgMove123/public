@@ -1,13 +1,11 @@
 package com.example.ricco.constant;
 
-import javax.net.ssl.HostnameVerifier;
-
 /**
  *全局常量
  */
 public final class Constant {
     //主机号
-    public static final String host = "10.21.56.121";
+    public static final String host = "192.168.3.49";
 
     //所有与相册相关url内部类
     public static final class Album {

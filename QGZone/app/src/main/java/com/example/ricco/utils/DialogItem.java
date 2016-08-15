@@ -24,6 +24,14 @@ public class DialogItem extends LinearLayout{
         pass2 = (EditText) findViewById(R.id.sure_pass);
     }
 
+    public void setPass1(String str) {
+        pass1.setHint(str);
+    }
+
+    public void setPass2(String str) {
+        pass2.setHint(str);
+    }
+
     /**
      * 取得输入的新密码
      */

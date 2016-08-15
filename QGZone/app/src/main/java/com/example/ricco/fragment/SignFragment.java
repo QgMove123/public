@@ -166,12 +166,12 @@ public class SignFragment extends Fragment implements View.OnClickListener {
     private void sendSign(String json) {
         HttpUtil.Get(Constant.Account.userSignUp+"?jsonObject="+json, new HttpUtil.CallBackListener() {
             @Override
-            public void OnFinish(Object result) {
+            public void OnFinish(String result) {
 
                 Message msg = new Message();
                 try {
                     //通过JSONObject取出服务器传回的状态和信息
-                    JSONObject dataJson = new JSONObject((String) result);
+                    JSONObject dataJson = new JSONObject(result);
                     msg.what = Integer.valueOf(dataJson.getString("state"));
                     msg.obj = dataJson.getString("userId");
                     mHandler.sendMessage(msg);
