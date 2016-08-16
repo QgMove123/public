@@ -13,8 +13,7 @@ import android.widget.EditText;
 
 import com.example.ricco.constant.Constant;
 import com.example.ricco.fragment.BaseFragment;
-import com.example.ricco.fragment.BottomControlPanel;
-import com.example.ricco.utils.ToastUtil;
+import com.example.ricco.others.BottomControlPanel;
 
 public class MainActivity extends BaseActivity implements BottomControlPanel.BottomPanelCallback {
 

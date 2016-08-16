@@ -1,4 +1,4 @@
-package com.example.ricco.fragment;
+package com.example.ricco.others;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -19,7 +19,7 @@ public class BottomControlPanel extends LinearLayout implements View.OnClickList
     private ImageText mSendBtn = null;
     private ImageText mZoneBtn = null;
     private ImageText mFriendBtn = null;
-    private int DEFALUT_BACKGROUND_COLOR = Color.rgb(243, 243, 243); //Color.rgb(192, 192, 192)
+    private int DEFALUT_BACKGROUND_COLOR = Color.red(R.color.colorBottomBackground); // 背景颜色
     private BottomPanelCallback mBottomCallback = null;
 
     public BottomControlPanel(Context context, AttributeSet attrs) {
@@ -52,25 +52,25 @@ public class BottomControlPanel extends LinearLayout implements View.OnClickList
 
     public void initBottomPanel(){
         if(mDtaiBtn != null){
-//            mDtaiBtn.setImage(R.drawable.message_unselected);
-            mDtaiBtn.setImage(R.drawable.other_login_weibo);
+            mDtaiBtn.setImage(R.mipmap.dongtai_uncheck);
             mDtaiBtn.setText("好友动态");
         }
         if(mAmeBtn != null){
-            mAmeBtn.setImage(R.drawable.other_login_weibo);
+            mAmeBtn.setImage(R.mipmap.aboutme_uncheck);
             mAmeBtn.setText("与我相关");
         }
         if(mSendBtn != null){
-            mSendBtn.setImage(R.drawable.other_login_weibo);
+            mSendBtn.setImage(R.mipmap.talkpub);
             //用于标识隐藏
             mSendBtn.setText("HIDE");
+            mSendBtn.setImageSize(96, 96);
         }
         if(mZoneBtn != null){
-            mZoneBtn.setImage(R.drawable.other_login_weibo);
+            mZoneBtn.setImage(R.mipmap.zone_uncheck);
             mZoneBtn.setText("个人空间");
         }
         if(mFriendBtn != null){
-            mFriendBtn.setImage(R.drawable.other_login_weibo);
+            mFriendBtn.setImage(R.mipmap.friend_uncheck);
             mFriendBtn.setText("好友列表");
         }
         setBtnListener();
@@ -104,7 +104,6 @@ public class BottomControlPanel extends LinearLayout implements View.OnClickList
                 break;
             case R.id.btn_send:
                 index = Constant.BTN_FLAG_SEND;
-                mSendBtn.setChecked(index);
                 break;
             case R.id.btn_zone:
                 index = Constant.BTN_FLAG_ZONE;

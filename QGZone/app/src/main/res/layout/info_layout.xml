@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.ricco.utils.TopBar
+    <com.example.ricco.others.TopBar
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                     android:layout_width="60dp"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/head"/>
+                    android:src="@drawable/other_login_weibo"/>
 
                 <TextView
                     android:id="@+id/user_name"

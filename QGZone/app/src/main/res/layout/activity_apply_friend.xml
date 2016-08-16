@@ -5,34 +5,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.example.ricco.utils.TopBar
+    <com.example.ricco.others.TopBar
         android:id="@+id/tb_apply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:title="添加好友"
         custom:leftText="返回"
         />
-    <LinearLayout
+
+    <com.example.ricco.others.SearchBar
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-        <EditText
-            android:id="@+id/et_search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:layout_weight="1" />
-        <Button
-            android:id="@+id/btn_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="搜索"
-            />
-    </LinearLayout>
+        />
 
     <ListView
         android:id="@+id/lv_friend"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>

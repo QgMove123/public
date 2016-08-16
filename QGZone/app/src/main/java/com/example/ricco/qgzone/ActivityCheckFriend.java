@@ -11,13 +11,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.ricco.adapter.ApplyFriendAdapter;
 import com.example.ricco.adapter.CheckedFriendAdapter;
+import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.FriendApplyModel;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.ToastUtil;
-import com.example.ricco.utils.TopBar;
+import com.example.ricco.others.TopBar;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -37,8 +39,8 @@ public class ActivityCheckFriend extends BaseActivity {
     private List<FriendApplyModel> mDatas = null;
     private CheckedFriendAdapter alyAdapter = null;
 
-    private String urlCheck = "http://192.168.3.33:8080/QGzone/MyFriendApply";
-    private String urlDelete = "http://192.168.3.33:8080/QGzone/DeleteFriendApply?friendApplyId=";
+    private String urlCheck = Constant.Friend.friendRequest;
+    private String urlDelete = Constant.Friend.deleteRequest;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -70,7 +72,7 @@ public class ActivityCheckFriend extends BaseActivity {
                     break;
                 case 305:
                     mDatas.get((int) msg.obj).setApplyState(1);
-                    ToastUtil.showShort(getApplicationContext(), "成功添加");
+                    ToastUtil.showShort(getApplicationContext(), "添加成功！");
                     alyAdapter.notifyDataSetChanged();
                     break;
                 case 306:
@@ -112,7 +114,7 @@ public class ActivityCheckFriend extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToastUtil.showShort(ActivityCheckFriend.this, "" + position);
+                ToastUtil.showShort(ActivityCheckFriend.this, "outside:" + position);
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

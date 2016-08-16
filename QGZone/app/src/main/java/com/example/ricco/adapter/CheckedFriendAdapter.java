@@ -2,6 +2,7 @@ package com.example.ricco.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -37,7 +38,7 @@ public class CheckedFriendAdapter extends BaseAdapter {
     private List<FriendApplyModel> mData = null;
     private LayoutInflater mInflater = null;
     private Handler mHandler = null;
-    private String mUrl = "http://192.168.3.33:8080/QGzone/ConductFriendApply?friendApplyId=";
+    private String checkFriendUrl = Constant.Friend.checkFriend;
 
     public CheckedFriendAdapter(Context context, int resource,
                                 Handler handler, List<FriendApplyModel> friendApplyModel) {
@@ -96,20 +97,21 @@ public class CheckedFriendAdapter extends BaseAdapter {
         if (mData.get(position).getApplyState() == 1) {
             viewHolder.btn_apply.setClickable(false);
             viewHolder.btn_apply.setFocusable(false);
-            viewHolder.btn_apply.setText("已添加");
+            viewHolder.btn_apply.setTextColor(mContext.getResources().getColor(R.color.colorBottomUnchecked));
+            viewHolder.btn_apply.setBackgroundColor(Color.TRANSPARENT);
         } else {
-            viewHolder.btn_apply.setText("添加");
+            viewHolder.btn_apply.setTextColor(mContext.getResources().getColor(R.color.colorWhite));
+            viewHolder.btn_apply.setBackground(mContext.getDrawable(R.drawable.button_bule_round));
             viewHolder.btn_apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtil.showShort(mContext, position + "");
                     new AlertDialog.Builder(mContext)
                             .setTitle("添加请求")
                             .setMessage("请问你是否要添加其为好友")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            HttpUtil.Get(mUrl + mData.get(position).getFriendApplyId(),
+                                            HttpUtil.Get(checkFriendUrl + mData.get(position).getFriendApplyId(),
                                                     new HttpUtil.CallBackListener() {
                                                 @Override
                                                 public void OnFinish(String result) {

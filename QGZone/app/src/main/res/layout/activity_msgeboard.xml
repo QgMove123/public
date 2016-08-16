@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:custom="http://schemas.android.com/apk/res-auto">
-    <com.example.ricco.utils.TopBar
+    <com.example.ricco.others.TopBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:title="留言板"
         custom:leftText="返回">
-    </com.example.ricco.utils.TopBar>
+    </com.example.ricco.others.TopBar>
     <TextView
         android:id="@+id/liuyan_to_write"
         android:layout_width="match_parent"

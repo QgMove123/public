@@ -2,8 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="15dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="12dp"
     android:orientation="horizontal" >
-    
+
     <com.example.ricco.utils.CircleImageVIew
         android:id="@+id/civ_item_head"
         android:layout_width="64dp"
@@ -15,6 +18,9 @@
         android:id="@+id/tv_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="21dp"
         android:layout_gravity="center_vertical"
-        android:text="QGZone" />
+        android:text="QGZone"
+        android:textColor="@color/colorFont"
+        android:textSize="15sp" />
 </LinearLayout>

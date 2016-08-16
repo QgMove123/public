@@ -36,7 +36,7 @@ public class ApplyFriendAdapter extends BaseAdapter {
     private int mResource = 0;
     private List<MessageModel> mData = null;
     private LayoutInflater mInflater = null;
-    private String mUrl = "http://192.168.3.33:8080/QGzone/SendFriendApply?addFriendId=";
+    private String mUrl = Constant.Friend.addFriend;
     private Handler mHandler = null;
 
     public ApplyFriendAdapter(Context context, int resource,
@@ -93,6 +93,7 @@ public class ApplyFriendAdapter extends BaseAdapter {
         ImageLoader.getInstance(1).loadImage(Constant.civUrl + mData.get(position).getUserImage(),
                 viewHolder.civ_head, false);
         viewHolder.tv_item_name.setText(mData.get(position).getUserName());
+        viewHolder.btn_apply.setText("添加");
 
         viewHolder.btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override

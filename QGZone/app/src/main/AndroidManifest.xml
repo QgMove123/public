@@ -10,8 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
-        <activity android:name=".FirstActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +20,9 @@
         <activity android:name=".TalkPubActivity" />
         <activity android:name=".LoginSignActivity" />
         <activity android:name=".InfoActivity" />
-        <activity android:name=".EditInfoActivity" />
+        <activity android:name=".ActivityApplyFriend"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ActivityCheckFriend" />
     </application>
 
 </manifest>

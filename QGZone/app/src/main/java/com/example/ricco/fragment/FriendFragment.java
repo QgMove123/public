@@ -1,6 +1,7 @@
 package com.example.ricco.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,12 +10,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -23,9 +32,10 @@ import com.example.ricco.adapter.FriendAdapter;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.entity.MessageModel;
-import com.example.ricco.others.ImageLoader;
+import com.example.ricco.others.SearchBar;
 import com.example.ricco.qgzone.ActivityApplyFriend;
 import com.example.ricco.qgzone.ActivityCheckFriend;
+import com.example.ricco.qgzone.InfoActivity;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.CircleImageVIew;
@@ -33,7 +43,7 @@ import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.ToastUtil;
-import com.example.ricco.utils.TopBar;
+import com.example.ricco.others.TopBar;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -49,17 +59,19 @@ public class FriendFragment extends BaseFragment {
 
     private Activity mActivity = null;
     private TopBar mTopBar = null;
+    private ImageView mRedPoint = null;
+    private SearchBar mSearchBar = null;
+    private LinearLayout mRequest = null;
     private SwipeRefreshLayout mSwipe = null;
     private ListView mListview = null;
-    private CircleImageVIew mCiv = null;
     private FriendAdapter mAdapter = null;
     private View headView = null;
 
     private List<MessageModel> mDatas = null;
 
-    private String urlFriend = "http://192.168.3.33:8080/QGzone/MyFriends";
-    private String urlDelete = "http://192.168.3.33:8080/QGzone/DeleteFriend?friendId=";
-    private String urlHaveFrd = "http://192.168.3.33:8080/QGzone/HaveFriendApply";
+    private String urlFriend = Constant.Friend.friendList;
+    private String urlDelete = Constant.Friend.deleteFriend;
+    private String urlHaveFrd = Constant.Friend.isHaveFriend;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -70,18 +82,12 @@ public class FriendFragment extends BaseFragment {
                     break;
                 case 1:
                     mSwipe.setRefreshing(false);
-                    mAdapter.notifyDataSetChanged();
                     break;
                 case 301:
-                    if (mDatas.size() > 0) {
-                        mDatas.clear();
-                    }
-                    for (MessageModel mm : (List<MessageModel>) msg.obj) {
-                        mDatas.add(mm);
-                    }
+                    mDatas = (List<MessageModel>) msg.obj;
                     mSwipe.setRefreshing(false);
-                    mAdapter.notifyDataSetChanged();
-                    LogUtil.d("FriendFragment", "好友列表");
+                    mAdapter.notifyChanged(mDatas);
+                    LogUtil.i("FriendFragment", "好友列表");
                     break;
                 case 302:
                     ToastUtil.showShort(mActivity, "真可怜，一个好友都没有，赶紧加一个吧~");
@@ -95,10 +101,11 @@ public class FriendFragment extends BaseFragment {
                     ToastUtil.showShort(mActivity, "你删除失败了喔！");
                     break;
                 case 305:
-                    LogUtil.d("FriendFragment", "有新的好友请求");
+                    LogUtil.i("FriendFragment", "有新的好友请求");
+                    mRedPoint.setVisibility(View.VISIBLE);
                     break;
                 case 306:
-                    LogUtil.d("FriendFragment", "没有好友请求");
+                    LogUtil.i("FriendFragment", "没有好友请求");
                     break;
                 default:
                     break;
@@ -123,14 +130,53 @@ public class FriendFragment extends BaseFragment {
         refreshHaveFre();
         getDatas();
 
+        mSearchBar.setHint("昵称搜索");
+        mSearchBar.setSearchBarCallback(new SearchBar.SearchBarCallback() {
+            @Override
+            public void onSearchBar(String result) {
 
+                if (result.matches("[a-z0-9A-Z\\u4e00-\\u9fa5]{1,15}")) {
+                    List<MessageModel> temp = new ArrayList<MessageModel>();
+                    for (MessageModel mm: mDatas) {
+                        boolean flag = false;
+                        for (int i=0; i<mm.getUserName().length(); i++) {
+                            for (int j=0; j<result.length(); j++) {
+                                if (j + i < mm.getUserName().length()
+                                && result.charAt(j) == mm.getUserName().charAt(j+i)) {
+                                    if (j + 1 == result.length()) {
+                                        flag = true;
+                                    }
+                                }
+                            }
+                        }
+                        if (flag) {
+                            temp.add(mm);
+                        }
+                    }
+                    if (temp.size() > 0) {
+                        mDatas = temp;
+                        mAdapter.notifyChanged(mDatas);
+                    } else {
+                        ToastUtil.showShort(mActivity, "检索不到结果！");
+                    }
+                } else {
+                    ToastUtil.showShort(mActivity, "输入格式错误！");
+                }
+            }
+        });
+
+        mRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRedPoint.setVisibility(View.GONE);
+                ActivityCheckFriend.actionStart(mActivity);
+            }
+        });
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    ActivityCheckFriend.actionStart(mActivity);
-                }
-                ToastUtil.showShort(mActivity, "you click " + position);
+
+                InfoActivity.actionStart(mActivity, "friend", mDatas.get(position).getUserId());
             }
         });
 
@@ -199,8 +245,8 @@ public class FriendFragment extends BaseFragment {
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.menu_friend, null);
 
         // 设置按钮的点击事件
-        TextView tvName = (TextView) contentView.findViewById(R.id.tv_menu_name);
-        TextView tvAccount = (TextView) contentView.findViewById(R.id.tv_menu_account);
+        LinearLayout tvName = (LinearLayout) contentView.findViewById(R.id.tv_menu_name);
+        LinearLayout tvAccount = (LinearLayout) contentView.findViewById(R.id.tv_menu_account);
 
         final PopupWindow popupWindow = new PopupWindow(contentView,
                 WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
@@ -235,7 +281,7 @@ public class FriendFragment extends BaseFragment {
 
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
         // 我觉得这里是API的一个bug
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.mipmap.apply_friend_menu));
 
         // 显示 默认显示View的正下方，可以使用重载方法设置偏移量来调整位置
         popupWindow.showAsDropDown(view);
@@ -251,10 +297,11 @@ public class FriendFragment extends BaseFragment {
         mDatas = new ArrayList<MessageModel>();
         mAdapter = new FriendAdapter(mActivity, R.layout.item_friend, mDatas);
 
-
         // 添加头视图
         headView = LayoutInflater.from(mActivity).inflate(R.layout.head_view_friend, null);
-        mCiv = (CircleImageVIew) mActivity.findViewById(R.id.civ_check_friend);
+        mRequest = (LinearLayout) headView.findViewById(R.id.ll_check_friend);
+        mRedPoint = (ImageView) headView.findViewById(R.id.iv_red_point);
+        mSearchBar = (SearchBar) headView.findViewById(R.id.search_bar);
         mListview.addHeaderView(headView);
 
         mListview.setAdapter(mAdapter);

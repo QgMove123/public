@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <com.example.ricco.utils.TopBar
+    <com.example.ricco.others.TopBar
         android:id="@+id/shuos_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:title="写说说"
         custom:leftText="取消"
         custom:rightText="发表">
-    </com.example.ricco.utils.TopBar>
+    </com.example.ricco.others.TopBar>
     <EditText
         android:id="@+id/shuos_edittext"
         android:layout_width="match_parent"

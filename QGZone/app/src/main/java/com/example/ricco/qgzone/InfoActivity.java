@@ -16,7 +16,7 @@ import com.example.ricco.others.ImageLoader;
 import com.example.ricco.utils.CircleImageVIew;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.InfoItem;
-import com.example.ricco.utils.TopBar;
+import com.example.ricco.others.TopBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +57,7 @@ public class InfoActivity extends BaseActivity {
         if(intent != null && intent.getStringExtra("user").equals("friend")) {
             tb.setRightIsVisable(false);
             findViewById(R.id.exit).setVisibility(View.GONE);
+            url = Constant.Account.friendInfo + intent.getIntExtra("id", 0);
         } else {
             tb.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
                 @Override
@@ -66,7 +67,7 @@ public class InfoActivity extends BaseActivity {
 
                 @Override
                 public void RightClick(View view) {
-                    EditInfoActivity.actionStart(InfoActivity.this, message);
+//                    EditInfoActivity.actionStart(InfoActivity.this, message);
                 }
             });
             exit = (Button) findViewById(R.id.exit);

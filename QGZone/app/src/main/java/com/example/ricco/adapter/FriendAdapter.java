@@ -84,4 +84,10 @@ public class FriendAdapter extends BaseAdapter {
         public CircleImageVIew civ_head;
         public TextView tv_name;
     }
+
+    public void notifyChanged(List<MessageModel> messageModels) {
+        mData = null;
+        mData = messageModels;
+        notifyDataSetChanged();
+    }
 }
