@@ -10,8 +10,10 @@ import android.widget.TextView;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.MessageModel;
 import com.example.ricco.others.ImageLoader;
+import com.example.ricco.qgzone.InfoActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.CircleImageVIew;
+import com.example.ricco.utils.ToastUtil;
 
 import java.util.List;
 
@@ -24,12 +26,14 @@ import java.util.List;
 public class FriendAdapter extends BaseAdapter {
 
     private int mResource = 0;
+    private Context mContext = null;
     private List<MessageModel> mData = null;
     private LayoutInflater mInflater = null;
 
     public FriendAdapter(Context context, int resource,
                          List<MessageModel> messageModels) {
         mResource = resource;
+        mContext = context;
         mData = messageModels;
         mInflater = LayoutInflater.from(context);
     }
@@ -73,11 +77,17 @@ public class FriendAdapter extends BaseAdapter {
         return v;
     }
 
-    private void bindView(int position, ViewHolder viewHolder) {
+    private void bindView(final int position, ViewHolder viewHolder) {
 
         ImageLoader.getInstance(1).loadImage(Constant.civUrl + mData.get(position).getUserImage() ,
                 viewHolder.civ_head, false);
         viewHolder.tv_name.setText(mData.get(position).getUserName());
+        viewHolder.civ_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InfoActivity.actionStart(mContext, "friend", mData.get(position).getUserId());
+            }
+        });
     }
 
     public class ViewHolder {

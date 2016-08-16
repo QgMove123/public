@@ -1,32 +1,22 @@
 package com.example.ricco.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.example.ricco.adapter.FriendAdapter;
 import com.example.ricco.constant.Constant;
@@ -38,7 +28,6 @@ import com.example.ricco.qgzone.ActivityCheckFriend;
 import com.example.ricco.qgzone.InfoActivity;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.utils.CircleImageVIew;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.LogUtil;
@@ -176,7 +165,8 @@ public class FriendFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                InfoActivity.actionStart(mActivity, "friend", mDatas.get(position).getUserId());
+                ToastUtil.showShort(mActivity, "You click info" + (position - 1));
+//                InfoActivity.actionStart(mActivity, "friend", mDatas.get(position - 1).getUserId());
             }
         });
 

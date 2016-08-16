@@ -35,7 +35,7 @@
                     android:layout_width="60dp"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/other_login_weibo"/>
+                    android:src="@mipmap/ic_launcher"/>
 
                 <TextView
                     android:id="@+id/user_name"

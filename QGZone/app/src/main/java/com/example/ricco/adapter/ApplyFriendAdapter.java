@@ -77,6 +77,7 @@ public class ApplyFriendAdapter extends BaseAdapter {
             v = inflater.inflate(resource, null);
             viewHolder.civ_head = (CircleImageVIew) v.findViewById(R.id.civ_item_head);
             viewHolder.tv_item_name = (TextView) v.findViewById(R.id.tv_item_name);
+            viewHolder.tv_item_time = (TextView) v.findViewById(R.id.tv_item_time);
             viewHolder.btn_apply = (Button) v.findViewById(R.id.btn_apply);
             v.setTag(viewHolder);
         } else {
@@ -93,6 +94,7 @@ public class ApplyFriendAdapter extends BaseAdapter {
         ImageLoader.getInstance(1).loadImage(Constant.civUrl + mData.get(position).getUserImage(),
                 viewHolder.civ_head, false);
         viewHolder.tv_item_name.setText(mData.get(position).getUserName());
+        viewHolder.tv_item_time.setVisibility(View.GONE);
         viewHolder.btn_apply.setText("添加");
 
         viewHolder.btn_apply.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +134,7 @@ public class ApplyFriendAdapter extends BaseAdapter {
     public class ViewHolder {
         private CircleImageVIew civ_head;
         private TextView tv_item_name;
+        private TextView tv_item_time;
         private Button btn_apply;
     }
 }

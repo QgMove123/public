@@ -78,6 +78,7 @@ public class CheckedFriendAdapter extends BaseAdapter {
             v = inflater.inflate(resource, null);
             viewHolder.civ_head = (CircleImageVIew) v.findViewById(R.id.civ_item_head);
             viewHolder.tv_item_name = (TextView) v.findViewById(R.id.tv_item_name);
+            viewHolder.tv_item_time = (TextView) v.findViewById(R.id.tv_item_time);
             viewHolder.btn_apply = (Button) v.findViewById(R.id.btn_apply);
             v.setTag(viewHolder);
         } else {
@@ -94,6 +95,7 @@ public class CheckedFriendAdapter extends BaseAdapter {
         ImageLoader.getInstance(1).loadImage(Constant.civUrl + mData.get(position).getResponserId() + ".jpg",
                 viewHolder.civ_head, false);
         viewHolder.tv_item_name.setText(mData.get(position).getRequesterName());
+        viewHolder.tv_item_time.setText(mData.get(position).getApplyTime());
         if (mData.get(position).getApplyState() == 1) {
             viewHolder.btn_apply.setClickable(false);
             viewHolder.btn_apply.setFocusable(false);
@@ -141,6 +143,7 @@ public class CheckedFriendAdapter extends BaseAdapter {
     public class ViewHolder {
         private CircleImageVIew civ_head;
         private TextView tv_item_name;
+        private TextView tv_item_time;
         private Button btn_apply;
     }
 }
