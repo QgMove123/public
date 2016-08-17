@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:paddingTop="15dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
 
     <com.example.ricco.utils.CircleImageVIew
         android:id="@+id/civ_item_head"
@@ -10,21 +14,39 @@
         android:layout_centerVertical="true"
         android:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/tv_item_name"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="QGZone"
-        android:textColor="#000000"
-        android:layout_toRightOf="@id/civ_item_head" />
+        android:layout_marginLeft="21dp"
+        android:layout_toRightOf="@id/civ_item_head">
+        <TextView
+            android:id="@+id/tv_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QGZone"
+            android:textColor="@color/colorFont"
+             />
+        <TextView
+            android:id="@+id/tv_item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_item_name"
+            android:layout_marginTop="8dp"
+            android:text="Time"
+            android:textColor="@color/colorBottomUnchecked"
+            />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_apply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:focusable="false"
-        android:text="添加"/>
+        android:background="@drawable/button_bule_round"
+        android:text="同意"
+        android:textColor="@color/colorWhite"
+        android:textSize="13sp"/>
 </RelativeLayout>

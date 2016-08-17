@@ -1,4 +1,4 @@
-package com.example.ricco.fragment;
+package com.example.ricco.others;
 
 /**
  * Created by Ricco on 2016/8/9.
@@ -22,10 +22,10 @@ public class ImageText extends LinearLayout{
     private Context mContext = null;
     private ImageView mImageView = null;
     private TextView mTextView = null;
-    private final static int DEFAULT_IMAGE_WIDTH = 64;
-    private final static int DEFAULT_IMAGE_HEIGHT = 64;
-    private int CHECKED_COLOR = Color.BLACK; //选中黑色
-    private int UNCHECKED_COLOR = Color.GRAY;   //自然灰色
+    private final static int DEFAULT_IMAGE_WIDTH = 72;
+    private final static int DEFAULT_IMAGE_HEIGHT = 72;
+    private int CHECKED_COLOR = getResources().getColor(R.color.colorBottomChecked); // 选中蓝色
+    private int UNCHECKED_COLOR = getResources().getColor(R.color.colorBottomUnchecked);// 灰色
 
     public ImageText(Context context) {
         super(context);
@@ -52,6 +52,7 @@ public class ImageText extends LinearLayout{
 
     public void setText(String str){
         if (str.equals("HIDE")) {
+            mTextView.setText(str);
             mTextView.setVisibility(View.GONE);
         } else if (mTextView != null){
             mTextView.setText(str);
@@ -66,7 +67,7 @@ public class ImageText extends LinearLayout{
         return true;
     }
 
-    private void setImageSize(int w, int h){
+    public void setImageSize(int w, int h){
         if(mImageView != null){
             ViewGroup.LayoutParams params = mImageView.getLayoutParams();
             params.width = w;
@@ -82,23 +83,16 @@ public class ImageText extends LinearLayout{
         int checkDrawableId = -1;
         switch (itemID){
             case Constant.BTN_FLAG_DONGTAI:
-//                checkDrawableId = R.drawable.message_selected;
-                checkDrawableId = R.mipmap.ic_launcher;
+                checkDrawableId = R.mipmap.dongtai_check;
                 break;
             case Constant.BTN_FLAG_ABOUTME:
-//                checkDrawableId = R.drawable.contacts_selected;
-                checkDrawableId = R.mipmap.ic_launcher;
-                break;
-            case Constant.BTN_FLAG_SEND:
-//                checkDrawableId = R.drawable.news_selected;
-                checkDrawableId = R.mipmap.ic_launcher;
+                checkDrawableId = R.mipmap.aboutme_check;
                 break;
             case Constant.BTN_FLAG_ZONE:
-//                checkDrawableId = R.drawable.setting_selected;
-                checkDrawableId = R.mipmap.ic_launcher;
+                checkDrawableId = R.mipmap.zone_check;
                 break;
             case Constant.BTN_FLAG_FRIEND:
-                checkDrawableId = R.mipmap.ic_launcher;
+                checkDrawableId = R.mipmap.friend_check;
                 break;
             default:break;
         }

@@ -13,8 +13,7 @@ import android.widget.EditText;
 
 import com.example.ricco.constant.Constant;
 import com.example.ricco.fragment.BaseFragment;
-import com.example.ricco.fragment.BottomControlPanel;
-import com.example.ricco.utils.ToastUtil;
+import com.example.ricco.others.BottomControlPanel;
 
 public class MainActivity extends BaseActivity implements BottomControlPanel.BottomPanelCallback {
 
@@ -68,7 +67,6 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
             default:
                 break;
         }
-        ToastUtil.showShort(MainActivity.this, tag);
 
         if (tag.equals(Constant.FRAGMENT_FLAG_SEND)) {
             //发表说说和其他控件不同

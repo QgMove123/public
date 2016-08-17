@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.SimpleAdapter;
 
 import com.example.ricco.utils.SipAdapter;
-import com.example.ricco.utils.TopBar;
+import com.example.ricco.others.TopBar;
 
 import java.util.List;
 import java.util.Map;

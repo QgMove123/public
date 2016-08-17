@@ -1,13 +1,9 @@
 package com.example.ricco.utils;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.GpsStatus;
+import android.util.Log;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -17,11 +13,13 @@ import java.net.URL;
  */
 public class HttpUtil {
 
+    public static String sessionid = null;
+
     /**
      * 接口，用于回调
      */
     public interface CallBackListener {
-        public void OnFinish(Object result);
+        public void OnFinish(String result);
         public void OnError(Exception e);
     }
 
@@ -35,10 +33,19 @@ public class HttpUtil {
                     URL httpUrl = new URL(url);
                     conn = (HttpURLConnection)httpUrl.openConnection();
                     conn.setRequestMethod("GET");
+                    if(sessionid != null) {
+                        conn.setRequestProperty("cookie", sessionid);
+                    } else {
+                        String cookieval = conn.getHeaderField("set-cookie");
+                        if(cookieval != null) {
+                            sessionid = cookieval.substring(0, cookieval.indexOf(";"));
+                        }
+                    }
                     conn.setConnectTimeout(8000);
                     conn.setReadTimeout(8000);
                     conn.connect();
-                    LogUtil.e("HttpUtil",conn.getResponseCode()+"");
+                    Log.e("run: connect", conn+"");
+                    Log.e("run: session", sessionid+"");
                     StringBuilder str = new StringBuilder("");
                     br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
                     String line = null;
@@ -60,59 +67,7 @@ public class HttpUtil {
                         conn.disconnect();
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
-    }
-
-    public static void getPic(final String url, final int requestWidth,
-                              final int requestHeight , final CallBackListener listener){
-
-        new Thread() {
-            @Override
-            public void run() {
-                BufferedInputStream bis = null;
-                HttpURLConnection conn = null;
-                try {
-                    URL httpUrl = new URL(url);
-                    conn = (HttpURLConnection) httpUrl.openConnection();
-                    conn.setRequestMethod("GET");
-                    conn.setConnectTimeout(8000);
-                    conn.setReadTimeout(8000);
-                    bis = new BufferedInputStream(conn.getInputStream());
-                    //图片压缩
-//                    BitmapFactory.Options opt = new BitmapFactory.Options();
-//                    opt.inJustDecodeBounds = true;
-//                    BitmapFactory.decodeStream(bis, null, opt);
-//                    int width = opt.outWidth;
-//                    int height = opt.outHeight;
-//                    opt.inSampleSize = 1;
-//                    if(width>requestWidth||height>requestHeight){
-//                        int wRatio = (int) width / requestWidth;
-//                        int hRatio = (int) height / requestHeight;
-//                        opt.inSampleSize = wRatio>hRatio?wRatio:hRatio;
-//                    }
-//                    opt.inJustDecodeBounds = false;
-//                    Bitmap result = BitmapFactory.decodeStream(bis,null,opt);
-                    Bitmap result = BitmapFactory.decodeStream(bis);
-
-                    if(listener != null){
-                        //回调onFinish()方法
-                        listener.OnFinish(result);
-                    }
-                } catch (IOException e ) {
-                    //回调onError()方法
-                    listener.OnError(e);
-                } catch (ArithmeticException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        bis.close();
-                        conn.disconnect();
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -120,7 +75,4 @@ public class HttpUtil {
         }.start();
     }
 
-    public static void Post(final String url, final CallBackListener listener){
-
-    }
 }

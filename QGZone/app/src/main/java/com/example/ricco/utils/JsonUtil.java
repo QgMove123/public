@@ -4,25 +4,28 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
+/**
+ * toJson 用于将object对象转化为json字符串
+ * toObject 其中Class<T>传入实体类类名
+ * toModel 另外一个运用反射获取type，规范new TypeToken<这里放入你的类型>(){}.getType();
+ * @author Wzkang
+ * @// TODO: 2016/8/14
+ */
 public class JsonUtil {
-	//将Object对象转化为json
+	private static Gson gson = new Gson();
+	// 将Object对象转化为json
 	public static String toJson(Object obj){
-		GsonBuilder gb  = new GsonBuilder();
-		Gson gson = gb.create();
 		return gson.toJson(obj);
 	}
-	//将json转化为Object
+	// 将json转化为Object
 	public static <T> T toObject(String json, Class<T> clazz){
-		Gson gson = new Gson();
 		return gson.fromJson(json, clazz);
 	}
-	//返回Map<String, String>型键值对
-	public static Map<String, String> toMap(String json) {
-		Gson gson = new Gson();
-		return gson.fromJson(json,
-				new TypeToken<Map<String, String>>(){}.getType());
+	// 将json转化为泛型类，方便定制
+	public static <T> T toModel(String json, Type type) {
+		return gson.fromJson(json, type);
 	}
-
 }

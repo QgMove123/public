@@ -1,26 +1,53 @@
 package com.example.ricco.constant;
 
-import javax.net.ssl.HostnameVerifier;
-
 /**
- *全局常量
+ * 全局常量
  */
 public final class Constant {
     //主机号
-    public static final String host = "主机名";
+    public static final String host = "192.168.1.111:8080";
 
     //所有与相册相关url内部类
     public static final class Album {
-        public static final String showAlbum = "http://"+host+":8080/QGzone/Albums";
-        public static final String deleteAlbum = "http://"+host+":8080/QGzone/DeleteAlbum";
-        public static final String clearAlbum = "http://"+host+":8080/QGzone/EmptyAlbum";
-        public static final String renameAlbum = "http://"+host+":8080/QGzone/RechristenAlbum";
-        public static final String showPhoto = "http://"+host+":8080/QGzone/CheckAlbum";
-        public static final String inspectAlbum = "http://"+host+":8080/QGzone/InspectAlbum";
-        public static final String alterAlbumInfo = "http://"+host+":8080/QGzone/AlterAlbumInformation";
-        public static final String uploadPhoto = "http://"+host+":8080/QGzone/UploadPhoto";
-        public static final String deletePhoto = "http://"+host+":8080/QGzone/DeletePhoto";
+        public static final String showAlbum = "http://" + host + "/QGzone/Albums";
+        public static final String deleteAlbum = "http://" + host + "/QGzone/DeleteAlbum";
+        public static final String clearAlbum = "http://" + host + "/QGzone/EmptyAlbum";
+        public static final String renameAlbum = "http://" + host + "/QGzone/RechristenAlbum";
+        public static final String showPhoto = "http://" + host + "/QGzone/CheckAlbum";
+        public static final String inspectAlbum = "http://" + host + "/QGzone/InspectAlbum";
+        public static final String alterAlbumInfo = "http://" + host + "/QGzone/AlterAlbumInformation";
+        public static final String uploadPhoto = "http://" + host + "/QGzone/UploadPhoto";
+        public static final String deletePhoto = "http://" + host + "/QGzone/DeletePhoto";
     }
+
+    //所有与用户相关url内部类
+    public static final class Account {
+        public static final String userSignUp = "http://" + host + "/QGzone/UserSignUp";
+        public static final String userSignIn = "http://" + host + "/QGzone/UserSignIn";
+        public static final String userCheckSecret = "http://" + host + "/QGzone/UserCheckSecret";
+        public static final String userForgetPassword = "http://" + host + "/QGzone/UserForgetPassword";
+        public static final String MessageGet = "http://" + host + "/QGzone/MessageGet";
+        public static final String RelationGet = "http://" + host + "/QGzone/RelationsGet";
+        public static final String RelationDelete = "http://" + host + "/QGzone/RelationsDelete";
+        public static final String Picture = "http://" + host + "/QGzone/jpg/";
+        public static final String friendInfo = "http://" + host + "/QGzone/MessageSearch?userId=";
+    }
+
+    // 所有与好友相关的的url
+    public static final class Friend {
+        public static final String friendList = "http://" + host + "/QGzone/MyFriends";
+        public static final String deleteFriend = "http://" + host + "/QGzone/DeleteFriend?friendId=";
+        public static final String isHaveFriend = "http://" + host + "/QGzone/HaveFriendApply";
+        public static final String checkFriend = "http://" + host + "/QGzone/ConductFriendApply?friendApplyId=";
+        public static final String addFriend = "http://" + host + "/QGzone/SendFriendApply?addFriendId=";
+        public static final String searchName = "http://" + host + "/QGzone/SearchByUserName?searchName=";
+        public static final String searchAccount = "http://" + host + "/QGzone/SearchByUserId?searchId=";
+        public static final String friendRequest = "http://" + host + "/QGzone/MyFriendApply";
+        public static final String deleteRequest = "http://" + host + "/QGzone/DeleteFriendApply?friendApplyId=";
+    }
+
+    // 获取的头像的url
+    public static final String civUrl = "http://" + host + "/QGzone/jpg/";
 
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;
