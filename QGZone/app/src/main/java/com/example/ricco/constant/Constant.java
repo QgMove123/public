@@ -8,7 +8,7 @@ public final class Constant {
     public static final String host = "192.168.1.111:8080";
 
     // 好友ID
-    public static String FRIED_ID = "";
+    public static int FRIED_ID = 0;
 
     //所有与相册相关url内部类
     public static final class Album {
