@@ -7,6 +7,9 @@ public final class Constant {
     //主机号
     public static final String host = "192.168.1.111:8080";
 
+    // 好友ID
+    public static String FRIED_ID = "";
+
     //所有与相册相关url内部类
     public static final class Album {
         public static final String showAlbum = "http://" + host + "/QGzone/Albums";
