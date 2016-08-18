@@ -15,13 +15,13 @@ public class Item_Adapter_View {
     public TextView nameTextView;
     public TextView timeTextView;
     public TextView wordTextView;
-    public GridView picGridView;
+    public TalkPicGridView picGridView;
     public ImageButton zanImageBtn;
     public ImageButton shanchuImageBtn;
     public ImageButton pinglunImageBtn;
     public Button huifuBtn;
     public Button shanchuBtn;
-    public ListView listView;
+    public TalkRespondListView listView;
     public EditText editText;
     public ImageButton huifuImageButton;
 }

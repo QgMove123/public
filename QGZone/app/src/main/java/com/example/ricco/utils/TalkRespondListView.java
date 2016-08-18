@@ -3,6 +3,7 @@ package com.example.ricco.utils;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
@@ -16,6 +17,7 @@ public class TalkRespondListView extends ListView {
                 MeasureSpec.AT_MOST);
                 super.onMeasure(widthMeasureSpec,expandSpec);
     }
+
 
     public TalkRespondListView(Context context) {
         super(context);

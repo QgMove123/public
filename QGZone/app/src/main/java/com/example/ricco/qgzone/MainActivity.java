@@ -6,11 +6,13 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.example.ricco.adapter.Respond_Adapter;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.fragment.BaseFragment;
 import com.example.ricco.others.BottomControlPanel;
@@ -185,6 +187,7 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
             View v = getCurrentFocus();
             if (isShouldHideInput(v, ev)) {
                 if(hideInputMethod(this, v)) {
+
                     //return true; //隐藏键盘时，其他控件不响应点击事件==》注释则不拦截点击事件
                 }
             }
