@@ -117,9 +117,9 @@ public class AlbumAdapter extends BaseAdapter {
         final int albumState = albumList.get(position).getAlbumState();
         viewHolder.item_tv.setText(albumList.get(position).getAlbumName());
         if(albumState == 0){//公开
-            viewHolder.item_img.setImageResource(R.mipmap.ic_launcher);
+            viewHolder.item_img.setImageResource(R.mipmap.album_public);
         }else if(albumState == 1){//私密
-            viewHolder.item_img.setImageResource(R.mipmap.ic_launcher);
+            viewHolder.item_img.setImageResource(R.mipmap.album_privacy);
         }
 
 

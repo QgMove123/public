@@ -18,8 +18,10 @@
         android:id="@+id/view_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/viewphoto_delete"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:layout_marginBottom="10dp" />
 
 </RelativeLayout>

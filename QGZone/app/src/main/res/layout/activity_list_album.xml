@@ -4,7 +4,8 @@
     android:id="@+id/parent"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <com.example.ricco.others.TopBar
         android:id="@+id/topbar"
@@ -21,11 +22,14 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:numColumns="2"
-        android:horizontalSpacing="3dp"
-        android:verticalSpacing="3dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
         android:stretchMode="columnWidth"
         android:cacheColorHint="@android:color/transparent"
-        android:listSelector="@android:color/transparent"/>
+        android:listSelector="@android:color/transparent"
+        android:background="@color/lightGrey"
+        android:padding="8dp"
+        />
 
 
 
