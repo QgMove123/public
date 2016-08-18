@@ -137,28 +137,28 @@ public class Item_Adapter extends BaseAdapter{
             convertView =inflater.inflate(R.layout.dongtai_say_item, null);//引入布局
             /*ViewHolder与控件的绑定*/
             holder.wordTextView =(TextView)convertView.findViewById(R.id.say_textview);//说说或留言板内容
+
             holder.nameTextView =(TextView)convertView.findViewById(R.id.dongtai_name_text); //姓名文本框
+
             holder.timeTextView = (TextView) convertView.findViewById(R.id.dongtai_time_text); //时间文本框
+
             holder.listView =(TalkRespondListView) convertView.findViewById(R.id.respond_listview);//评论列表
             //以下两个需要在留言板开始时隐藏(暂不实现)
             holder.editText = (EditText) convertView.findViewById(R.id.respond_EditText);//用于回复留言或说说的编辑框
-//            holder.editText.setTag(position+"");
 
             holder.huifuImageButton = (ImageButton)convertView.findViewById(R.id.respond_ImageButton);//回复发送按钮
-//            holder.huifuImageButton.setTag(position+"");
+
             holder.picGridView= (TalkPicGridView) convertView.findViewById(R.id.dongtai_shuos_gridview);//图片列表(说说专用)
-            //下面是三个小图标的按钮（说说专用）
+
             holder.pinglunImageBtn = (ImageButton) convertView.findViewById(R.id.dongtai_pinglun);//评论按钮（首页）
-//            holder.pinglunImageBtn.setTag(position+"");
+
             holder.shanchuImageBtn = (ImageButton) convertView.findViewById(R.id.dongtai_shangchu);//删除按钮
-//            holder.shanchuImageBtn.setTag(position+"");
+
             holder.zanImageBtn = (ImageButton)convertView. findViewById(R.id.dongtai_zan);//点赞按钮(首页)
-//            holder.zanImageBtn.setTag(position+"");
             //下面是两个留言的回复和删除按钮（留言板专用）
             holder.huifuBtn = (Button)convertView.findViewById(R.id.liuyan_huifu_btn);//留言的回复按钮
-//            holder.huifuBtn.setTag(position+"");
+
             holder.shanchuBtn = (Button)convertView.findViewById(R.id.liuyan_shanchu_btn);//留言的删除按钮
-//            holder.shanchuBtn.setTag(position+"");
 
             convertView.setTag(holder);
         }else {
@@ -180,6 +180,10 @@ public class Item_Adapter extends BaseAdapter{
                 holder.shanchuImageBtn.setVisibility(View.VISIBLE);
             }
         }
+
+
+
+
         holder.huifuImageButton.setTag(position+"");
         holder.editText.setTag(position+"");
         holder.pinglunImageBtn.setTag(position+"");
@@ -291,6 +295,163 @@ public class Item_Adapter extends BaseAdapter{
                     view.getContext().startActivity(intent);
                 }
             });
+
+               /*添加功能按钮的监听*/
+
+
+       /* 1.评论按钮 */
+            holder.pinglunImageBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final int index = Integer.parseInt(v.getTag().toString());
+                    holder = holders.get(index);
+                    if(twitterItems != null)twitterItem = twitterItems.get(position);
+                    else if(noteItems != null)noteItem = noteItems.get(position);
+                    holder.editText.requestFocus();
+                    showKeyBroad();
+                }
+            });
+            holder.editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {//防止编辑框无法获得焦点
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(!holder.editText.hasFocus()){
+                        View contentView = LayoutInflater.from(context).inflate(R.layout.popupwindow_layout, null);
+                        mPopupWindow = new PopupWindow(contentView,
+                                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
+                        mPopupWindow.setContentView(contentView);
+                        mPopupWindow.showAtLocation(contentView,Gravity.CENTER,0,65);
+                        mPopupWindow.dismiss();
+                    }
+                }
+            });
+            holder.huifuImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final int index = Integer.parseInt(v.getTag().toString());
+                    holder = holders.get(index);
+                    if (twitterItems != null) twitterItem = twitterItems.get(position);
+                    else if (noteItems != null) noteItem = noteItems.get(position);
+                    HttpUtil.Get("http://" + IP + ":8080/QGzone/TwitterCommentAdd?twitterId=" + twitterItem.getTwitterId()
+                            + "&targetId=" + twitterItem.getTalkId()
+                            + "&comment=" + holder.editText.getText().toString(), new HttpUtil.CallBackListener() {
+                        @Override
+                        public void OnFinish(String result) {
+                            final JsonModel<TwitterCommentModel,TwitterCommentModel> jsonModel = JsonUtil.toModel((String) result,new TypeToken<JsonModel<TwitterCommentModel,TwitterCommentModel>>(){}.getType());
+                            twitterCommentModel = new TwitterCommentModel();
+                            twitterCommentModel.setTime(jsonModel.getJsonObject().getTime());
+                            twitterCommentModel.setTargetName(twitterItem.getTalkerName());
+                            twitterCommentModel.setCommenterName("123");//这里需要名字
+                            twitterCommentModel.setComment(holder.editText.getText().toString());
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    twitterItem.getComment().add(twitterCommentModel);
+                                    ((Respond_Adapter)holder.listView.getAdapter()).notifyDataSetChanged();
+                                    holder.editText.setText("");
+                                }
+                            });
+                            Log.e("Tag",result.toString());
+                        }
+
+                        @Override
+                        public void OnError(Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            });
+
+
+
+
+
+        /* 2.删除按钮 */
+            holder.shanchuImageBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.shanchuBtn.setEnabled(false);
+                    final int index = Integer.parseInt(v.getTag().toString());
+                    holder = holders.get(index);
+                    if (twitterItems != null) twitterItem = twitterItems.get(position);
+                    final Dialog alertDialog = new AlertDialog.Builder(context).
+                            //设置标题
+                                    setTitle("提示").
+                            //设置内容
+                                    setMessage("你确定要删除吗?").
+                            //设置按钮事件
+                                    setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String url = "http://" + IP + ":8080/QGzone/TwitterDelete?twitterId=" + twitterItem.getTwitterId();
+                                    Log.e("URL", url);
+                                    HttpUtil.Get(url, new HttpUtil.CallBackListener() {
+                                        @Override
+                                        public void OnFinish(String result) {
+                                            handler.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ShuoshuoListview.itemList.remove(position);
+                                                    ShuoshuoListview.itemAdapter.notifyDataSetChanged();
+                                                    handler.sendEmptyMessage(3);
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void OnError(Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    });
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                }
+                            }).create();
+                    alertDialog.show();
+                    holder.shanchuBtn.setEnabled(true);
+                }
+            });
+
+
+
+
+
+
+
+        /*3. 点赞按钮 */
+            holder.zanImageBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {//点赞按钮
+                    Log.e("Click", "OK");
+                    final int index = Integer.parseInt(v.getTag().toString());
+                    holder = holders.get(index);
+                    v.setEnabled(false);
+                    if (twitterItems != null) twitterItem = twitterItems.get(position);
+                    String url = "http://"+IP+":8080/QGzone/TwitterSupport?twitterId="+twitterItem.getTwitterId();
+                    HttpUtil.Get(url, new HttpUtil.CallBackListener(){
+                        @Override
+                        public void OnFinish(String result) {
+                            //返回状态
+                            Log.e("Tag",result+"");
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(twitterItem.getSupporterId().contains(3))twitterItem.getSupporterId().remove(Integer.valueOf(3));
+                                    else twitterItem.getSupporterId().add(Integer.valueOf(3));//这里需要id
+                                    ShuoshuoListview.itemAdapter.notifyDataSetChanged();
+                                    v.setEnabled(true);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void OnError(Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            });
         }else if(noteItems != null){
             noteItem = noteItems.get(position);
             holder.wordTextView.setText(noteItem.getNote());
@@ -303,162 +464,6 @@ public class Item_Adapter extends BaseAdapter{
 
 
 
-        /*添加按钮的监听*/
-
-
-       /* 1.评论按钮 */
-        holder.pinglunImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int index = Integer.parseInt(v.getTag().toString());
-                holder = holders.get(index);
-                if(twitterItems != null)twitterItem = twitterItems.get(position);
-                else if(noteItems != null)noteItem = noteItems.get(position);
-                holder.editText.requestFocus();
-                showKeyBroad();
-            }
-        });
-        holder.editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {//防止编辑框无法获得焦点
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!holder.editText.hasFocus()){
-                    View contentView = LayoutInflater.from(context).inflate(R.layout.popupwindow_layout, null);
-                    mPopupWindow = new PopupWindow(contentView,
-                            WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
-                    mPopupWindow.setContentView(contentView);
-                    mPopupWindow.showAtLocation(contentView,Gravity.CENTER,0,65);
-                    mPopupWindow.dismiss();
-                }
-            }
-        });
-        holder.huifuImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int index = Integer.parseInt(v.getTag().toString());
-                holder = holders.get(index);
-                if (twitterItems != null) twitterItem = twitterItems.get(position);
-                else if (noteItems != null) noteItem = noteItems.get(position);
-                HttpUtil.Get("http://" + IP + ":8080/QGzone/TwitterCommentAdd?twitterId=" + twitterItem.getTwitterId()
-                        + "&targetId=" + twitterItem.getTalkId()
-                        + "&comment=" + holder.editText.getText().toString(), new HttpUtil.CallBackListener() {
-                    @Override
-                    public void OnFinish(String result) {
-                        final JsonModel<TwitterCommentModel,TwitterCommentModel> jsonModel = JsonUtil.toModel((String) result,new TypeToken<JsonModel<TwitterCommentModel,TwitterCommentModel>>(){}.getType());
-                        twitterCommentModel = new TwitterCommentModel();
-                        twitterCommentModel.setTime(jsonModel.getJsonObject().getTime());
-                        twitterCommentModel.setTargetName(twitterItem.getTalkerName());
-                        twitterCommentModel.setCommenterName("123");//这里需要名字
-                        twitterCommentModel.setComment(holder.editText.getText().toString());
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                twitterItem.getComment().add(twitterCommentModel);
-                                ((Respond_Adapter)holder.listView.getAdapter()).notifyDataSetChanged();
-                                holder.editText.setText("");
-                            }
-                        });
-                        Log.e("Tag",result.toString());
-                    }
-
-                    @Override
-                    public void OnError(Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-        });
-
-
-
-
-
-        /* 2.删除按钮 */
-        holder.shanchuImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.shanchuBtn.setEnabled(false);
-                final int index = Integer.parseInt(v.getTag().toString());
-                holder = holders.get(index);
-                if (twitterItems != null) twitterItem = twitterItems.get(position);
-                final Dialog alertDialog = new AlertDialog.Builder(context).
-                        //设置标题
-                                setTitle("提示").
-                        //设置内容
-                                setMessage("你确定要删除吗?").
-                        //设置按钮事件
-                                setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String url = "http://" + IP + ":8080/QGzone/TwitterDelete?twitterId=" + twitterItem.getTwitterId();
-                                Log.e("URL", url);
-                                HttpUtil.Get(url, new HttpUtil.CallBackListener() {
-                                    @Override
-                                    public void OnFinish(String result) {
-                                        handler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ShuoshuoListview.itemList.remove(position);
-                                                ShuoshuoListview.itemAdapter.notifyDataSetChanged();
-                                                handler.sendEmptyMessage(3);
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void OnError(Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                });
-                            }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                            }
-                        }).create();
-                alertDialog.show();
-                holder.shanchuBtn.setEnabled(true);
-            }
-        });
-
-
-
-
-
-
-
-        /* 点赞按钮 */
-        holder.zanImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {//点赞按钮
-                Log.e("Click", "OK");
-                final int index = Integer.parseInt(v.getTag().toString());
-                holder = holders.get(index);
-                v.setEnabled(false);
-                if (twitterItems != null) twitterItem = twitterItems.get(position);
-                String url = "http://"+IP+":8080/QGzone/TwitterSupport?twitterId="+twitterItem.getTwitterId();
-                HttpUtil.Get(url, new HttpUtil.CallBackListener(){
-                    @Override
-                    public void OnFinish(String result) {
-                        //返回状态
-                        Log.e("Tag",result+"");
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(twitterItem.getSupporterId().contains(3))twitterItem.getSupporterId().remove(Integer.valueOf(3));
-                                else twitterItem.getSupporterId().add(Integer.valueOf(3));//这里需要id
-                                ShuoshuoListview.itemAdapter.notifyDataSetChanged();
-                                v.setEnabled(true);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void OnError(Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-        });
 
         return convertView;
     }
