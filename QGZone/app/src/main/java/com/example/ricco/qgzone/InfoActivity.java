@@ -52,6 +52,7 @@ public class InfoActivity extends BaseActivity {
         tb = (TopBar) findViewById(R.id.topBar);
         headPic = (CircleImageVIew) findViewById(R.id.user_pic);
         name = (TextView) findViewById(R.id.user_name);
+        exit = (Button) findViewById(R.id.exit);
         initInfo();
         Intent intent = getIntent();
         if(intent != null && intent.getStringExtra("user").equals("friend")) {
@@ -59,6 +60,16 @@ public class InfoActivity extends BaseActivity {
             findViewById(R.id.exit).setVisibility(View.GONE);
             url = Constant.Account.friendInfo + intent.getIntExtra("id", 0);
         } else {
+
+            exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HttpUtil.Get(Constant.Account.userSignOut, null);
+                    Intent intent1 = new Intent(InfoActivity.this, FirstActivity.class);
+                    startActivity(intent1);
+                }
+            });
+
             tb.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
                 @Override
                 public void LeftClick(View view) {
@@ -70,7 +81,6 @@ public class InfoActivity extends BaseActivity {
 //                    EditInfoActivity.actionStart(InfoActivity.this, message);
                 }
             });
-            exit = (Button) findViewById(R.id.exit);
             url = Constant.Account.MessageGet;
         }
 
@@ -145,7 +155,7 @@ public class InfoActivity extends BaseActivity {
                         }
                     }
                     try {
-                        ImageLoader.getInstance(1).loadImage(Constant.Account.Picture+map.getString("userImage"), headPic, false);
+                        ImageLoader.getInstance(1).loadImage(Constant.civUrl+map.getString("userImage"), headPic, false);
                         name.setText(map.getString("userName"));
                     } catch (JSONException e) {
                         e.printStackTrace();

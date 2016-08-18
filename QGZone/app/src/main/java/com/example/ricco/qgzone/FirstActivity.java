@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.ricco.utils.HttpUtil;
+
 /**
  * 系统进入界面，可进入登录注册
  * Created by chenyi on 2016/8/11.
@@ -21,6 +23,7 @@ public class FirstActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_layout);
 
+        HttpUtil.sessionid = null;
         login = (Button) findViewById(R.id.login);
         sign = (Button) findViewById(R.id.sign);
 

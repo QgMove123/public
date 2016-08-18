@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import com.example.ricco.qgzone.R;
 
 /**
+ * 修改个人信息
  * Created by chenyi on 2016/8/15.
  */
 public class EditProblemItem extends LinearLayout {
@@ -52,8 +53,8 @@ public class EditProblemItem extends LinearLayout {
             }
         });
 
-        oldAnswer = (EditText) findViewById(R.id.new_pass);
-        oldAnswer = (EditText) findViewById(R.id.sure_pass);
+        oldAnswer = (EditText) findViewById(R.id.old_answer);
+        newAnswer = (EditText) findViewById(R.id.new_answer);
     }
 
 

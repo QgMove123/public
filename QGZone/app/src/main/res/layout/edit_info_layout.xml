@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/edit_info_activity">
 
     <com.example.ricco.others.TopBar
         android:id="@+id/topBar"
@@ -20,19 +21,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:background="#c8edfe">
 
                 <com.example.ricco.utils.CircleImageVIew
                     android:id="@+id/user_pic"
-                    android:layout_height="60dp"
-                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_width="70dp"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/head"/>
@@ -41,13 +41,22 @@
                     android:id="@+id/nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/app_name"
+                    android:textSize="20dp"
                     android:layout_below="@+id/user_pic"
                     android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:drawableRight="@drawable/edit"/>
 
             </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
 
             <com.example.ricco.utils.InfoItem
                 android:id="@+id/account"
@@ -98,6 +107,8 @@
                 android:gravity="center_vertical"
                 android:drawableRight="@drawable/edit"
                 android:paddingRight="10dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
             </ScrollView>

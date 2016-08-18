@@ -52,8 +52,7 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
      */
     @Override
     public void onSignBtnClick() {
-        if (loginF == null)
-        {
+        if (loginF == null) {
             loginF = new LoginFragment();
         }
         Bundle bundle = new Bundle();
@@ -71,9 +70,9 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
      */
     @Override
     public void onLoginBtnClick() {
-//        Intent intent = new Intent(LoginSignActivity.this, MainActivity.class);
-//        startActivity(intent);
-        InfoActivity.actionStart(LoginSignActivity.this, "me", 0);
+        Intent intent = new Intent(LoginSignActivity.this, MainActivity.class);
+        startActivity(intent);
+//        InfoActivity.actionStart(LoginSignActivity.this, "me", 0);
     }
 
     /**

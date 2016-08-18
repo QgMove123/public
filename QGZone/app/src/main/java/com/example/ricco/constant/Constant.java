@@ -1,7 +1,7 @@
 package com.example.ricco.constant;
 
 /**
- * 全局常量
+ *全局常量
  */
 public final class Constant {
     //主机号
@@ -51,7 +51,7 @@ public final class Constant {
     }
 
     // 获取的头像的url
-    public static final String civUrl = "http://" + host + "/QGzone/jpg/";
+    public static final String civUrl = "http://"+ host + ":8080/QGzone/jpg/";
 
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;
