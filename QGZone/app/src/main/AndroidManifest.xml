@@ -15,23 +15,17 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AlbumActivity"
             android:launchMode="singleTask">
         </activity>
-
         <activity android:name=".NewAlbumActivity" />
         <activity android:name=".PhotoActivity" />
         <activity android:name=".UpLoadPhotoActivity" />
         <activity
             android:name=".ViewPhotoActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
-
         <activity android:name=".ActivityCheckFriend" />
         <activity android:name=".MsgBoardActivity" />
         <activity
@@ -41,6 +35,11 @@
             android:name=".WriteMsgBoardActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ImageDetailActivity" />
+        <activity android:name=".ActivityApplyFriend" />
+        <activity android:name=".FirstActivity" />
+        <activity android:name=".InfoActivity" />
+        <activity android:name=".LoginSignActivity" />
+        <activity android:name=".PerTalkActivity" />
     </application>
 
 </manifest>
