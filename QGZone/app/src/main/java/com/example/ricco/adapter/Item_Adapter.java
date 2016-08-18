@@ -380,7 +380,6 @@ public class Item_Adapter extends BaseAdapter{
                 final int index = Integer.parseInt(v.getTag().toString());
                 holder = holders.get(index);
                 if (twitterItems != null) twitterItem = twitterItems.get(position);
-                else if (noteItems != null) noteItem = noteItems.get(position);
                 final Dialog alertDialog = new AlertDialog.Builder(context).
                         //设置标题
                                 setTitle("提示").

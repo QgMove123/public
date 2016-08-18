@@ -25,9 +25,9 @@ public class MsgBoardActivity extends BaseActivity{
         });
     }
 
-    public void actionStart(Context context, int friendId) {
+    public static void actionStart(Context context, int friendId) {
         Intent intent = new Intent(context, MsgBoardActivity.class);
         intent.putExtra("friendId", friendId);
-        startActivity(intent);
+        context.startActivity(intent);
     }
 }
