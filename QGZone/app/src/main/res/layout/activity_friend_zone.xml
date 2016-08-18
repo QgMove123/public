@@ -4,25 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
     <com.example.ricco.others.TopBar
-        android:id="@+id/tb_apply"
+        android:id="@+id/tb_zone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        custom:title="添加好友"
-        custom:leftText="\＜ 返回"
-        />
+        custom:title="好友主页"
+        custom:leftText="返回"
+        custom:rightText="资料卡" />
 
-    <com.example.ricco.others.SearchBar
-        android:id="@+id/search_bar"
+    <com.example.ricco.others.ShuoshuoListview
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/lv_friend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+    </com.example.ricco.others.ShuoshuoListview>
 
 </LinearLayout>

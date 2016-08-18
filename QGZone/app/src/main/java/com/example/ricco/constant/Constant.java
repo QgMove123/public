@@ -1,17 +1,22 @@
 package com.example.ricco.constant;
 
 /**
- *全局常量
+ * 全局常量
  */
 public final class Constant {
+
     //主机号
     public static final String host = "192.168.3.49:8080";
+
     //自己的ID，用于访问自己页面
-    public static final int HOST_ID = 1;
+    public static final int HOST_ID = 10000;
+
     //好友ID
     public static int FRIEND_ID = 0;
+
     //密码格式
     public static final String regex = "[a-z0-9A-Z_]{5,15}";
+
     //所有与相册相关url内部类
     public static final class Album {
         public static final String createAlbum = "http://"+host+"/QGzone/CreateAlbum";
@@ -57,6 +62,11 @@ public final class Constant {
         public static final String searchAccount = "http://" + host + "/QGzone/SearchByUserId?searchId=";
         public static final String friendRequest = "http://" + host + "/QGzone/MyFriendApply";
         public static final String deleteRequest = "http://" + host + "/QGzone/DeleteFriendApply?friendApplyId=";
+    }
+
+    // 所有与说说相关的url
+    public static final class TalkPub {
+        public static final String individuallity = "http://" + host + "/QGzone/TwitterOfOthers?userId=";
     }
 
     // 获取的头像的url

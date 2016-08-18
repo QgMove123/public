@@ -23,8 +23,9 @@ import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.entity.MessageModel;
 import com.example.ricco.others.SearchBar;
-import com.example.ricco.qgzone.ActivityApplyFriend;
-import com.example.ricco.qgzone.ActivityCheckFriend;
+import com.example.ricco.qgzone.ApplyFriendActivity;
+import com.example.ricco.qgzone.CheckFriendActivity;
+import com.example.ricco.qgzone.FriendTalkPubActivity;
 import com.example.ricco.qgzone.InfoActivity;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
@@ -158,15 +159,15 @@ public class FriendFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 mRedPoint.setVisibility(View.GONE);
-                ActivityCheckFriend.actionStart(mActivity);
+                CheckFriendActivity.actionStart(mActivity);
             }
         });
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                ToastUtil.showShort(mActivity, "You click info" + (position - 1));
-//                InfoActivity.actionStart(mActivity, "friend", mDatas.get(position - 1).getUserId());
+                FriendTalkPubActivity
+                        .actionStart(mActivity, mDatas.get(position - 1).getUserId(), true);
             }
         });
 
@@ -215,6 +216,8 @@ public class FriendFragment extends BaseFragment {
                 mHandler.sendEmptyMessageDelayed(1, 1000);
             }
         });
+
+        mTopBar.setLeftIsVisable(false);
         mTopBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
             @Override
             public void LeftClick(View view) {
@@ -244,7 +247,7 @@ public class FriendFragment extends BaseFragment {
         tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityApplyFriend.actionStart(mActivity, true);
+                ApplyFriendActivity.actionStart(mActivity, true);
                 popupWindow.dismiss();
             }
         });
@@ -253,7 +256,7 @@ public class FriendFragment extends BaseFragment {
         tvAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityApplyFriend.actionStart(mActivity, false);
+                ApplyFriendActivity.actionStart(mActivity, false);
                 popupWindow.dismiss();
             }
         });
@@ -294,7 +297,6 @@ public class FriendFragment extends BaseFragment {
         mListview.addHeaderView(headView);
 
         mListview.setAdapter(mAdapter);
-        mTopBar.setLeftIsVisable(false);
     }
 
     // 获取数据

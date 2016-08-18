@@ -21,7 +21,8 @@ import com.example.ricco.entity.TwitterModel;
 import com.example.ricco.others.ImageLoader;
 import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.HttpUtil;
-
+import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.ToastUtil;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,7 +45,6 @@ public class TalkPubActivity extends BaseActivity {
     private ArrayList<HashMap<String, Object>> mPicGridViewList = new ArrayList<HashMap<String, Object>>();
     private GridView mPicGridView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         handler = new Handler();
@@ -56,10 +56,6 @@ public class TalkPubActivity extends BaseActivity {
         ImageButton addPic = (ImageButton) findViewById(R.id.shuos_addpic_btn);
         bitmaps = new ArrayList<Bitmap>();
 
-
-
-
-
         /*打开图片选择器*/
         addPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,10 +65,6 @@ public class TalkPubActivity extends BaseActivity {
                 startActivity(mIntent);
             }
         });
-
-
-
-
 
         /*获取图片数据并保存*/
         if((mIntent=getIntent())!=null){
@@ -85,14 +77,6 @@ public class TalkPubActivity extends BaseActivity {
                 }
             }
         }
-
-
-
-
-
-
-
-
 
         /*加载图片到GridView*/
 
@@ -120,11 +104,6 @@ public class TalkPubActivity extends BaseActivity {
             }
         });
         mPicGridView.setAdapter(adapter);
-
-
-
-
-
 
         /*设置标题栏的监听事件*/
         TopBar shousTitleBar = (TopBar) findViewById(R.id.shuos_title_bar);
@@ -167,10 +146,6 @@ public class TalkPubActivity extends BaseActivity {
         });
 
     }
-
-
-
-
 
     /*检查当前网络是否可用 */
     public boolean isNetworkAvailable(Activity activity) {

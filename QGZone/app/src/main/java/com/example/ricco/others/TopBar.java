@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.ricco.qgzone.R;
 
 /**
- * TopBar
+ * 导航栏
  */
 public class TopBar extends RelativeLayout{
     //1.声明导航栏中包含以下子控件
@@ -132,5 +132,4 @@ public class TopBar extends RelativeLayout{
             rightButton.setVisibility(INVISIBLE);
         }
     }
-
 }

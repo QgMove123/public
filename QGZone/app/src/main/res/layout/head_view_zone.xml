@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:background="@color/colorTopBarBackground" >
+        <com.example.ricco.utils.CircleImageVIew
+            android:id="@+id/civ_zone"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+        <LinearLayout
+            android:id="@+id/ll_talk_pub"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/talk_pub"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="说说"
+                android:textColor="@color/colorFont"
+                android:textSize="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_album"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/album"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相册"
+                android:textColor="@color/colorFont"
+                android:textSize="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_msg_board"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/msg_board"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="留言板"
+                android:textColor="@color/colorFont"
+                android:textSize="10dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
