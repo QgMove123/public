@@ -1,4 +1,4 @@
-package com.example.ricco.utils;
+package com.example.ricco.others;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,7 +13,9 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-
+/**
+ * CircleImageVIew
+ */
 public class CircleImageVIew extends ImageView {
     //基本的三个构造函数
     public CircleImageVIew(Context context) {

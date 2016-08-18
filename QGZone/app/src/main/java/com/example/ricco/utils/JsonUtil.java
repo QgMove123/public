@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 public class JsonUtil {
@@ -17,6 +18,11 @@ public class JsonUtil {
 	public static <T> T toObject(String json, Class<T> clazz){
 		Gson gson = new Gson();
 		return gson.fromJson(json, clazz);
+	}
+	//将json转化为Model
+	public static <T> T toModel(String json, Type type){
+		Gson gson = new Gson();
+		return gson.fromJson(json, type);
 	}
 	//返回Map<String, String>型键值对
 	public static Map<String, String> toMap(String json) {

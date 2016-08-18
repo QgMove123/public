@@ -21,7 +21,7 @@ import com.example.ricco.constant.Constant;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.ToastUtil;
-import com.example.ricco.utils.TopBar;
+import com.example.ricco.others.TopBar;
 
 import java.util.ArrayList;
 import java.util.Arrays;

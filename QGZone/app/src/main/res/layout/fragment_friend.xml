@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.example.ricco.utils.TopBar
+    <com.example.ricco.others.TopBar
         android:id="@+id/tb_friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
