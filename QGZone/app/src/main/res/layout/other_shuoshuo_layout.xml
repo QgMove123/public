@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--首页的说说页面-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants">
+    <ProgressBar
+        android:id="@+id/dongtai_loadbar"
+        android:layout_below="@+id/dongtai_btn_layout"
+        android:layout_width="match_parent"
+        android:background="#00ffffff"
+        android:max="100"
+        android:progress="0"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_height="5dp"
+        />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/dongtai_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ListView
+            android:descendantFocusability="beforeDescendants"
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>
+

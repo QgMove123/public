@@ -436,7 +436,6 @@ public class Item_Adapter extends BaseAdapter{
                 holder = holders.get(index);
                 v.setEnabled(false);
                 if (twitterItems != null) twitterItem = twitterItems.get(position);
-                else if (noteItems != null) noteItem = noteItems.get(position);
                 String url = "http://"+IP+":8080/QGzone/TwitterSupport?twitterId="+twitterItem.getTwitterId();
                 HttpUtil.Get(url, new HttpUtil.CallBackListener(){
                     @Override

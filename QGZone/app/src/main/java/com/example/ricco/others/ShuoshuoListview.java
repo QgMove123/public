@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.example.ricco.adapter.Item_Adapter;
+import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.entity.TwitterModel;
 import com.example.ricco.qgzone.MsgBoardActivity;
@@ -45,7 +46,7 @@ public class ShuoshuoListview extends RelativeLayout {
     public static Item_Adapter itemAdapter;
     private boolean mFlag_Load = true;
     private ListView lv;
-    private int id = 10000;
+    private int id = Constant.HOST_ID;
     private int mPage=1;
     private int mItemPosition = 0;
     private SwipeRefreshLayout mSwipe = null;

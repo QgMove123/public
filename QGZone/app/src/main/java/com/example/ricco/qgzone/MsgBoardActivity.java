@@ -1,5 +1,6 @@
 package com.example.ricco.qgzone;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,5 +23,11 @@ public class MsgBoardActivity extends BaseActivity{
                 startActivity(intent);
             }
         });
+    }
+
+    public void actionStart(Context context, int friendId) {
+        Intent intent = new Intent(context, MsgBoardActivity.class);
+        intent.putExtra("friendId", friendId);
+        startActivity(intent);
     }
 }

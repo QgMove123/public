@@ -6,7 +6,8 @@ package com.example.ricco.constant;
 public final class Constant {
     //主机号
     public static final String host = "192.168.1.111:8080";
-
+    //主人ID
+    public static int HOST_ID = 10000;
     // 好友ID
     public static int FRIED_ID = 0;
 
