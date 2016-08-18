@@ -8,7 +8,7 @@ public final class FriendApplyModel {
 	private String applyTime;  //发送申请时间
 	private int applyState;  //申请的处理状态
 	
-	String requesterName; //发送者姓名
+	private String requesterName; //发送者姓名
 	
 	public FriendApplyModel(){}
 	
@@ -71,6 +71,5 @@ public final class FriendApplyModel {
 	public void setApplyState(int applyState) {
 		this.applyState = applyState;
 	}
-	
-	
+
 }

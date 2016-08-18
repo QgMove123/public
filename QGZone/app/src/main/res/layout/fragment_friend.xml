@@ -9,7 +9,7 @@
         android:id="@+id/tb_friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        custom:rightBackground="@mipmap/ic_launcher"
+        custom:rightText="添加"
         custom:title="好友列表"
         />
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,7 +19,9 @@
         <ListView
             android:id="@+id/lv_friend"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:divider="@color/colorBottomBackground"
+            android:scrollbars="none" >
         </ListView>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

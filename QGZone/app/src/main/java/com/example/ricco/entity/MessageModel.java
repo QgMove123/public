@@ -77,5 +77,4 @@ public class MessageModel {
 				+ userEmail + ", userImage=" + userImage + ", userPhone=" + userPhone + ", userBirthday=" + userBirthday
 				+ ", userAddress=" + userAddress + "]";
 	}
-	
 }

@@ -1,10 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--留言板页面-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <com.example.ricco.others.TopBar
+        android:id="@+id/shuos_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:title="写说说"
+        custom:leftText="取消"
+        custom:rightText="发表">
+    </com.example.ricco.others.TopBar>
+    <EditText
+        android:id="@+id/shuos_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="说点什么吧..."
+        android:maxLines="8"
+        android:maxLength="150"
+        android:padding="16dp"
+        android:background="#00000000"
+        android:layout_below="@+id/shuos_title_bar"
+        />
+    <ImageButton
+        android:id="@+id/shuos_addpic_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dongtai_btn2"
+        android:layout_centerVertical="true"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send!"/>
-
-</LinearLayout>
+        android:layout_alignEnd="@+id/shuos_edittext"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:text="上传照片，与好友分享你的生活吧"/>
+    <GridView
+        android:id="@+id/talkpub_gridview"
+        android:layout_width="200dp"
+        android:layout_height="220dp"
+        android:verticalSpacing="5dp"
+        android:numColumns="3"
+        android:gravity="center"
+        android:layout_below="@+id/shuos_addpic_btn"
+        android:layout_marginLeft="16dp"
+        android:stretchMode="columnWidth">
+    </GridView>
+</RelativeLayout>

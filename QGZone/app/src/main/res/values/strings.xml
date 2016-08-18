@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">QGZone</string>
+    <string name="prompt_account">账号</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_login">登录</string>
+    <string name="text_forget_password">忘记密码？</string>
+    <string name="prompt_nickname">昵称</string>
+    <string name="text_password_problem">密保问题</string>
+    <string name="prompt_answer">答案</string>
+    <string name="action_sign_in">注册</string>
+    <string name="action_back">返回</string>
+    <string name="text_title">标题</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_ensure">确定</string>
+    <string name="text_about_me">与我相关</string>
+    <string name="action_refresh">刷新</string>
+    <string name="action_log_out">退出登录</string>
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+    <EditText
+        android:id="@+id/pophuifu_editText"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/respond_btn_bg"
+        android:padding="10dp"
+        android:paddingBottom="50dp"
+        android:maxLines="1"/>
+    <ImageButton
+        android:id="@+id/pophuifu_imagebtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignRight="@+id/pophuifu_editText"
+        android:background="#00000000"
+        android:padding="16dp"/>
+</RelativeLayout>

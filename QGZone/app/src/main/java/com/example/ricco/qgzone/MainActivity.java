@@ -3,13 +3,19 @@ package com.example.ricco.qgzone;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
+import com.example.ricco.adapter.Respond_Adapter;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.fragment.BaseFragment;
-import com.example.ricco.fragment.BottomControlPanel;
-import com.example.ricco.utils.ToastUtil;
+import com.example.ricco.others.BottomControlPanel;
 
 public class MainActivity extends BaseActivity implements BottomControlPanel.BottomPanelCallback {
 
@@ -63,7 +69,6 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
             default:
                 break;
         }
-        ToastUtil.showShort(MainActivity.this, tag);
 
         if (tag.equals(Constant.FRAGMENT_FLAG_SEND)) {
             //发表说说和其他控件不同
@@ -173,5 +178,44 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         // TODO Auto-generated method stub
+    }
+
+   //以下代码用于实现点击编辑框外部隐藏软键盘效果
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideInput(v, ev)) {
+                if(hideInputMethod(this, v)) {
+
+                    //return true; //隐藏键盘时，其他控件不响应点击事件==》注释则不拦截点击事件
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+    public static boolean isShouldHideInput(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] leftTop = { 0, 0 };
+            v.getLocationInWindow(leftTop);
+            int left = leftTop[0], top = leftTop[1], bottom = top + v.getHeight(), right = left
+                    + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 保留点击EditText的事件
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static Boolean hideInputMethod(Context context, View v) {
+        InputMethodManager imm = (InputMethodManager) context
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            return imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+        return false;
     }
 }

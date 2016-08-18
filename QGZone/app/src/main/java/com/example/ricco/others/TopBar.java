@@ -1,4 +1,4 @@
-package com.example.ricco.others;
+package com.example.ricco.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -63,7 +63,13 @@ public class TopBar extends RelativeLayout{
 
         //4.给子控件添加固定样式(未完善)
         midTextView.setGravity(Gravity.CENTER);
-        this.setBackgroundColor(Color.TRANSPARENT);
+        this.setBackgroundColor(getResources().getColor(R.color.colorTopBarBackground));
+        leftButton.setTextColor(Color.WHITE);
+        leftButton.setTextSize(16);
+        rightButton.setTextColor(Color.WHITE);
+        rightButton.setTextSize(16);
+        midTextView.setTextColor(Color.WHITE);
+        midTextView.setTextSize(20);
 
         //5.将子控件以LayoutParams形式加入到ViewGroup中
         LayoutParams MidParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
@@ -108,7 +114,6 @@ public class TopBar extends RelativeLayout{
         rightButton.setText(rightText);
     }
 
-
     //左按钮隐藏或显示
     public void setLeftIsVisable(boolean flag){
         if(flag){
@@ -126,8 +131,5 @@ public class TopBar extends RelativeLayout{
             rightButton.setVisibility(INVISIBLE);
         }
     }
-
-
-
 
 }
