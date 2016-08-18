@@ -20,6 +20,7 @@ public class TopBar extends RelativeLayout{
     private TextView midTextView;
     private Button leftButton;
     private Button rightButton;
+
     private TopBarClickListener listener;
 
     public interface TopBarClickListener{
