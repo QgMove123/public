@@ -83,7 +83,7 @@ public class ViewPhotoActivity extends BaseActivity {
         viewImg = (ImageView) findViewById(R.id.view_img);
 
         viewBtn = (ImageButton) findViewById(R.id.view_btn);
-        if (userId != Constant.MY_ID) {
+        if (userId != Constant.HOST_ID) {
             //隐藏按钮
             viewBtn.setVisibility(View.INVISIBLE);
         }

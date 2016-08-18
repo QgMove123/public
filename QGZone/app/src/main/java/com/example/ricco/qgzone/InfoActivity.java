@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import com.example.ricco.constant.Constant;
 import com.example.ricco.others.ImageLoader;
-import com.example.ricco.utils.CircleImageVIew;
+import com.example.ricco.others.CircleImageVIew;
+import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.InfoItem;
-import com.example.ricco.others.TopBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;

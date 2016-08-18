@@ -1,5 +1,4 @@
 package com.example.ricco.qgzone;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,20 +11,12 @@ import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.AlbumModel;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.others.ErrorHandling;
-import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
-import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.StateUtil;
-import com.example.ricco.utils.ToastUtil;
+import com.example.ricco.others.TopBar;
 import com.google.gson.reflect.TypeToken;
-
-import org.xml.sax.ErrorHandler;
-
-import java.sql.Time;
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
 
 /**
  * @author yason
@@ -103,7 +94,7 @@ public class AlbumActivity extends BaseActivity {
      */
     private void initView() {
         topBar = (TopBar) findViewById(R.id.topbar);
-        if (userId != Constant.MY_ID) {
+        if (userId != Constant.HOST_ID) {
             //隐藏按钮
             topBar.setRightIsVisable(false);
         }

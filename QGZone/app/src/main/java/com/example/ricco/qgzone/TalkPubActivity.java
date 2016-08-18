@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -20,25 +18,15 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
 import com.example.ricco.entity.TwitterModel;
+import com.example.ricco.others.ImageLoader;
 import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.HttpUtil;
-import com.example.ricco.utils.ImageLoader;
-import com.example.ricco.utils.JsonUtil;
-import com.example.ricco.utils.ToastUtil;
 
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ThreadFactory;
 
 
 /**
@@ -162,18 +150,18 @@ public class TalkPubActivity extends BaseActivity {
                     twitterModel.setTalkId(122222);
                     HashMap<String,String> stringHashMap = new HashMap<String, String>();
                     stringHashMap.put("twitterWord",twitterModel.getTwitterWord());
-                    HttpUtil.Post("http://192.168.3.16:8080/QGzone/TwitterAdd", stringHashMap, bitmaps, new HttpUtil.CallBackListener() {
-                        @Override
-                        public void OnFinish(String result) {
-                            Log.e("Conn", (String) result);
-                            finish();
-                        }
-
-                        @Override
-                        public void OnError(Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+//                    HttpUtil.Post("http://192.168.3.16:8080/QGzone/TwitterAdd", stringHashMap, bitmaps, new HttpUtil.CallBackListener() {
+//                        @Override
+//                        public void OnFinish(String result) {
+//                            Log.e("Conn", (String) result);
+//                            finish();
+//                        }
+//
+//                        @Override
+//                        public void OnError(Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    });
                 }
             }
         });

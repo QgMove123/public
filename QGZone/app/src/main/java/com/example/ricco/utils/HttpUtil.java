@@ -22,6 +22,8 @@ import java.util.List;
  */
 public class HttpUtil {
 
+    public static String sessionid = null;
+
     /**
      * 接口，用于回调
      */
@@ -40,6 +42,14 @@ public class HttpUtil {
                     conn = (HttpURLConnection)httpUrl.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(8000);
+                    if (sessionid != null) {
+                        conn.setRequestProperty("cookie", sessionid);
+                    } else {
+                        String cookieval = conn.getHeaderField("set-cookie");
+                        if (cookieval != null) {
+                            sessionid = cookieval.substring(0, cookieval.indexOf(";"));
+                        }
+                    }
                     conn.connect();
                     LogUtil.e("HttpUtil",conn.getResponseCode()+"");
                     StringBuilder str = new StringBuilder("");

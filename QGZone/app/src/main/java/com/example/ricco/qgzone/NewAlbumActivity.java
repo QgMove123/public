@@ -23,13 +23,13 @@ import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.AlbumModel;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.others.ErrorHandling;
-import com.example.ricco.others.TopBar;
 import com.example.ricco.others.mPopupWindow;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.StateUtil;
 import com.example.ricco.utils.ToastUtil;
+import com.example.ricco.others.TopBar;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.UnsupportedEncodingException;
@@ -229,7 +229,7 @@ public class NewAlbumActivity extends BaseActivity{
                 (jResult,new TypeToken<JsonModel<String,AlbumModel>>(){}.getType());
         int resultCode = jsonModel.getState();
         boolean flag = StateUtil.albumState(NewAlbumActivity.this, resultCode);
-        if(flag) AlbumActivity.actionStart(this,Constant.MY_ID);
+        if(flag) AlbumActivity.actionStart(this,Constant.HOST_ID);
     }
 
     public static void actionStar(Context context,AlbumModel oldAlbum) {

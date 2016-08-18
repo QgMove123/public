@@ -7,27 +7,26 @@ import javax.net.ssl.HostnameVerifier;
  */
 public final class Constant {
     //主机号
-    public static final String host = "主机名";
+    public static final String host = "192.168.1.100:8080";
     //自己的ID，用于访问自己页面
-    public static final int MY_ID = 1;
+    public static final int HOST_ID = 1;
     //好友ID
     public static int FRIEND_ID = 0;
     //密码格式
     public static final String regex = "[a-z0-9A-Z_]{5,15}";
     //所有与相册相关url内部类
     public static final class Album {
-        public static final String createAlbum = "http://"+host+":8080/QGzone/CreateAlbum";
-        public static final String showAlbum = "http://"+host+":8080/QGzone/Albums";
-        public static final String deleteAlbum = "http://"+host+":8080/QGzone/DeleteAlbum";
-        public static final String clearAlbum = "http://"+host+":8080/QGzone/EmptyAlbum";
-        public static final String renameAlbum = "http://"+host+":8080/QGzone/RechristenAlbum";
-        public static final String checkPublicAlbum = "http://"+host+":8080/QGzone/CheckPublicAlbum";
-        public static final String checkPrivacyAlbum = "http://"+host+":8080/QGzone/CheckPrivacyAlbum";
-        public static final String inspectAlbum = "http://"+host+":8080/QGzone/InspectAlbum";
-        public static final String alterAlbumInfo = "http://"+host+":8080/QGzone/AlterAlbumInformation";
-        public static final String uploadPhoto = "http://"+host+":8080/QGzone/UploadPhoto";
-        public static final String deletePhoto = "http://"+host+":8080/QGzone/DeletePhoto";
-        public static final String showPhoto = "http://"+host+":8080/QGzone/album";
+        public static final String createAlbum = "http://"+host+"/QGzone/CreateAlbum";
+        public static final String showAlbum = "http://"+host+"/QGzone/Albums";
+        public static final String deleteAlbum = "http://"+host+"/QGzone/DeleteAlbum";
+        public static final String clearAlbum = "http://"+host+"/QGzone/EmptyAlbum";
+        public static final String checkPublicAlbum = "http://"+host+"/QGzone/CheckPublicAlbum";
+        public static final String checkPrivacyAlbum = "http://"+host+"/QGzone/CheckPrivacyAlbum";
+        public static final String inspectAlbum = "http://"+host+"/QGzone/InspectAlbum";
+        public static final String alterAlbumInfo = "http://"+host+"/QGzone/AlterAlbumInformation";
+        public static final String uploadPhoto = "http://"+host+"/QGzone/UploadPhoto";
+        public static final String deletePhoto = "http://"+host+"/QGzone/DeletePhoto";
+        public static final String showPhoto = "http://"+host+"/QGzone/album";
     }
 
     //所有与用户相关url内部类

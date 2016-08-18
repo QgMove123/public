@@ -11,7 +11,7 @@ import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.RelationModel;
 import com.example.ricco.others.ImageLoader;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.utils.CircleImageVIew;
+import com.example.ricco.others.CircleImageVIew;
 
 import java.util.List;
 

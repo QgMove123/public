@@ -11,28 +11,28 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"/>
+        <!-- adjustPan用于使软键盘不闪退 -->
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".AlbumActivity"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".NewAlbumActivity" />
         <activity android:name=".PhotoActivity" />
         <activity android:name=".UpLoadPhotoActivity" />
-        <activity android:name=".ViewPhotoActivity"
+        <activity
+            android:name=".ViewPhotoActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".ActivityCheckFriend" />
-        <!-- adjustPan用于使软键盘不闪退 -->
-        <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".MsgBoardActivity" />
         <activity
             android:name=".TalkPubActivity"
@@ -41,7 +41,6 @@
             android:name=".WriteMsgBoardActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ImageDetailActivity" />
-        <activity android:name=".UpLoadPhotoActivity" />
     </application>
 
 </manifest>

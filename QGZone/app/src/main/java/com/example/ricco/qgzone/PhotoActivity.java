@@ -115,7 +115,7 @@ public class PhotoActivity extends BaseActivity {
 
     private void initView() {
         topBar = (TopBar) findViewById(R.id.topbar);
-        if (userId != Constant.MY_ID) {
+        if (userId != Constant.HOST_ID) {
             //隐藏按钮
             topBar.setRightIsVisable(false);
         }
