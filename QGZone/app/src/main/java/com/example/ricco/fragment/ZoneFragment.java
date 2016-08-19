@@ -33,7 +33,7 @@ public class ZoneFragment extends BaseFragment implements View.OnClickListener{
     private LinearLayout mTalkPub = null;
     private LinearLayout mAlbum = null;
     private LinearLayout mMsgBoard = null;
-    private String mUrl = Constant.TalkPub.individuallity + Constant.HOST_ID + "&";
+    private String mUrl = Constant.TalkPub.individuallity + Constant.HOST_ID + "&page=";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,9 @@ public class ZoneFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Constant.TalkPub.headView = mHeadView;
-        Constant.TalkPub.url = mUrl;
+
+        ShuoshuoListview.setHeader(mHeadView);
+        ShuoshuoListview.setShuoshuoURL(mUrl);
         View layout = inflater.inflate(R.layout.fragment_zone,
                 container, false);
 

@@ -6,7 +6,7 @@ package com.example.ricco.constant;
 public final class Constant {
 
     //主机号
-    public static final String host = "192.168.3.49:8080";
+    public static final String host = "192.168.1.109:8080";
 
     //自己的ID，用于访问自己页面
     public static  int HOST_ID;
@@ -67,6 +67,7 @@ public final class Constant {
     // 所有与说说相关的url
     public static final class TalkPub {
         public static final String individuallity = "http://" + host + "/QGzone/TwitterOfOthers?userId=";
+        public static final String dongtaitalkpub = "http://" + host + "/QGzone/TwitterGetTest?page=";
     }
 
     // 获取的头像的url

@@ -43,7 +43,7 @@ public class AlbumActivity extends BaseActivity {
     private List<AlbumModel> albumList;
     private AlbumAdapter albumAdapter;
 
-    private int userId = 1;
+    private int userId;
 
     private String jResult;
 
@@ -73,7 +73,7 @@ public class AlbumActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_album);
 
-//        userId = getIntent().getIntExtra("userId",-1);
+        userId = getIntent().getIntExtra("userId",-1);
 
         initView();
 
