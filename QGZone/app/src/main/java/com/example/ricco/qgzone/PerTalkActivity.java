@@ -12,7 +12,7 @@ import com.example.ricco.others.TopBar;
 
 
 /**
- * 好友主页
+ * 说说页面
  * Created by Ricco on 2016/8/18.
  */
 public class PerTalkActivity extends BaseActivity {
@@ -30,7 +30,7 @@ public class PerTalkActivity extends BaseActivity {
 
         ShuoshuoListview.setHeader(null);
         // 设置shuoShuoListView url
-        ShuoshuoListview.setShuoshuoURL(mUrl + friendId + "&");
+        ShuoshuoListview.setShuoshuoURL(mUrl + friendId + "&page=");
 
         // 加载主视图
         setContentView(R.layout.fragment_zone);

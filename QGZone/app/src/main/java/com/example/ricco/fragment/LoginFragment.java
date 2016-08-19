@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.ricco.constant.Constant;
+import com.example.ricco.entity.UserModel;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
@@ -166,7 +167,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 JSONObject dataJson = new JSONObject(result);
                 Log.e("OnFinish: result", result+"");
                 msg.what = Integer.valueOf(dataJson.getString("state"));
-                msg.obj = dataJson.get("user");
+                msg.obj = dataJson.getString("user");
             } catch (JSONException e) {
                 e.printStackTrace();
             } finally {
@@ -176,18 +177,25 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void OnError(Exception e) {
+            e.printStackTrace();
+            mHandler.sendEmptyMessage(0);
         }
     };
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case 0:
+                    ToastUtil.showShort(getActivity(), "服务器异常");
+                    break;
                 case 111:
                     ToastUtil.showShort(getActivity(), "登录成功");
                     //通过回调跳转到主页
                     if (getActivity() instanceof LoginBtnClickListener) {
                         ((LoginBtnClickListener) getActivity()).onLoginBtnClick();
                     }
+                    UserModel um = JsonUtil.toObject(msg.obj.toString(), UserModel.class);
+                    Constant.HOST_ID = Integer.parseInt(um.getUserId());
                     break;
                 case 112:
                     Log.e("handleMessage: ", "登录失败");

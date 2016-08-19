@@ -10,8 +10,10 @@ import android.widget.LinearLayout;
 
 import com.example.ricco.constant.Constant;
 import com.example.ricco.others.ImageLoader;
+import com.example.ricco.others.ShuoshuoListview;
 import com.example.ricco.others.TopBar;
 import com.example.ricco.others.CircleImageVIew;
+import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.ToastUtil;
 
 
@@ -36,12 +38,13 @@ public class FriendTalkPubActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         friendId = getIntent().getIntExtra("friendId", 0);
-
+        LogUtil.e("friendId", friendId + "");
         // 初始化头视图
         initHeadView();
-        Constant.TalkPub.headView = mHeadView;
+        ShuoshuoListview.setHeader(mHeadView);
+
         // 设置shuoShuoListView url
-        Constant.TalkPub.url = mUrl + friendId + "&";
+        ShuoshuoListview.setShuoshuoURL(mUrl + friendId + "&page=");
 
         // 加载主视图
         setContentView(R.layout.fragment_zone);
@@ -85,7 +88,6 @@ public class FriendTalkPubActivity extends BaseActivity implements View.OnClickL
                 PerTalkActivity.actionStart(mContext, friendId);
                 break;
             case R.id.ll_album:
-                ToastUtil.showShort(mContext, "you click album!");
                 AlbumActivity.actionStart(mContext, friendId);
                 break;
             case R.id.ll_msg_board:

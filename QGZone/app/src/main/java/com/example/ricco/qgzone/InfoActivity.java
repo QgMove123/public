@@ -14,15 +14,17 @@ import android.widget.Toast;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.others.ImageLoader;
 import com.example.ricco.others.CircleImageVIew;
+import com.example.ricco.others.InfoItem;
 import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.HttpUtil;
-import com.example.ricco.utils.InfoItem;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * 个人资料
@@ -79,12 +81,6 @@ public class InfoActivity extends BaseActivity {
     protected void onRestart() {
         super.onRestart();
         requestInfo(url);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        HttpUtil.Get(Constant.Account.userSignOut, null);
     }
 
     /**
