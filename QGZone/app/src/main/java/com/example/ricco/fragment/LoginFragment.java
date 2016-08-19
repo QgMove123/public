@@ -161,7 +161,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     JSONObject dataJson = new JSONObject(result);
                     Log.e("OnFinish: result", result+"");
                     msg.what = Integer.valueOf(dataJson.getString("state"));
-                    msg.obj = dataJson.get("user");
+                    msg.obj = dataJson.getString("user");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } finally {
@@ -185,6 +185,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     if (getActivity() instanceof LoginBtnClickListener) {
                         ((LoginBtnClickListener) getActivity()).onLoginBtnClick();
                     }
+                    UserModel um = JsonUtil.toObject(msg.obj.toString(), UserModel.class);
+                    Constant.HOST_ID = Integer.parseInt(um.getUserId());
                     break;
                 case 112:
                     Log.e("handleMessage: ", "登录失败");
