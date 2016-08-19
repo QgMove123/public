@@ -247,8 +247,8 @@ public class PhotoActivity extends BaseActivity {
 
     private void initAdapter(String jResult) {
         progressDialog.dismiss();
-        JsonModel<Integer,String> jsonModel = JsonUtil.toModel
-                (jResult,new TypeToken<JsonModel<Integer,String>>(){}.getType());
+        JsonModel<Integer,AlbumModel> jsonModel = JsonUtil.toModel
+                (jResult,new TypeToken<JsonModel<Integer,AlbumModel>>(){}.getType());
         int resultCode = jsonModel.getState();
         boolean flag =  StateUtil.albumState(PhotoActivity.this, resultCode);
         if(!flag) return;

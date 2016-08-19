@@ -62,7 +62,6 @@ public class AboutMeFragment extends BaseFragment {
                     jsonObjiect.put("relatedId", data.get(pos).getRelatedId()+"");
                     jsonObjiect.put("relationType", data.get(pos).getRelationType());
                     HttpUtil.Get(Constant.Account.RelationGetDetails+"?jsonObject="+JsonUtil.toJson(jsonObjiect), callBackListener);
-                    Toast.makeText(getActivity(), "haha", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.button2:
                     sendRelation(Constant.Account.RelationDelete+"?jsonObject={\"relationId\"=\""+ data.get(pos).getRelationId() +"\"}");
@@ -111,7 +110,7 @@ public class AboutMeFragment extends BaseFragment {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_IDLE) {
                     if (view.getLastVisiblePosition() == view.getCount() - 1 && flag) {
-                        sendRelation(Constant.Account.RelationGet+"?jsonObject={\"page\"=\""+(++page)+"\"}");
+                        sendRelation(Constant.Account.RelationNextList+"?jsonObject={\"page\"=\""+(++page)+"\"}");
                     } else if (!flag) {
                         Toast.makeText(getActivity(), "已显示全部记录", LENGTH_SHORT).show();
                     }
@@ -156,7 +155,9 @@ public class AboutMeFragment extends BaseFragment {
         MainActivity.nowFragTag = Constant.FRAGMENT_FLAG_ABOUTME;
     }
 
-    // 发送注册信息给服务器
+    /**
+     * 发送请求信息给服务器
+     */
     private void sendRelation(final String url) {
         HttpUtil.Get(url, new HttpUtil.CallBackListener() {
 
@@ -183,7 +184,6 @@ public class AboutMeFragment extends BaseFragment {
     private Handler mHandler = new Handler() {
 
         public void handleMessage(Message msg) {
-
             switch (msg.what) {
                 case 441:
                     data.addAll(0, (Collection<? extends RelationModel>) msg.obj);
@@ -202,6 +202,13 @@ public class AboutMeFragment extends BaseFragment {
                         flag = false;
                     }
                     break;
+                case 421:
+//                    Intent intent = new Intent(getActivity(),  DetailsActivity.class);
+//                    intent.putExtra("message", msg.obj.toString());
+//                    startActivity(intent);
+                    Toast.makeText(getActivity(), "查看详情成功", LENGTH_SHORT).show();
+                    break;
+                case 422:
                 case 402:
                     Toast.makeText(getActivity(), "查看失败，请查看网络连接", LENGTH_SHORT).show();
                     break;

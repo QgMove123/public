@@ -22,6 +22,7 @@ import com.example.ricco.qgzone.PhotoActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.StateUtil;
 import com.example.ricco.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
@@ -43,7 +44,8 @@ public class AlbumAdapter extends BaseAdapter {
     private mPopupWindow popup;
     private EditText popup_edi;
     private Button popup_btn_right;
-    private Button popup_btn_cancel;
+    //    private Button popup_btn_cancel;
+    private ImageView popup_null;
 
     private int userId;
 
@@ -67,7 +69,8 @@ public class AlbumAdapter extends BaseAdapter {
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
         popup_edi = (EditText) root.findViewById(R.id.popup_edi);
         popup_btn_right = (Button) root.findViewById(R.id.popup_btn_right);
-        popup_btn_cancel = (Button) root.findViewById(R.id.popup_btn_cancel);
+//        popup_btn_cancel = (Button) root.findViewById(R.id.popup_btn_cancel);
+        popup_null = (ImageView) root.findViewById(R.id.popup_null);
     }
 
     @Override
@@ -101,7 +104,7 @@ public class AlbumAdapter extends BaseAdapter {
         }
 
         //2.状态重置
-        viewHolder.item_img.setImageResource(R.mipmap.ic_launcher);
+        viewHolder.item_img.setImageResource(R.color.greyViewBg);
         viewHolder.item_tv.setText("未命名相册");
 
         //3.加载封面、文件名到视图
@@ -120,8 +123,7 @@ public class AlbumAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                     //权限判断，对好友私密
-                if (albumState == 1){
-//                    if (albumState == 1&&userId != Constant.myId){
+                    if (albumState == 1&&userId != Constant.HOST_ID){
                     Activity act = (Activity)context;
                     popup.showAtLocation(act.findViewById(R.id.parent),Gravity.CENTER,0,0);
                     }else {
@@ -144,11 +146,17 @@ public class AlbumAdapter extends BaseAdapter {
             }
         });
 
-        popup_btn_cancel.setOnClickListener(new View.OnClickListener() {
+//        popup_btn_cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                popup_edi.setText("");
+//                popup.dismiss();
+//            }
+//        });
+        popup_null.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popup_edi.setText("");
-                popup.dismiss();
             }
         });
 
@@ -163,6 +171,7 @@ public class AlbumAdapter extends BaseAdapter {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        LogUtil.e("tag",url);
         HttpUtil.Get(url,new HttpUtil.CallBackListener() {
             @Override
             public void OnFinish(String JsonResult) {
@@ -197,7 +206,7 @@ public class AlbumAdapter extends BaseAdapter {
     }
 
     private void EnterPrivacyAlbum(AlbumModel albumModel) {
-        JsonModel<AlbumModel, String> jsonModel = JsonUtil.toModel
+        JsonModel<Integer, String> jsonModel = JsonUtil.toModel
                 (jRseult, new TypeToken<JsonModel<Integer, String>>() {
                 }.getType());
         int resultCode = jsonModel.getState();

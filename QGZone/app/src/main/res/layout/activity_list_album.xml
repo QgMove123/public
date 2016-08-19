@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         custom:title="我的相册"
         custom:leftText="返回"
-        custom:rightBackground="@mipmap/list_album_new"
+        custom:rightText="新建"
         />
 
     <GridView
@@ -28,11 +28,9 @@
         android:cacheColorHint="@android:color/transparent"
         android:listSelector="@android:color/transparent"
         android:background="@color/greyParentBg"
-        android:paddingTop="15dp"
+        android:paddingTop="20dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         />
-
-
 
 </LinearLayout>

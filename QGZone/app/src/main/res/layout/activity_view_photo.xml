@@ -11,13 +11,13 @@
         android:id="@+id/view_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/list_album_public"
+        android:src="@null"
         />
 
     <ImageButton
         android:id="@+id/view_btn"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@mipmap/view_photo_delete"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

@@ -145,6 +145,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
                 for(InfoItem ii: infoArry) {
                     model.put(ii.getTextView(), ii.getEditText());
                 }
+                model.put("userName", nickname.getText().toString());
                 HttpUtil.Get(Constant.Account.MessageChange+"?jsonObject="+JsonUtil.toJson(model), callBackListener);
             }
         });
