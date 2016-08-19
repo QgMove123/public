@@ -44,22 +44,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="16dp"
+        android:layout_margin="8dp"
         android:text="@string/text_password_problem"
-        android:textColor="#000000"
+        android:textColor="#FF65686A"
         android:layout_gravity="left" />
 
     <Spinner
         android:id="@+id/problem"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
         android:entries="@array/problems"
         android:spinnerMode="dropdown"
-        android:background="@null"/>
+        android:background="@drawable/rect_gray"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <EditText
             android:id="@+id/answer"
@@ -79,6 +80,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/action_sign_in"
-        android:textStyle="bold" />
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:background="@drawable/rect_gray_blue"/>
 
 </LinearLayout>

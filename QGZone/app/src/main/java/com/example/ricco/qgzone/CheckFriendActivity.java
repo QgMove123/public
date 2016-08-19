@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.ricco.adapter.ApplyFriendAdapter;
 import com.example.ricco.adapter.CheckedFriendAdapter;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.FriendApplyModel;
@@ -32,7 +31,7 @@ import java.util.Map;
  * @author Wzkang
  * Created by Ricco on 2016/8/11.
  */
-public class ActivityCheckFriend extends BaseActivity {
+public class CheckFriendActivity extends BaseActivity {
 
     private TopBar mTopBar = null;
     private ListView mListView = null;
@@ -114,13 +113,13 @@ public class ActivityCheckFriend extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToastUtil.showShort(ActivityCheckFriend.this, "outside:" + position);
+                ToastUtil.showShort(CheckFriendActivity.this, "outside:" + position);
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                new AlertDialog.Builder(ActivityCheckFriend.this)
+                new AlertDialog.Builder(CheckFriendActivity.this)
                         .setTitle("警告")
                         .setMessage("你是否要删除此好友请求！")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -181,13 +180,13 @@ public class ActivityCheckFriend extends BaseActivity {
         mTopBar = (TopBar) findViewById(R.id.tb_apply);
         mListView = (ListView) findViewById(R.id.lv_friend);
         mDatas = new ArrayList<FriendApplyModel>();
-        alyAdapter = new CheckedFriendAdapter(ActivityCheckFriend.this, R.layout.item_apply,
+        alyAdapter = new CheckedFriendAdapter(CheckFriendActivity.this, R.layout.item_apply,
                 mHandler, mDatas);
     }
 
     // 方便启动
     public static void actionStart(Context context) {
-        Intent intent = new Intent(context, ActivityCheckFriend.class);
+        Intent intent = new Intent(context, CheckFriendActivity.class);
         context.startActivity(intent);
     }
 }

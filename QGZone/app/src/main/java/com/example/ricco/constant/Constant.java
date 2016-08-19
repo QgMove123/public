@@ -4,37 +4,51 @@ package com.example.ricco.constant;
  * 全局常量
  */
 public final class Constant {
+
     //主机号
-    public static final String host = "192.168.1.111:8080";
-    //主人ID
-    public static int HOST_ID = 10000;
-    // 好友ID
-    public static int FRIED_ID = 0;
+    public static final String host = "192.168.1.109:8080";
+
+    //自己的ID，用于访问自己页面
+    public static final int HOST_ID = 1;
+
+    //好友ID
+    public static int FRIEND_ID = 0;
+
+    //密码格式
+    public static final String regex = "[a-z0-9A-Z_]{5,15}";
 
     //所有与相册相关url内部类
     public static final class Album {
-        public static final String showAlbum = "http://" + host + "/QGzone/Albums";
-        public static final String deleteAlbum = "http://" + host + "/QGzone/DeleteAlbum";
-        public static final String clearAlbum = "http://" + host + "/QGzone/EmptyAlbum";
-        public static final String renameAlbum = "http://" + host + "/QGzone/RechristenAlbum";
-        public static final String showPhoto = "http://" + host + "/QGzone/CheckAlbum";
-        public static final String inspectAlbum = "http://" + host + "/QGzone/InspectAlbum";
-        public static final String alterAlbumInfo = "http://" + host + "/QGzone/AlterAlbumInformation";
-        public static final String uploadPhoto = "http://" + host + "/QGzone/UploadPhoto";
-        public static final String deletePhoto = "http://" + host + "/QGzone/DeletePhoto";
+        public static final String createAlbum = "http://"+host+"/QGzone/CreateAlbum";
+        public static final String showAlbum = "http://"+host+"/QGzone/Albums";
+        public static final String deleteAlbum = "http://"+host+"/QGzone/DeleteAlbum";
+        public static final String clearAlbum = "http://"+host+"/QGzone/EmptyAlbum";
+        public static final String checkPublicAlbum = "http://"+host+"/QGzone/CheckPublicAlbum";
+        public static final String checkPrivacyAlbum = "http://"+host+"/QGzone/CheckPrivacyAlbum";
+        public static final String inspectAlbum = "http://"+host+"/QGzone/InspectAlbum";
+        public static final String alterAlbumInfo = "http://"+host+"/QGzone/AlterAlbumInformation";
+        public static final String uploadPhoto = "http://"+host+"/QGzone/UploadPhoto";
+        public static final String deletePhoto = "http://"+host+"/QGzone/DeletePhoto";
+        public static final String showPhoto = "http://"+host+"/QGzone/album";
     }
 
     //所有与用户相关url内部类
     public static final class Account {
         public static final String userSignUp = "http://" + host + "/QGzone/UserSignUp";
         public static final String userSignIn = "http://" + host + "/QGzone/UserSignIn";
+        public static final String userSignOut = "http://" + host + "/QGzone/UserSignOut";
         public static final String userCheckSecret = "http://" + host + "/QGzone/UserCheckSecret";
         public static final String userForgetPassword = "http://" + host + "/QGzone/UserForgetPassword";
         public static final String MessageGet = "http://" + host + "/QGzone/MessageGet";
+        public static final String MessageSearch = "http://" + host + "/QGzone/MessageSearch";
         public static final String RelationGet = "http://" + host + "/QGzone/RelationsGet";
         public static final String RelationDelete = "http://" + host + "/QGzone/RelationsDelete";
-        public static final String Picture = "http://" + host + "/QGzone/jpg/";
-        public static final String friendInfo = "http://" + host + "/QGzone/MessageSearch?userId=";
+        public static final String RelationRefresh = "http://" + host + "/QGzone/RelationRefresh";
+        public static final String RelationGetDetails = "http://" + host + "/QGzone/RelationGetDetails";
+        public static final String MessageChange = "http://" + host + "/QGzone/MessageChange";
+        public static final String UserChangeSecret = "http://" + host + "/QGzone/UserChangeSecret";
+        public static final String UserChangePassword = "http://" + host + "/QGzone/UserChangePassword";
+        public static final String UserUploadImage = "http://" + host + "/QGzone/UserUploadImage";
     }
 
     // 所有与好友相关的的url
@@ -50,8 +64,13 @@ public final class Constant {
         public static final String deleteRequest = "http://" + host + "/QGzone/DeleteFriendApply?friendApplyId=";
     }
 
+    // 所有与说说相关的url
+    public static final class TalkPub {
+        public static final String individuallity = "http://" + host + "/QGzone/TwitterOfOthers?userId=";
+    }
+
     // 获取的头像的url
-    public static final String civUrl = "http://" + host + "/QGzone/jpg/";
+    public static final String civUrl = "http://"+ host + ":8080/QGzone/jpg/";
 
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;

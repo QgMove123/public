@@ -52,8 +52,7 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
      */
     @Override
     public void onSignBtnClick() {
-        if (loginF == null)
-        {
+        if (loginF == null) {
             loginF = new LoginFragment();
         }
         Bundle bundle = new Bundle();

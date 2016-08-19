@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.example.ricco.others.TopBar
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        custom:title="我的相册"
+        custom:leftText="返回"
+        custom:rightBackground="@mipmap/list_album_new"
+        />
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:numColumns="2"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:cacheColorHint="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
+        android:background="@color/greyParentBg"
+        android:paddingTop="15dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        />
+
+
+
+</LinearLayout>

@@ -27,6 +27,7 @@ import com.example.ricco.qgzone.R;
 import com.example.ricco.qgzone.TalkPubActivity;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,22 +48,26 @@ public class ShuoshuoListview extends RelativeLayout {
     private boolean mFlag_Load = true;
     private ListView lv;
     private int id = Constant.HOST_ID;
-    private int mPage=1;
+    private int mPage = 1;
     private int mItemPosition = 0;
     private SwipeRefreshLayout mSwipe = null;
     public static ArrayList<TwitterModel> itemList = new ArrayList<TwitterModel>();
-    public static ArrayList<TwitterModel> itemListCompare = new ArrayList<TwitterModel>();
     private ArrayList<ArrayList<HashMap<String, Object>>> mPicGridViewList = new ArrayList<ArrayList<HashMap<String, Object>>>();
     private static String shuoshuoURL;
     private static View header = null;
 
     public ShuoshuoListview(Context context, AttributeSet attrs) {
-        super(context,attrs);
+        super(context, attrs);
         mContext = context;
-        LayoutInflater.from(mContext).inflate(R.layout.other_shuoshuo_layout,this);
+        itemAdapter = null;
+        LayoutInflater.from(mContext).inflate(R.layout.other_shuoshuo_layout, this);
         // 初始化
         mSwipe = (SwipeRefreshLayout) findViewById(R.id.dongtai_swipe);
         lv = (ListView) findViewById(R.id.lv);
+
+        mPage = 1;
+        mItemPosition = 0;
+        itemList.clear();
         initView();
     }
 
@@ -114,19 +119,24 @@ public class ShuoshuoListview extends RelativeLayout {
     };
 
 
-    public static void setShuoshuoURL(String url){
+    public static void setShuoshuoURL(String url) {
         shuoshuoURL = url;
     }
 
-    public static void setHeader(View headerview){
+    public static void setHeader(View headerview) {
         header = headerview;
     }
 
 
-    private void initView()
-    {
-        if(header!=null) lv.addHeaderView(header);
+    private void initView() {
 
+        if (header != null) {
+            LogUtil.e("headview", lv.getHeaderViewsCount() + "");
+            if (lv.getHeaderViewsCount() > 0) {
+                lv.removeHeaderView(header);
+            }
+            lv.addHeaderView(header);
+        }
         loadData();//加载数据
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {//上拉下载
             @Override
@@ -134,7 +144,7 @@ public class ShuoshuoListview extends RelativeLayout {
                 // 当不滚动时
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     // 判断是否滚动到底部
-                    if (view.getLastVisiblePosition() == view.getCount() -1  && mFlag_Load) {
+                    if (view.getLastVisiblePosition() == view.getCount() - 1 && mFlag_Load) {
                         loadData();
                         mFlag_Load = false;
                     }
@@ -152,7 +162,6 @@ public class ShuoshuoListview extends RelativeLayout {
             @Override
             public void onRefresh() {
                 itemList.clear();
-                mPicGridViewList.clear();
                 mItemPosition = 0;
                 mPage = 1;
                 loadData();
@@ -160,29 +169,32 @@ public class ShuoshuoListview extends RelativeLayout {
         });
     }
 
+    private void loadData() {
 
-
-    private void loadData(){
-
+        if (header != null) {
+            lv.removeHeaderView(header);
+            lv.addHeaderView(header);
+        }
         handler.sendEmptyMessage(1);
-        Log.e("URL-2", shuoshuoURL+mPage);
-        HttpUtil.Get(shuoshuoURL+mPage, new HttpUtil.CallBackListener() {
+        Log.e("URL-2", shuoshuoURL + "page=" + mPage);
+        HttpUtil.Get(shuoshuoURL + "page=" + mPage, new HttpUtil.CallBackListener() {
             @Override
             public void OnFinish(String result) {
-                final JsonModel<TwitterModel,TwitterModel> jsonModel = JsonUtil.toModel((String) result,new TypeToken<JsonModel<TwitterModel,TwitterModel>>(){}.getType());
-                if(jsonModel.getState() == 201 && jsonModel.getJsonList().size()!=0){
-                    Log.e("Page",mPage+"");
+                final JsonModel<TwitterModel, TwitterModel> jsonModel = JsonUtil.toModel((String) result, new TypeToken<JsonModel<TwitterModel, TwitterModel>>() {
+                }.getType());
+                if (jsonModel.getState() == 201 && jsonModel.getJsonList().size() != 0) {
+
                     itemList.addAll(jsonModel.getJsonList());
-                    for(;mItemPosition<itemList.size();mItemPosition++){
+                    for (; mItemPosition < itemList.size(); mItemPosition++) {
 
                         ArrayList<HashMap<String, Object>> pics = new ArrayList<HashMap<String, Object>>();
-                        for(int j=0;j<itemList.get(mItemPosition).getTwitterPicture();j++){
+                        for (int j = 0; j < itemList.get(mItemPosition).getTwitterPicture(); j++) {
                             try {
-                                Log.e("twitterpicture",itemList.get(mItemPosition).getTwitterPicture()+"  "+(mItemPosition-12*(mPage-1))+"  "+mItemPosition+"  "+(mPage-1));
-                                URL url = new URL("http://192.168.3.16:8080/QGzone/twitterPhotos/_"+jsonModel.getJsonList().get(mItemPosition-12*(mPage-1)).getTwitterId()+"_"+(j+1)+".jpg");
+                                Log.e("twitterpicture", itemList.get(mItemPosition).getTwitterPicture() + "  " + (mItemPosition - 12 * (mPage - 1)) + "  " + mItemPosition + "  " + (mPage - 1));
+                                URL url = new URL("http://" + Constant.host + "/QGzone/twitterPhotos/_" + jsonModel.getJsonList().get(mItemPosition - 12 * (mPage - 1)).getTwitterId() + "_" + (j + 1) + ".jpg");
                                 Bitmap bitmap = BitmapFactory.decodeStream(url.openStream());
-                                Log.e("fileSize",bitmap.getByteCount()+"");
-                                if(bitmap!=null) {
+                                Log.e("fileSize", bitmap.getByteCount() + "");
+                                if (bitmap != null) {
                                     HashMap<String, Object> pic_Map = new HashMap<String, Object>();
                                     pic_Map.put("image", bitmap);
                                     pics.add(pic_Map);
@@ -193,32 +205,32 @@ public class ShuoshuoListview extends RelativeLayout {
                                 e.printStackTrace();
                             }
                         }
-                        if(pics!=null)mPicGridViewList.add(pics);
+                        if (pics != null) mPicGridViewList.add(pics);
                     }
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if(lv.getAdapter() == null) {
-                                itemAdapter = new Item_Adapter(itemList, mContext, mPicGridViewList,id,handler);
-                                ListView lv = (ListView) findViewById(R.id.lv);
+                            if (lv.getAdapter() == null) {
+                                itemAdapter = new Item_Adapter(itemList, mContext, mPicGridViewList, id, handler);
                                 lv.setAdapter(itemAdapter);
                                 handler.sendEmptyMessage(5);
-                            }else{
+                            } else {
                                 itemAdapter.notifyDataSetChanged();
                                 handler.sendEmptyMessage(5);
                             }
 
-                            mPage+=1;//页数加一
-                            mFlag_Load=true;//滑动可监听
+                            mPage += 1;//页数加一
+                            mFlag_Load = true;//滑动可监听
                             handler.sendEmptyMessage(0);
 
                         }
                     });
-                }else if(jsonModel.getState() == 201 && jsonModel.getJsonList().size()==0){
+                } else if (jsonModel.getState() == 201 && jsonModel.getJsonList().size() == 0) {
                     handler.sendEmptyMessage(5);
                     handler.sendEmptyMessage(4);
                 }
             }
+
             @Override
             public void OnError(Exception e) {
                 e.printStackTrace();

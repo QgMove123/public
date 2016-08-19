@@ -11,7 +11,7 @@ public class ToastUtil {
     /**
      * 封闭构造方法,禁止创建实体类
      */
-    private ToastUtil(){};
+    private ToastUtil(){}
 
     public static boolean isShow = true;
 
