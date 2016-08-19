@@ -240,13 +240,14 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
                 datedialog("生日", R.id.birth);
                 break;
             case R.id.place:
-                editdialog("地址", "[u4e00-u9fa5]{0,}$", R.id.place);
+                editdialog("地址", "[a-z0-9A-Z一-龥]{1,15}", R.id.place);
                 break;
             case R.id.phone:
-                editdialog("电话", "^[0-9]*${11}", R.id.phone);
+                editdialog("电话", "[1][358]\\d{9}", R.id.phone);
                 break;
             case R.id.email:
-                editdialog("邮箱", "^w+([-+.]w+)*@w+([-.]w+)*.w+([-.]w+)*$", R.id.email);
+                editdialog("邮箱", "^([a-zA-Z0-9]*[-_]?[a-zA-Z0-9]+)*@([a-zA-Z0-9]"+
+                        "*[-_]?[a-zA-Z0-9]+)+[\\.][A-Za-z]{2,3}([\\.][A-Za-z]{2})?$", R.id.email);
                 break;
         }
     }
@@ -431,14 +432,18 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 161:
                 case 171:
-                    Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     ImageLoader.getInstance(1).loadImage(path, userPic, true);
+                case 131:
+                case 141:
+                case 151:
+                    Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     break;
-                case 162:
+                case 132:
+                case 142:
+                case 152:
                 case 172:
-                    Toast.makeText(EditInfoActivity.this, "获取个人信息失败，请查看网络连接", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     break;
                 case 173:
                     Toast.makeText(EditInfoActivity.this, "文件格式错误", Toast.LENGTH_SHORT).show();
