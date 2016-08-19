@@ -9,7 +9,7 @@
         android:id="@+id/item_img"
         android:layout_width="180dp"
         android:layout_height="135dp"
-        android:src="@mipmap/list_album_public"
+        android:src="@mipmap/list_album_normal"
         android:scaleType="centerCrop"/>
 
     <TextView
