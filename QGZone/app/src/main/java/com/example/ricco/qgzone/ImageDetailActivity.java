@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.ricco.utils.ImageLoader;
+import com.example.ricco.others.ImageLoader;
 
 public class ImageDetailActivity extends BaseActivity {
     @Override

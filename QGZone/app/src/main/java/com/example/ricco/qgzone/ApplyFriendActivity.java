@@ -5,17 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.ricco.adapter.ApplyFriendAdapter;
 import com.example.ricco.constant.Constant;
@@ -38,7 +29,7 @@ import java.util.List;
  * @author Wzkang
  *         Created by Ricco on 2016/8/12.
  */
-public class ActivityApplyFriend extends BaseActivity {
+public class ApplyFriendActivity extends BaseActivity {
 
     // 通过昵称搜索
     final String firstUrl = Constant.Friend.searchName;
@@ -59,7 +50,7 @@ public class ActivityApplyFriend extends BaseActivity {
                     ToastUtil.showShort(mContext, "服务器错误！");
                     break;
                 case 301:
-                    LogUtil.d("ActivityApplyFriend", "检索到好友！");
+                    LogUtil.d("ApplyFriendActivity", "检索到好友！");
                     if (msg.obj != null) {
                         if (mDatas.size() > 0) {
                             mDatas.clear();
@@ -147,7 +138,7 @@ public class ActivityApplyFriend extends BaseActivity {
         } else {
             mSearchBar.setHint("账号搜索");
         }
-        mAdapter = new ApplyFriendAdapter(ActivityApplyFriend.this, R.layout.item_apply, mHandler, mDatas);
+        mAdapter = new ApplyFriendAdapter(ApplyFriendActivity.this, R.layout.item_apply, mHandler, mDatas);
         mListv.setAdapter(mAdapter);
     }
 
@@ -183,7 +174,7 @@ public class ActivityApplyFriend extends BaseActivity {
      * @param choice  true代表按照昵称，false代表账号
      */
     public static void actionStart(Context context, boolean choice) {
-        Intent intent = new Intent(context, ActivityApplyFriend.class);
+        Intent intent = new Intent(context, ApplyFriendActivity.class);
         intent.putExtra("choice", choice);
         context.startActivity(intent);
     }

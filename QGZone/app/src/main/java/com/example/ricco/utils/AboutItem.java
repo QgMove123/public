@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ricco.others.CircleImageVIew;
 import com.example.ricco.qgzone.R;
 
 /**

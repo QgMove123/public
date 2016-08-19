@@ -25,7 +25,6 @@ import com.example.ricco.others.ShuoshuoListview;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.MsgBoardActivity;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.qgzone.TalkPubActivity;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.ToastUtil;
@@ -48,9 +47,9 @@ public class DongTaiFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ShuoshuoListview.setHeader(null);
-        ShuoshuoListview.setShuoshuoURL("http://192.168.43.172:8080/QGzone/TwitterOfOthers?userId=10000&page=");
+        ShuoshuoListview.setShuoshuoURL("http://" + Constant.host + "/QGzone/TwitterOfOthers?userId=10000&");
         View layout = inflater.inflate(R.layout.fragment_dongtai, container, false);
-        MainActivity.nowFragTag = Constant.FRAGMENT_FLAG_DONGTAI;;
+        MainActivity.nowFragTag = Constant.FRAGMENT_FLAG_DONGTAI;
         return layout;
     }
 

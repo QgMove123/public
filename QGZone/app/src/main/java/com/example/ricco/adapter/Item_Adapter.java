@@ -11,59 +11,42 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
-import android.text.Editable;
-import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.entity.NoteModel;
 import com.example.ricco.entity.TwitterCommentModel;
 import com.example.ricco.entity.TwitterModel;
-import com.example.ricco.fragment.DongTaiFragment;
 import com.example.ricco.others.ShuoshuoListview;
 import com.example.ricco.qgzone.ImageDetailActivity;
-import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.HttpUtil;
-import com.example.ricco.utils.ImageLoader;
 import com.example.ricco.utils.Item_Adapter_View;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.TalkPicGridView;
 import com.example.ricco.utils.TalkRespondListView;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -72,7 +55,7 @@ import java.util.TimerTask;
  * Created by Mr_Do on 2016/8/8.
  */
 public class Item_Adapter extends BaseAdapter{
-    private final String IP = "192.168.43.172";
+    private final String IP = Constant.host;
     private Handler handler;
     private View contentView;
     private PopupWindow mPopupWindow;
@@ -252,7 +235,7 @@ public class Item_Adapter extends BaseAdapter{
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         handler.sendEmptyMessage(1);
-                                        String url = "http://" + IP + ":8080/QGzone/TwitterCommentDelete?commentId=" + twitterItem.getComment().get(position).getCommentId();
+                                        String url = "http://" + IP + "/QGzone/TwitterCommentDelete?commentId=" + twitterItem.getComment().get(position).getCommentId();
                                         Log.e("URL", url);
                                         HttpUtil.Get(url, new HttpUtil.CallBackListener() {
                                             @Override
@@ -331,7 +314,7 @@ public class Item_Adapter extends BaseAdapter{
                     holder = holders.get(index);
                     if (twitterItems != null) twitterItem = twitterItems.get(position);
                     else if (noteItems != null) noteItem = noteItems.get(position);
-                    HttpUtil.Get("http://" + IP + ":8080/QGzone/TwitterCommentAdd?twitterId=" + twitterItem.getTwitterId()
+                    HttpUtil.Get("http://" + IP + "/QGzone/TwitterCommentAdd?twitterId=" + twitterItem.getTwitterId()
                             + "&targetId=" + twitterItem.getTalkId()
                             + "&comment=" + holder.editText.getText().toString(), new HttpUtil.CallBackListener() {
                         @Override
@@ -382,7 +365,7 @@ public class Item_Adapter extends BaseAdapter{
                                     setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String url = "http://" + IP + ":8080/QGzone/TwitterDelete?twitterId=" + twitterItem.getTwitterId();
+                                    String url = "http://" + IP + "/QGzone/TwitterDelete?twitterId=" + twitterItem.getTwitterId();
                                     Log.e("URL", url);
                                     HttpUtil.Get(url, new HttpUtil.CallBackListener() {
                                         @Override
@@ -428,7 +411,7 @@ public class Item_Adapter extends BaseAdapter{
                     holder = holders.get(index);
                     v.setEnabled(false);
                     if (twitterItems != null) twitterItem = twitterItems.get(position);
-                    String url = "http://"+IP+":8080/QGzone/TwitterSupport?twitterId="+twitterItem.getTwitterId();
+                    String url = "http://"+IP+"/QGzone/TwitterSupport?twitterId="+twitterItem.getTwitterId();
                     HttpUtil.Get(url, new HttpUtil.CallBackListener(){
                         @Override
                         public void OnFinish(String result) {
@@ -494,7 +477,7 @@ public class Item_Adapter extends BaseAdapter{
 //            case R.id.dongtai_shangchu:{
 //                //删除该item
 //                //删除说说
-//                String url = "http:"+IP+":8080:QGzone/TwitterDelete?twitterId="+twitterItem.getTalkId();
+//                String url = "http:"+IP+":QGzone/TwitterDelete?twitterId="+twitterItem.getTalkId();
 //                HttpUtil.Get(url, new HttpUtil.CallBackListener(){
 //                    @Override
 //                    public void OnFinish(Object result) {
@@ -512,7 +495,7 @@ public class Item_Adapter extends BaseAdapter{
 //            case  R.id.dongtai_zan:{
 //                //检测可见度，切换可不可见
 //                //给说说点赞
-//                String url = "http://"+IP+":8080/QGzone/TwitterSupport?twitterId="+twitterItem.getTalkId();
+//                String url = "http://"+IP+"/QGzone/TwitterSupport?twitterId="+twitterItem.getTalkId();
 //                HttpUtil.Get(url, new HttpUtil.CallBackListener(){
 //                    @Override
 //                    public void OnFinish(Object result) {
@@ -563,8 +546,8 @@ public class Item_Adapter extends BaseAdapter{
 //    }
     /*要用到的方法*/
     private String getURL(String ip, int twitterId, int position){
-        Log.e("Tag","http://"+ip+":8080/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg");
-        return "http://"+ip+":8080/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg";
+        Log.e("Tag","http://"+ip+"/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg");
+        return "http://"+ip+"/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg";
     }
     private void showPopupWindow(final int position, final TwitterModel twitterModel) {//弹出框，包含回复功能
         showKeyBroad();
@@ -586,7 +569,7 @@ public class Item_Adapter extends BaseAdapter{
             public void onClick(View v) {
                 mPopupWindow.dismiss();
                 if(!holder.editText.getText().equals("")) {
-                    HttpUtil.Get("http://" + IP + ":8080/QGzone/TwitterCommentAdd?twitterId=" + twitterModel.getTwitterId()
+                    HttpUtil.Get("http://" + IP + "/QGzone/TwitterCommentAdd?twitterId=" + twitterModel.getTwitterId()
                             + "&targetId=" + twitterModel.getComment().get(position).getCommenterId()
                             + "&comment=" + huifuEditText.getText().toString(), new HttpUtil.CallBackListener() {
                         @Override

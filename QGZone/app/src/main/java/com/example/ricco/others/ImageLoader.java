@@ -11,11 +11,13 @@ import android.util.LruCache;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.LogUtil;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
@@ -55,8 +57,6 @@ public class ImageLoader {
     //控制线程池内部队列
     //保证任务队列LIFO模式起作用
     private Semaphore mSemaphoreThreadPool;
-    //默认图片
-    private int defPath = R.mipmap.ic_launcher;
 
     /**
      * 构造方法，初始化变量
@@ -136,7 +136,7 @@ public class ImageLoader {
      * @param path
      * @param imageView
      */
-    public void loadImage(final String path,final ImageView imageView, final boolean isLocal) {
+    public void loadImage(final String path, final ImageView imageView, final boolean isLocal) {
         //子线程加载图片较慢，会造成错位
         imageView.setTag(path);
         if (mUIHandler == null) {
@@ -150,9 +150,7 @@ public class ImageLoader {
                     String path = holder.path;
                     //将path与getTag存储路径进行比较
                     if (imageView.getTag().toString().equals(path)) {
-                        if(bm == null){
-                            imageView.setImageResource(defPath);
-                        }else {
+                        if (bm != null) {
                             imageView.setImageBitmap(bm);
                         }
                     }
@@ -164,7 +162,7 @@ public class ImageLoader {
 
         if (bm != null) {
             //返回图片到UI线程
-            refreashBitmap(bm, path,imageView);
+            refreashBitmap(bm, path, imageView);
         } else {
             addTask(new Runnable() {
                 @Override
@@ -173,17 +171,17 @@ public class ImageLoader {
                     ImageSize imageSize = getImageViewSize(imageView);
                     //2.获取图片并压缩
                     Bitmap bm;
-                    if(isLocal){
+                    if (isLocal) {
                         bm = decodeSampleBitmapFromPath(path, imageSize.width, imageSize.height);
-                    }else{
+                    } else {
                         bm = decodeSampleBitmapFromUrl(path, imageSize.width, imageSize.height);
                     }
                     //3.把图片加入到缓存
-                    if(bm != null){
+                    if (bm != null) {
                         addBipmapToLruCache(path, bm);
                     }
                     //4.返回图片到UI线程
-                    refreashBitmap(bm, path,imageView);
+                    refreashBitmap(bm, path, imageView);
                     //5.释放一个信号量
                     //允许一个新的任务加入到线程池内部队列中
                     mSemaphoreThreadPool.release();
@@ -292,35 +290,51 @@ public class ImageLoader {
             conn.setReadTimeout(8000);
             //3.建立连接
             conn.connect();
-            LogUtil.e("UpLoadPhoto",conn.getResponseCode()+"");
             //4.获取输入流
-            bis = new BufferedInputStream(conn.getInputStream());
-//            //5.图片压缩
-//            BitmapFactory.Options options = new BitmapFactory.Options();
-//            options.inJustDecodeBounds = true;
-//            BitmapFactory.decodeStream(bis, null, options);
-//            int width = options.outWidth;
-//            int height = options.outHeight;
-//            options.inSampleSize = 1;
-//            if (width > reqwidth || height > reqheight) {
-//                int widthRatio = Math.round(width * 1.0f / reqwidth);
-//                int heightRatio = Math.round(height * 1.0f / reqheight);
-//                options.inSampleSize = Math.max(widthRatio, heightRatio);
-//            }
-//            options.inJustDecodeBounds = false;
-            Bitmap bitmap  = BitmapFactory.decodeStream(bis);
+            InputStream is = conn.getInputStream();
+            byte [] datas = getBytesFromInputStream(is);
+            //5.图片压缩
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(datas,0 ,datas.length, options);
+            int width = options.outWidth;
+            int height = options.outHeight;
+            options.inSampleSize = 1;
+            if (width > reqwidth || height > reqheight) {
+                int widthRatio = Math.round(width * 1.0f / reqwidth);
+                int heightRatio = Math.round(height * 1.0f / reqheight);
+                options.inSampleSize = Math.max(widthRatio, heightRatio);
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap bitmap = BitmapFactory.decodeByteArray(datas, 0, datas.length, options);
             return bitmap;
         } catch (IOException e) {
             return null;
         } finally {
-            try {
-                bis.close();
-                conn.disconnect();
-            } catch (IOException e) {
-                return null;
-            } catch (Exception e){
-                return null;
+           if(conn!=null){
+               conn.disconnect();
+           }
+        }
+    }
+
+    /**
+     * 将流转化为字节数组
+     * @param is
+     * @return
+     */
+    private byte[] getBytesFromInputStream(InputStream is) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024 * 8];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                bos.write(buffer, 0, len);
             }
+            bos.flush();
+            bos.close();
+            return bos.toByteArray();
+        } catch (IOException e) {
+            return null;
         }
     }
 
