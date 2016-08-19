@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,15 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name=".CheckFriendActivity" />
-        <!-- adjustPan用于使软键盘不闪退 -->
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AlbumActivity"
@@ -43,12 +38,11 @@
         <activity android:name=".ImageDetailActivity" />
         <activity android:name=".FriendTalkPubActivity" />
         <activity android:name=".ApplyFriendActivity" />
-
         <activity android:name=".FirstActivity">
-        <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-        <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".InfoActivity" />
         <activity android:name=".LoginSignActivity" />
