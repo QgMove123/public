@@ -9,7 +9,7 @@ public final class Constant {
     public static final String host = "192.168.3.49:8080";
 
     //自己的ID，用于访问自己页面
-    public static final int HOST_ID = 1;
+    public static  int HOST_ID;
 
     //好友ID
     public static int FRIEND_ID = 0;

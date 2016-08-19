@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ricco.others.ShuoshuoListview;
+
 /**
  * 留言板
  */
@@ -14,6 +16,9 @@ public class MsgBoardActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ShuoshuoListview.setHeader(null);
+        String url = getIntent().getStringExtra("friendID");
+        ShuoshuoListview.setShuoshuoURL("http://192.168.43.172:8080/QGzone/NoteOfOthers?userId=留言板主人的id&page=");
         setContentView(R.layout.activity_msgeboard);
         TextView to_WriteMsgBoard = (TextView) findViewById(R.id.liuyan_to_write);
         to_WriteMsgBoard.setOnClickListener(new View.OnClickListener() {
@@ -23,6 +28,7 @@ public class MsgBoardActivity extends BaseActivity{
                 startActivity(intent);
             }
         });
+
     }
 
     public static void actionStart(Context context, int friendId) {

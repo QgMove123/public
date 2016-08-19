@@ -9,7 +9,7 @@
         android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableRight="@drawable/respond_btn_bg"
+        android:drawableRight="@mipmap/dongtai_has_zan"
         android:padding="10dp"
         android:paddingBottom="50dp"
         android:maxLines="1"/>

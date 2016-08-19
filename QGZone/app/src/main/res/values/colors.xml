@@ -9,7 +9,9 @@
     <color name="colorTopBarBackground">#69c9f5</color>
     <color name="colorFont">#dc000000</color>
     <color name="colorWhite">#ffffff</color>
-
+    <color name="disapear">#00000000</color>
+    <color name="colorLiuYanBtn">#12000000</color>
+    <color name="colorLiuYanBg">#f0f0f0</color>
     <!--Album模块部分着色-->
     <color name="white">#ffffff</color>
     <color name="black">#3c3c3c</color>
@@ -19,6 +21,4 @@
     <color name="lightBlue">#69c9f5</color>
     <color name="blueTextBg">#4141ff</color>
     <color name="redTextBg">#FF4081</color>
-
-
 </resources>

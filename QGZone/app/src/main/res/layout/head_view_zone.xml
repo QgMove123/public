@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="128dp"
         android:background="@color/colorTopBarBackground" >
-        <com.example.ricco.utils.CircleImageVIew
+        <com.example.ricco.others.CircleImageVIew
             android:id="@+id/civ_zone"
             android:layout_width="64dp"
             android:layout_height="64dp"

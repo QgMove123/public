@@ -15,7 +15,6 @@
             android:id="@+id/list_personphoto"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/side_title_bg"
             />
         <TextView
             android:id="@+id/dongtai_name_text"
@@ -82,12 +81,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/dongtai_zan"
+            android:src="@mipmap/comment_dongtai"
+            android:background="@color/disapear"
             android:layout_marginRight="20dp"/>
         <ImageButton
             android:id="@+id/dongtai_shangchu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/dongtai_pinglun"
+            android:src="@mipmap/delete_dongtai"
+            android:background="@color/disapear"
             android:layout_marginRight="20dp"/>
     </RelativeLayout>
     <!--为了让回复的listview能完全显示出来故自定义了MyListView-->
@@ -104,15 +107,20 @@
             android:id="@+id/respond_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/respond_btn_bg"
-            android:padding="16dp"
+            android:hint="评论"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColorHint="@color/colorLiuYanBg"
+            android:drawableRight="@mipmap/dongtai_has_zan"
+            android:background="@mipmap/search_background"
+           android:layout_margin="16dp"
             android:maxLines="1"/>
         <ImageButton
             android:id="@+id/respond_ImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignRight="@+id/respond_EditText"
-            android:background="#00000000"
+            android:background="@color/disapear"
             android:padding="16dp"/>
     </RelativeLayout>
 
