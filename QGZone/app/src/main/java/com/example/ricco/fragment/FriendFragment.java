@@ -167,7 +167,7 @@ public class FriendFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 FriendTalkPubActivity
-                        .actionStart(mActivity, mDatas.get(position - 1).getUserId(), true);
+                        .actionStart(mActivity, mDatas.get(position - 1).getUserId());
             }
         });
 

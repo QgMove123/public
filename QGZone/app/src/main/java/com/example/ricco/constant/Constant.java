@@ -1,15 +1,17 @@
 package com.example.ricco.constant;
 
+import android.view.View;
+
 /**
  * 全局常量
  */
 public final class Constant {
 
     //主机号
-    public static final String host = "192.168.1.109:8080";
+    public static final String host = "192.168.3.49:8080";
 
     //自己的ID，用于访问自己页面
-    public static final int HOST_ID = 1;
+    public static final int HOST_ID = 10000;
 
     //好友ID
     public static int FRIEND_ID = 0;
@@ -67,10 +69,12 @@ public final class Constant {
     // 所有与说说相关的url
     public static final class TalkPub {
         public static final String individuallity = "http://" + host + "/QGzone/TwitterOfOthers?userId=";
+        public static String url = null;
+        public static View headView = null;
     }
 
     // 获取的头像的url
-    public static final String civUrl = "http://"+ host + ":8080/QGzone/jpg/";
+    public static final String civUrl = "http://"+ host + "/QGzone/jpg/";
 
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;
