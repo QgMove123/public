@@ -95,17 +95,16 @@ public class HttpUtil {
                 try {
                     URL httpUrl = new URL(url);
                     conn = (HttpURLConnection) httpUrl.openConnection();
-                    conn.setRequestMethod("POST");
-                    if(sessionid != null) {
+                    if (sessionid != null) {
                         conn.setRequestProperty("cookie", sessionid);
                     } else {
                         String cookieval = conn.getHeaderField("set-cookie");
-                        if(cookieval != null) {
+                        if (cookieval != null) {
                             sessionid = cookieval.substring(0, cookieval.indexOf(";"));
                         }
                     }
-
-                    conn.setConnectTimeout(8000);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Connection", "Keep-Alive");
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
                     conn.setRequestProperty("Content-Type",
@@ -119,10 +118,10 @@ public class HttpUtil {
                         dos.writeUTF(JsonOrString);
                         dos.writeBytes(end);
                     }
-                    Log.e("run: connect", conn+"");
                     //输出图片
                     int size = 0;
                     if (imgPaths != null && (size = imgPaths.size())!= 0) {
+                        Log.e("run: prefix+bound", "haha"+imgPaths.get(0));
                         for (int i = 0; i < size; i++) {
                             dos.writeBytes(prefix+boundary+end);
                             dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=image.jpg" + end);
@@ -138,7 +137,6 @@ public class HttpUtil {
                         }
                     }
                     dos.writeBytes(prefix+boundary+prefix+end);
-                    Log.e("run: session", sessionid+"");
                     //读入
                     StringBuilder str = new StringBuilder("");
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -151,13 +149,12 @@ public class HttpUtil {
                         listener.OnFinish(str.toString());
                         LogUtil.e("HttpUtilPost","Finish");
                     }
-
                 } catch (MalformedURLException e) {
                     listener.OnError(e);
                     LogUtil.e("HttpUtilGet","Error");
                 } catch (IOException e) {
                     listener.OnError(e);
-                    LogUtil.e("HttpUtilGet","Error");
+                    LogUtil.e("HttpUtilPost","Error");
                 } finally {
                     if (conn != null) {
                         conn.disconnect();
@@ -166,5 +163,6 @@ public class HttpUtil {
             }
         }).start();
     }
+
 
 }

@@ -16,7 +16,7 @@ import com.example.ricco.others.ImageLoader;
 import com.example.ricco.others.CircleImageVIew;
 import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.HttpUtil;
-import com.example.ricco.utils.InfoItem;
+import com.example.ricco.others.InfoItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +35,7 @@ public class InfoActivity extends BaseActivity {
     private Button exit;
     private TopBar tb;
     private String url;
+    //用于存储获取的帐号信息
     private String message;
 
     public static void actionStart(Context context, String data1, int data2) {
@@ -53,14 +54,52 @@ public class InfoActivity extends BaseActivity {
         headPic = (CircleImageVIew) findViewById(R.id.user_pic);
         name = (TextView) findViewById(R.id.user_name);
         exit = (Button) findViewById(R.id.exit);
+
+        //设置个人信息控件
         initInfo();
+        //通过进入的信息进行处理判断view的显示和控件的监听
+        setListener();
+        //设置TopBar左右控件的监听
+        tb.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
+            @Override
+            public void LeftClick(View view) {
+                finish();
+            }
+
+            @Override
+            public void RightClick(View view) {
+                EditInfoActivity.actionStart(InfoActivity.this, message);
+            }
+        });
+        //请求信息
+        requestInfo(url);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        requestInfo(url);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HttpUtil.Get(Constant.Account.userSignOut, null);
+    }
+
+    /**
+     * 根据进入的状态设置控件监听
+     */
+    public void setListener(){
         Intent intent = getIntent();
+
         if(intent != null && intent.getStringExtra("user").equals("friend")) {
+            //好友进入时，隐藏编辑和退出按钮，设置获取好友信息的url
             tb.setRightIsVisable(false);
-            findViewById(R.id.exit).setVisibility(View.GONE);
+            exit.setVisibility(View.GONE);
             url = Constant.Account.MessageSearch + intent.getIntExtra("id", 0);
         } else {
-
+            //用户查看我的资料时设置监听，设置获取用户信息的url
             exit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -69,28 +108,8 @@ public class InfoActivity extends BaseActivity {
                     startActivity(intent1);
                 }
             });
-
-            tb.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
-                @Override
-                public void LeftClick(View view) {
-                    finish();
-                }
-
-                @Override
-                public void RightClick(View view) {
-                    EditInfoActivity.actionStart(InfoActivity.this, message);
-                }
-            });
             url = Constant.Account.MessageGet;
         }
-
-        requestInfo(url);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        HttpUtil.Get(Constant.Account.userSignOut, null);
     }
 
     /**
@@ -117,7 +136,9 @@ public class InfoActivity extends BaseActivity {
         infoArry.add(email);
     }
 
-    // 网络线程请求个人信息
+    /**
+     *网络线程请求个人信息
+     */
     private void requestInfo(String url) {
         HttpUtil.Get(url, new HttpUtil.CallBackListener() {
             @Override
@@ -130,10 +151,12 @@ public class InfoActivity extends BaseActivity {
                     Log.e("OnFinish: result", result);
                     msg.what = Integer.valueOf(dataJson.getString("state"));
                     msg.obj = dataJson.get("message");
+                    //保存获取的个人信息
                     message = dataJson.getString("message");
-                    mHandler.sendMessage(msg);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } finally {
+                    mHandler.sendMessage(msg);
                 }
             }
 
@@ -153,24 +176,28 @@ public class InfoActivity extends BaseActivity {
             switch (msg.what) {
                 case 161:
                     JSONObject map = (JSONObject) msg.obj;
-                    for(InfoItem ii: infoArry) {
-                        try {
+
+                    //遍历个人信息的控件，存储个人信息
+                    try {
+                        for (InfoItem ii : infoArry) {
                             ii.setEditText(map.getString(ii.getTextView()));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                     try {
-                        ImageLoader.getInstance(1).loadImage(Constant.civUrl+map.getString("userImage"), headPic, false);
+                        ImageLoader.getInstance(1).loadImage(Constant.civUrl + map.getString("userImage"), headPic, false);
                         name.setText(map.getString("userName"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                     break;
                 case 162:
                     Toast.makeText(InfoActivity.this, "获取个人信息失败，请查看网络连接", Toast.LENGTH_SHORT).show();
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };

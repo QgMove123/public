@@ -58,32 +58,32 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

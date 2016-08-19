@@ -12,17 +12,13 @@ import android.widget.Button;
  */
 public class FirstActivity extends Activity implements View.OnClickListener {
 
-    //首页面的登录注册按钮
-    private Button login;
-    private Button sign;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_layout);
 
-        login = (Button) findViewById(R.id.login);
-        sign = (Button) findViewById(R.id.sign);
+        Button login = (Button) findViewById(R.id.login);
+        Button sign = (Button) findViewById(R.id.sign);
 
         login.setOnClickListener(this);
         sign.setOnClickListener(this);

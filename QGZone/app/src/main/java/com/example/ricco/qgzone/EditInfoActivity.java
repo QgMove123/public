@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,13 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ricco.constant.Constant;
-import com.example.ricco.entity.MessageModel;
 import com.example.ricco.others.CircleImageVIew;
+import com.example.ricco.others.ImageLoader;
+import com.example.ricco.others.InfoItem;
+import com.example.ricco.others.PassItem;
 import com.example.ricco.others.TopBar;
-import com.example.ricco.utils.DialogItem;
 import com.example.ricco.utils.EditProblemItem;
 import com.example.ricco.utils.HttpUtil;
-import com.example.ricco.utils.InfoItem;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.SelectPopupWindow;
 
@@ -36,7 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,94 +50,23 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
 
     private List<InfoItem> infoArry = new ArrayList<InfoItem>();
     private CircleImageVIew userPic;
-    private Uri imageUri;
     private TopBar tb;
     private TextView nickname;
     private TextView problem;
     private TextView password;
     private SelectPopupWindow popupWindow;
-    private MessageModel mm;
     String path;
     Map<String, String> model = new HashMap<>();
 
+    /**
+     * 启动EditInfoActivity
+     * @param context
+     * @param message
+     */
     public static void actionStart(Context context, String message) {
         Intent intent = new Intent(context, EditInfoActivity.class);
         intent.putExtra("message", message);
         context.startActivity(intent);
-    }
-
-    //为弹出窗口实现监听类
-    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
-
-        public void onClick(View v) {
-            popupWindow.dismiss();
-            File outputImage = new File(Environment.getExternalStorageDirectory(), "image_pic.jpg");
-            try {
-                if(outputImage.exists()) {
-                    outputImage.delete();
-                }
-                outputImage.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            imageUri = Uri.fromFile(outputImage);
-            Intent intent;
-            switch (v.getId()) {
-                case R.id.button:
-                    intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                    startActivityForResult(intent, 1);
-                    break;
-                case R.id.button2:
-                    Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                    startActivityForResult(intent1, 2);
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode){
-            case 1:
-
-                break;
-            case 2:
-                if (resultCode == RESULT_OK) {
-                    Bitmap bm = null;
-                    // 外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
-//                ContentResolver resolver = getContentResolver();
-
-                    Uri originalUri = data.getData(); // 获得图片的uri
-
-//                    bm = MediaStore.Images.Media.getBitmap(resolver, originalUri); // 显得到bitmap图片
-
-                    // 这里开始的第二部分，获取图片的路径：
-
-                    String[] proj = { MediaStore.Images.Media.DATA };
-
-                    // 好像是android多媒体数据库的封装接口，具体的看Android文档
-                    @SuppressWarnings("deprecation")
-                    Cursor cursor = managedQuery(originalUri, proj, null, null, null);
-                    // 按我个人理解 这个是获得用户选择的图片的索引值
-                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    // 将光标移至开头 ，这个很重要，不小心很容易引起越界
-                    cursor.moveToFirst();
-                    // 最后根据索引值获取图片路径
-                    String path = cursor.getString(column_index);
-                    List<String> paths = new ArrayList<>();
-                    paths.add(path);
-                    Log.e("onActivityResult: paths", paths+"");
-                    HttpUtil.Post(Constant.Account.UserUploadImage, null, paths, callBackListener);
-                    userPic.setImageURI(originalUri);
-                }
-                break;
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -147,6 +74,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_info_layout);
 
+        //初始化控件
         initInfo();
         userPic = (CircleImageVIew) findViewById(R.id.user_pic);
         tb = (TopBar) findViewById(R.id.topBar);
@@ -158,21 +86,42 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         password.setOnClickListener(this);
         problem.setOnClickListener(this);
 
+        //从个人信息中获取信息并将信息存入控件中
+        setMessage();
+
+        //设置控件的监听
+        setListener();
+    }
+
+    public void setMessage() {
         Intent intent = getIntent();
         try {
+
+            //从intent中获取message
             String message = intent.getStringExtra("message");
             JSONObject dataJson = new JSONObject(message);
-            for (InfoItem ii: infoArry) {
+
+            //将message存入view中
+            for (InfoItem ii : infoArry) {
                 ii.setEditText(dataJson.getString(ii.getTextView()));
-                if(!ii.getTextView().equals("account")) {
+                if (!ii.getTextView().equals("account")) {
                     ii.setOnClickListener(this);
                 }
             }
+            nickname.setText(dataJson.getString("userName"));
+            ImageLoader.getInstance(1).loadImage(Constant.civUrl + dataJson.getString("userImage"),
+                    userPic, false);
+
+            //更新message的model
             model = JsonUtil.toModel(message, HashMap.class);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    public void setListener() {
+
+        //头像的监听
         userPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +133,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
+        //设置TopBar的监听
         tb.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
             @Override
             public void LeftClick(View view) {
@@ -198,6 +148,77 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
                 HttpUtil.Get(Constant.Account.MessageChange+"?jsonObject="+JsonUtil.toJson(model), callBackListener);
             }
         });
+    }
+
+    /**
+     * 为弹出窗口实现监听类
+     */
+    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+
+        public void onClick(View v) {
+            popupWindow.dismiss();
+            path = null;
+
+            Intent intent;
+            switch (v.getId()) {
+                case R.id.button:
+                    // 拍照
+                    //设置图片的保存路径,作为全局变量
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/image_pic.jpg";
+                    File temp = new File(path);
+                    //获取文件的Uri
+                    Uri imageFileUri = Uri.fromFile(temp);
+                    // 跳转到相机Activity
+                    intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    // 告诉相机拍摄完毕输出图片到指定的Uri
+                    intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageFileUri);
+                    startActivityForResult(intent, 1);
+                    break;
+                case R.id.button2:
+                    intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(intent, 2);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        List<String> paths = new ArrayList<>();
+        switch(requestCode){
+            case 1:
+                paths.add(path);
+                Log.e("onActivityResult: paths", paths+"");
+                HttpUtil.Post(Constant.Account.UserUploadImage, null, paths, callBackListener);
+                break;
+            case 2:
+                if (resultCode == RESULT_OK) {
+                    // 获得图片的uri
+                    Uri originalUri = data.getData();
+
+                    //获取图片的路径：
+                    String[] proj = { MediaStore.Images.Media.DATA };
+
+                    //android多媒体数据库的封装接口
+                    @SuppressWarnings("deprecation")
+                    Cursor cursor = managedQuery(originalUri, proj, null, null, null);
+                    //获得用户选择的图片的索引值
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    // 将光标移至开头 ，这个很重要，不小心很容易引起越界
+                    cursor.moveToFirst();
+                    // 最后根据索引值获取图片路径
+                    path = cursor.getString(column_index);
+                    paths.add(path);
+                    Log.e("onActivityResult: paths", paths+"");
+                    HttpUtil.Post(Constant.Account.UserUploadImage, null, paths, callBackListener);
+                }
+                break;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -233,19 +254,19 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
     //设置对话框用于输入新密码
     private void NewPassDialog() {
         //对话框的自定义样式
-        final DialogItem dialogItem = new DialogItem(EditInfoActivity.this);
-        dialogItem.setPass1("旧密码");
-        dialogItem.setPass2("新密码");
+        final PassItem passItem = new PassItem(EditInfoActivity.this);
+        passItem.setPass1("旧密码");
+        passItem.setPass2("新密码");
         //添加对话框
         AlertDialog.Builder show = new AlertDialog.Builder(EditInfoActivity.this);
         show.setTitle("修改密码");
-        show.setView(dialogItem);
+        show.setView(passItem);
         show.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Map<String, Object> jsonObjiect = new HashMap<>();
-                jsonObjiect.put("oldPassword", dialogItem.getPass1());
-                jsonObjiect.put("newPassword", dialogItem.getPass2());
+                jsonObjiect.put("oldPassword", passItem.getPass1());
+                jsonObjiect.put("newPassword", passItem.getPass2());
                 HttpUtil.Get(Constant.Account.UserChangePassword+"?jsonObject="+ JsonUtil.toJson(jsonObjiect), callBackListener);
             }
         });
@@ -258,6 +279,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         show.create().show();
     }
 
+    //设置对话框用于输入新密保
     public void problemdialog () {
         //对话框的自定义样式
         final EditProblemItem dialogItem = new EditProblemItem(EditInfoActivity.this);
@@ -280,6 +302,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         show.create().show();
     }
 
+    //设置对话框用于设置性别
     public void sexdialog (String title, final int id) {
         final String items[]={"男","女"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
@@ -294,6 +317,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         builder.create().show();
     }
 
+    //设置对话框用于输入新生日
     public void datedialog (String title, final int id) {
         //用来获取日期和时间的
         Calendar calendar = Calendar.getInstance();
@@ -309,6 +333,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         datePickerDialog.show();
     }
 
+    //设置对话框用于输入新信息
     public void editdialog (final String title, final String pattern, final int id) {
         final EditText et = new EditText(this);
         //添加对话框
@@ -407,9 +432,9 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 161:
-//                    ImageLoader.getInstance(1).loadImage(path, userPic, true);
                 case 171:
                     Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                    ImageLoader.getInstance(1).loadImage(path, userPic, true);
                     break;
                 case 162:
                 case 172:

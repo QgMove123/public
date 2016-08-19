@@ -19,8 +19,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.ricco.constant.Constant;
+import com.example.ricco.others.PassItem;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.utils.DialogItem;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 
@@ -36,6 +36,7 @@ import java.util.Map;
  * Created by chenyi on 2016/8/11.
  */
 public class ForgetPassFragment extends Fragment implements View.OnClickListener {
+
     private Button sure;
     private EditText account;
     private EditText answer;
@@ -48,18 +49,21 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //加载忘记密码Fragment的布局
         View view = inflater.inflate(R.layout.forget_pass_fragment, container, false);
+
+        //确认修改密码的按钮
         sure = (Button) view.findViewById(R.id.sure_button);
         sure.setOnClickListener(this);
 
+        //输入帐号密保答案
         account = (EditText) view.findViewById(R.id.account);
         answer = (EditText) view.findViewById(R.id.answer);
-        problem = (Spinner) view.findViewById(R.id.problem);
 
         //密保问题
+        problem = (Spinner) view.findViewById(R.id.problem);
         problem.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long arg) {
+                //获取修改密保问题的序号
                 id = position + 1;
             }
 
@@ -72,6 +76,10 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
         return view;
     }
 
+    /**
+     * 忘记密码的操作以及输入的出错处理
+     * @param v
+     */
     @Override
     public void onClick(View v) {
 
@@ -103,37 +111,45 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
             //输入出错时在输入框提示
             focusView.requestFocus();
         } else {
-            //输入正常传递信息给服务器
+            //传递正常信息给服务器
             jsonObjiect.put("userId", acc);
             jsonObjiect.put("oldSecretId", id+"");
             jsonObjiect.put("oldAnswer", as);
 
-            this.sendProblem(Constant.Account.userCheckSecret+"?jsonObject=" + JsonUtil.toJson(jsonObjiect));
+            HttpUtil.Get(Constant.Account.userCheckSecret+"?jsonObject="+JsonUtil.toJson(jsonObjiect),
+                        callBackListener);
         }
     }
 
-    //设置对话框用于输入新密码
+    /**
+     * 设置对话框用于输入新密码
+     */
     private void NewPassDialog() {
         //对话框的自定义样式
-        final DialogItem dialogItem = new DialogItem(getActivity());
-        dialogItem.setPass1("新密码");
-        dialogItem.setPass1("确认新密码");
+        final PassItem passItem = new PassItem(getActivity());
+        passItem.setPass1("新密码");
+        passItem.setPass2("确认新密码");
         //添加对话框
         AlertDialog.Builder show = new AlertDialog.Builder(getActivity());
         show.setTitle("请输入...");
-        show.setView(dialogItem);
+        show.setView(passItem);
+
         show.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String password = dialogItem.getPass1();
-                if (dialogItem.getPass2().equals(password) && !password.isEmpty()) {
+                String password = passItem.getPass1();
+                //判断两次输入密码是否相同
+                if (passItem.getPass2().equals(password) && !password.isEmpty()) {
                     canCloseDialog(dialog, true);
                     jsonObjiect.put("newPassword" , password);
-                    sendProblem(Constant.Account.userForgetPassword+"?jsonObject="+JsonUtil.toJson(jsonObjiect));
+                    //发送修改密码的信息
+                    HttpUtil.Get(Constant.Account.userForgetPassword+"?jsonObject="+JsonUtil.toJson(jsonObjiect),
+                                callBackListener);
                 } else {
+                    //对话框不关闭，并且提示错误
                     canCloseDialog(dialog, false);
-                    dialogItem.getEditText().setError("两次输入的密码不一致");
-                    View focusView = dialogItem.getEditText();
+                    passItem.getEditText().setError("两次输入的密码不一致");
+                    View focusView = passItem.getEditText();
                     focusView.requestFocus();
                 }
             }
@@ -141,12 +157,18 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
         show.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //取消对话框
                 canCloseDialog(dialog, true);
             }
         });
         show.create().show();
     }
 
+    /**
+     * 输入框能否关闭
+     * @param dialogInterface
+     * @param close
+     */
     private void canCloseDialog(DialogInterface dialogInterface, boolean close) {
         try {
             Field field = dialogInterface.getClass().getSuperclass().getDeclaredField("mShowing");
@@ -157,31 +179,34 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    // 发送注册信息给服务器
-    private void sendProblem(String url) {
-        HttpUtil.Get(url, new HttpUtil.CallBackListener() {
-            @Override
-            public void OnFinish(String result) {
-
-                Message msg = new Message();
-                try {
-                    //通过JSONObject取出服务器传回的状态和信息
-                    JSONObject dataJson = new JSONObject(result);
-                    Log.e("OnFinish: ", result+"");
-                    msg.what = Integer.valueOf(dataJson.getString("state"));
-                    mHandler.sendMessage(msg);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void OnError(Exception e) {
+    /**
+     * HttpUtil的回调，接收返回的状态码和信息
+     */
+    private HttpUtil.CallBackListener callBackListener = new HttpUtil.CallBackListener() {
+        @Override
+        public void OnFinish(String result) {
+            Message msg = new Message();
+            try {
+                //通过JSONObject取出服务器传回的状态和信息
+                JSONObject dataJson = new JSONObject(result);
+                Log.e("OnFinish: ", result+"");
+                msg.what = Integer.valueOf(dataJson.getString("state"));
+            } catch (JSONException e) {
                 e.printStackTrace();
+            } finally {
+                mHandler.sendMessage(msg);
             }
-        });
-    }
+        }
 
+        @Override
+        public void OnError(Exception e) {
+            e.printStackTrace();
+        }
+    };
+
+    /**
+     * 对接收的状态码进行判断，更新UI
+     */
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
 
@@ -193,8 +218,8 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
                     Toast.makeText(getActivity(), "找不到帐号或密保答案错误", Toast.LENGTH_SHORT).show();
                     break;
                 case 121:
-                    jsonObjiect.remove("newPassword");
                     Toast.makeText(getActivity(), "密码修改成功", Toast.LENGTH_SHORT).show();
+                    getFragmentManager().popBackStack();
                     break;
                 case 122:
                     Toast.makeText(getActivity(), "密码修改失败", Toast.LENGTH_SHORT).show();
