@@ -25,7 +25,7 @@ public class DongTaiFragment extends BaseFragment {
         ShuoshuoListview.setisNote(false);
         ShuoshuoListview.setShuoshuoURL("http://"+Constant.host+"/QGzone/TwitterGetTest?page=");
         View layout = inflater.inflate(R.layout.fragment_dongtai, container, false);
-        MainActivity.nowFragTag = Constant.FRAGMENT_FLAG_DONGTAI;;
+        MainActivity.nowFragTag = Constant.FRAGMENT_FLAG_DONGTAI;
         return layout;
     }
 

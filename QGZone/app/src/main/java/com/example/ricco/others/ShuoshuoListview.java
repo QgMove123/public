@@ -35,6 +35,7 @@ import java.util.HashMap;
  * Created by Mr_Do on 2016/8/17.
  */
 public class ShuoshuoListview extends RelativeLayout {
+
     private Context mContext;
     private ProgressDialog mpdialog;
     private ShuoshuoAdapter itemAdapter;
