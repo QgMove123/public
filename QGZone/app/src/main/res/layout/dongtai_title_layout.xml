@@ -2,46 +2,16 @@
 <!--首页ListView的HeadView-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="160dp"
+    android:layout_height="wrap_content"
     android:id="@+id/talklist_title_layout">
     <ImageView
-        android:id="@+id/dongtai_bg"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="@drawable/title"/>
+        android:layout_height="wrap_content"
+        android:background="@mipmap/dongtai_background"/>
     <com.example.ricco.utils.CircleImageVIew
         android:id="@+id/talk_list_personphoto"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/side_title_bg"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_centerInParent="true"
         />
-    <LinearLayout
-        android:id="@+id/dongtai_btn_layout"
-        android:layout_below="@+id/dongtai_bg"
-        android:layout_width="match_parent"
-        android:layout_height="120dp">
-        <ImageButton
-            android:id="@+id/dongtai_say"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:background="@drawable/dongtai_btn1"
-            />
-        <ImageButton
-            android:id="@+id/dongtai_picture"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:background="@drawable/dongtai_btn2"
-            />
-        <ImageButton
-            android:id="@+id/dongtai_liuyan"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:background="@drawable/dongtai_btn3"
-            />
-    </LinearLayout>
 </RelativeLayout>

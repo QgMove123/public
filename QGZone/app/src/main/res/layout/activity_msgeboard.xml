@@ -17,10 +17,13 @@
         android:paddingLeft="16dp"
         android:layout_height="50dp"
         android:paddingTop="16dp"
-        android:textColor="#000000"
-        android:text="留个言吧..."/>
-    <ListView
-        android:id="@+id/liuyan_listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:textColor="@color/colorLiuYanBtn"
+        android:text="留个言吧..."
+        android:background="@color/colorLiuYanBg"
+        />
+    <com.example.ricco.others.ShuoshuoListview
+        android:id="@+id/msgboard_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </com.example.ricco.others.ShuoshuoListview>
 </LinearLayout>

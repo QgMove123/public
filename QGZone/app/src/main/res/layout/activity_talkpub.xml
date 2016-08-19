@@ -16,36 +16,41 @@
     <EditText
         android:id="@+id/shuos_edittext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="176dp"
         android:hint="说点什么吧..."
+        android:gravity="top|left"
+        android:textColorHint="@color/colorBottomBackground"
         android:maxLines="8"
         android:maxLength="150"
         android:padding="16dp"
-        android:background="#00000000"
+        android:background="@color/colorWhite"
         android:layout_below="@+id/shuos_title_bar"
         />
     <ImageButton
         android:id="@+id/shuos_addpic_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/dongtai_btn2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:background="@mipmap/dongtai_addpic"
         android:layout_centerVertical="true"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/shuos_edittext"
+        android:layout_above="@+id/talkpub_gridview"
         android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="55dp"
         android:text="上传照片，与好友分享你的生活吧"/>
     <GridView
         android:id="@+id/talkpub_gridview"
-        android:layout_width="200dp"
-        android:layout_height="220dp"
+        android:layout_width="324dp"
+        android:layout_height="324dp"
         android:verticalSpacing="5dp"
         android:numColumns="3"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
         android:gravity="center"
         android:layout_below="@+id/shuos_addpic_btn"
-        android:layout_marginLeft="16dp"
         android:stretchMode="columnWidth">
     </GridView>
 </RelativeLayout>

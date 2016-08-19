@@ -85,7 +85,7 @@ public class TalkPubActivity extends BaseActivity {
                 R.layout.gridview_item_layout, new String[]{"image"}, new int[]{R.id.shuos_pic}){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                ImageView imageView = (ImageView) convertView.findViewById(R.id.dongtai_picture);
+                ImageView imageView = (ImageView) convertView.findViewById(R.id.shuos_pic);
                 ImageLoader.getInstance(1).loadImage(imgPath[position],imageView,true);
                 return convertView;
             }
