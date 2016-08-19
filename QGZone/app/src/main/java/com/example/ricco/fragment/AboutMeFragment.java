@@ -49,7 +49,9 @@ public class AboutMeFragment extends BaseFragment {
     private SelectPopupWindow popupWindow;
     private int pos;
 
-    //为弹出窗口实现监听类
+    /**
+     *     为弹出窗口实现监听类
+     */
     private View.OnClickListener itemsOnClick = new View.OnClickListener(){
 
         public void onClick(View v) {

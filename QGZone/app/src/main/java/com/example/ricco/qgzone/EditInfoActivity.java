@@ -268,7 +268,8 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
                 Map<String, Object> jsonObjiect = new HashMap<>();
                 jsonObjiect.put("oldPassword", passItem.getPass1());
                 jsonObjiect.put("newPassword", passItem.getPass2());
-                HttpUtil.Get(Constant.Account.UserChangePassword+"?jsonObject="+ JsonUtil.toJson(jsonObjiect), callBackListener);
+                HttpUtil.Get(Constant.Account.UserChangePassword+"?jsonObject="+
+                            JsonUtil.toJson(jsonObjiect), callBackListener);
             }
         });
         show.setNegativeButton("取消", new DialogInterface.OnClickListener() {
