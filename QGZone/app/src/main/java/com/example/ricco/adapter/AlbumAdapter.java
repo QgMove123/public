@@ -1,14 +1,9 @@
 package com.example.ricco.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Message;
-import android.os.ResultReceiver;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.ricco.constant.Constant;
@@ -28,14 +22,11 @@ import com.example.ricco.qgzone.PhotoActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
-import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.StateUtil;
 import com.example.ricco.utils.ToastUtil;
-import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -117,9 +108,9 @@ public class AlbumAdapter extends BaseAdapter {
         final int albumState = albumList.get(position).getAlbumState();
         viewHolder.item_tv.setText(albumList.get(position).getAlbumName());
         if(albumState == 0){//公开
-            viewHolder.item_img.setImageResource(R.mipmap.album_public);
+            viewHolder.item_img.setImageResource(R.mipmap.list_album_public);
         }else if(albumState == 1){//私密
-            viewHolder.item_img.setImageResource(R.mipmap.album_privacy);
+            viewHolder.item_img.setImageResource(R.mipmap.list_album_privacy);
         }
 
 

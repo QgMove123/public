@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -54,7 +55,8 @@ public class NewAlbumActivity extends BaseActivity{
     private mPopupWindow popup;
     private EditText popup_edi;
     private Button popup_btn_right;
-    private Button popup_btn_cancel;
+    //    private Button popup_btn_cancel;
+    private ImageView popup_null;
 
     //新建相册名、密码、权限
     private String name;
@@ -118,7 +120,8 @@ public class NewAlbumActivity extends BaseActivity{
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
         popup_edi = (EditText) root.findViewById(R.id.popup_edi);
         popup_btn_right = (Button) root.findViewById(R.id.popup_btn_right);
-        popup_btn_cancel = (Button) root.findViewById(R.id.popup_btn_cancel);
+//        popup_btn_cancel = (Button) root.findViewById(R.id.popup_btn_cancel);
+        popup_null = (ImageView) root.findViewById(R.id.popup_null);
     }
 
     private void initEvent() {
@@ -210,14 +213,21 @@ public class NewAlbumActivity extends BaseActivity{
             }
         });
 
-        popup_btn_cancel.setOnClickListener(new View.OnClickListener() {
+//        popup_btn_cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                popup.dismiss();
+//                //权限还原为公开
+//                if(popup_edi.getText().toString().equals("")){
+//                    rb_public.toggle();
+//                }
+//            }
+//        });
+
+        popup_null.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popup.dismiss();
-                //权限还原为公开
-                if(popup_edi.getText().toString().equals("")){
-                    rb_public.toggle();
-                }
+                popup_edi.setText("");
             }
         });
 

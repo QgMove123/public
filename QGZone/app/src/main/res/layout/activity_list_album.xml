@@ -11,9 +11,9 @@
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        custom:title="相册"
+        custom:title="我的相册"
         custom:leftText="返回"
-        custom:rightText="添加"
+        custom:rightBackground="@mipmap/list_album_new"
         />
 
     <GridView
@@ -27,8 +27,10 @@
         android:stretchMode="columnWidth"
         android:cacheColorHint="@android:color/transparent"
         android:listSelector="@android:color/transparent"
-        android:background="@color/lightGrey"
-        android:padding="8dp"
+        android:background="@color/greyParentBg"
+        android:paddingTop="15dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         />
 
 

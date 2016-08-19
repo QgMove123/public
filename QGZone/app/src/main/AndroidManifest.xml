@@ -38,7 +38,12 @@
         <activity android:name=".ActivityApplyFriend" />
         <activity android:name=".FirstActivity" />
         <activity android:name=".InfoActivity" />
-        <activity android:name=".LoginSignActivity" />
+        <activity android:name=".LoginSignActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".PerTalkActivity" />
     </application>
 

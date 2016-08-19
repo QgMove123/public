@@ -71,8 +71,8 @@ public class ImageAdapter extends BaseAdapter {
         }
 
         //2.状态重置
-        viewHolder.item_img.setImageResource(R.mipmap.ic_launcher);
-        viewHolder.item_btn.setImageResource(R.mipmap.ic_launcher);
+        viewHolder.item_img.setImageResource(R.color.lightBlue);
+        viewHolder.item_btn.setImageResource(R.color.lightBlue);
         viewHolder.item_img.setColorFilter(null);
 
         viewHolder.item_img.setMaxWidth(screenWidth/3);

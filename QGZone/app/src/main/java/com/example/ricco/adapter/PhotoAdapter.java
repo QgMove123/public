@@ -73,7 +73,7 @@ public class PhotoAdapter extends BaseAdapter {
         }
 
         //2.状态重置
-        viewHolder.item_img.setImageResource(R.mipmap.ic_launcher);
+        viewHolder.item_img.setImageResource(R.color.lightBlue);
 
         //3.加载图片到视图
         int photoId = photoList.get(position);
