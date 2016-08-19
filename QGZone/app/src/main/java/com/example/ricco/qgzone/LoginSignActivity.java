@@ -58,6 +58,7 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
         Bundle bundle = new Bundle();
         bundle.putString("account", account);
         Log.e("onSignBtnClick: 注册的帐号", account);
+        //绑定碎片并且将信息传递给碎片
         loginF.setArguments(bundle);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction tx = fm.beginTransaction();
@@ -72,6 +73,7 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
     public void onLoginBtnClick() {
         Intent intent = new Intent(LoginSignActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
 //        InfoActivity.actionStart(LoginSignActivity.this, "me", 0);
     }
 

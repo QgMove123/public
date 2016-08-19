@@ -35,12 +35,13 @@ import java.util.HashMap;
  * Created by Mr_Do on 2016/8/17.
  */
 public class ShuoshuoListview extends RelativeLayout {
+
     private Context mContext;
     private ProgressDialog mpdialog;
     private ShuoshuoAdapter itemAdapter;
     private boolean mFlag_Load = true;
     private ListView lv;
-    private int mPage=1;
+    private int mPage = 1;
     private int mItemPosition = 0;
     private SwipeRefreshLayout mSwipe = null;
     private ArrayList<TwitterModel> itemList = new ArrayList<TwitterModel>();
@@ -51,15 +52,17 @@ public class ShuoshuoListview extends RelativeLayout {
     private static View header = null;
 
     public ShuoshuoListview(Context context, AttributeSet attrs) {
-        super(context,attrs);
+        super(context, attrs);
         mContext = context;
-        LayoutInflater.from(mContext).inflate(R.layout.other_shuoshuo_layout,this);
+        LayoutInflater.from(mContext).inflate(R.layout.other_shuoshuo_layout, this);
         // 初始化
         mSwipe = (SwipeRefreshLayout) findViewById(R.id.dongtai_swipe);
         lv = (ListView) findViewById(R.id.lv);
-        if(itemList!=null && itemList.size()>0)itemList.clear();
-        else if(noteList!=null && noteList.size()>0)noteList.clear();
-        if(itemAdapter!=null && !itemAdapter.isEmpty()){
+        if (itemList != null && itemList.size() > 0)
+            itemList.clear();
+        else if (noteList != null && noteList.size() > 0)
+            noteList.clear();
+        if (itemAdapter != null && !itemAdapter.isEmpty()) {
             itemAdapter.notifyDataSetChanged();
         }
         initView();
@@ -82,16 +85,16 @@ public class ShuoshuoListview extends RelativeLayout {
                     mpdialog.setTitle("请稍等");                       //设置标题
                     mpdialog.setMessage("正在加载...");               //设置内容
                     mpdialog.setIndeterminate(false);              //设置进度条是否可以不明确
-                    mpdialog.setCancelable(false);                  //设置进度条是否可以取消
+                    mpdialog.setCancelable(true);                  //设置进度条是否可以取消
                     mpdialog.show();                            //显示进度条
                     break;
                 }
                 case 2: {
                     mPage = 1;
                     mItemPosition = 1;
-                    if(itemList.size()>0)itemList.clear();
-                    else if(noteList.size()>0)noteList.clear();
-                      loadData();
+                    if (itemList.size() > 0) itemList.clear();
+                    else if (noteList.size() > 0) noteList.clear();
+                    loadData();
                     break;
                 }
                 case 3: {
@@ -110,51 +113,54 @@ public class ShuoshuoListview extends RelativeLayout {
                     ToastUtil.showShort(mContext, "这条回复不是你的哈～");
                     break;
                 }
-                case 7:{
+                case 7: {
                     int position = msg.getData().getInt("position");
-                    if(itemList!=null && itemList.size()>0) itemList.remove(position);
+                    if (itemList != null && itemList.size() > 0) itemList.remove(position);
                     else noteList.remove(position);
                     itemAdapter.notifyDataSetChanged();
                     handler.sendEmptyMessage(3);
                     handler.sendEmptyMessage(5);
                     break;
                 }
-                case 8:{
+                case 8: {
                     itemAdapter.notifyDataSetChanged();
                     break;
                 }
-                case 9:{
+                case 9:
+                    lv.setAdapter(itemAdapter);
+                    ToastUtil.showShort(mContext, "没有可以显示的说说呢~");
+                    break;
+                case 10:
                     ToastUtil.showShort(mContext,"网络异常了");
                     break;
-                }
+                default:break;
             }
         }
     };
 
 
-    public static void setShuoshuoURL(String url){
+    public static void setShuoshuoURL(String url) {
         shuoshuoURL = url;
     }
 
-    public static void setHeader(View headerview){
+    public static void setHeader(View headerview) {
         header = headerview;
     }
 
-    public static void setisNote(boolean bool){
-        if(bool) isNote = true;
+    public static void setisNote(boolean bool) {
+        if (bool) isNote = true;
         else isNote = false;
     }
 
-    private void initView()
-    {
-        if(header!=null&&lv.getHeaderViewsCount()==0) lv.addHeaderView(header);
+    private void initView() {
+        if (header != null && lv.getHeaderViewsCount() == 0) lv.addHeaderView(header);
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {//上拉下载
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 // 当不滚动时
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     // 判断是否滚动到底部
-                    if (view.getLastVisiblePosition() == view.getCount() -1  && mFlag_Load) {
+                    if (view.getLastVisiblePosition() == view.getCount() - 1 && mFlag_Load) {
                         loadData();
                         mFlag_Load = false;
                     }
@@ -171,12 +177,12 @@ public class ShuoshuoListview extends RelativeLayout {
         mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(itemList!=null && itemList.size()>0)itemList.clear();
-                else if(noteList!=null && noteList.size()>0)noteList.clear();
-                if(itemAdapter!=null && !itemAdapter.isEmpty()){
+                if (itemList != null && itemList.size() > 0) itemList.clear();
+                else if (noteList != null && noteList.size() > 0) noteList.clear();
+                if (itemAdapter != null && !itemAdapter.isEmpty()) {
                     itemAdapter.notifyDataSetChanged();
                 }
-                if(header!=null&&lv.getHeaderViewsCount()==0)lv.addHeaderView(header);
+                if (header != null && lv.getHeaderViewsCount() == 0) lv.addHeaderView(header);
                 mPicGridViewList.clear();
                 mItemPosition = 0;
                 mPage = 1;
@@ -186,15 +192,14 @@ public class ShuoshuoListview extends RelativeLayout {
     }
 
 
-
-    private void loadData(){
+    private void loadData() {
 
         handler.sendEmptyMessage(1);
-        Log.e("URL-2", shuoshuoURL+mPage);
-        HttpUtil.Get(shuoshuoURL+mPage, new HttpUtil.CallBackListener() {
+        Log.e("URL-2", shuoshuoURL + mPage);
+        HttpUtil.Get(shuoshuoURL + mPage, new HttpUtil.CallBackListener() {
             @Override
             public void OnFinish(String result) {
-                if(!isNote) {
+                if (!isNote) {
                     final JsonModel<TwitterModel, TwitterModel> jsonModel = JsonUtil.toModel((String) result, new TypeToken<JsonModel<TwitterModel, TwitterModel>>() {
                     }.getType());
                     if (jsonModel.getState() == 201 && jsonModel.getJsonList().size() != 0) {
@@ -238,17 +243,20 @@ public class ShuoshuoListview extends RelativeLayout {
 
                                 mPage += 1;//页数加一
                                 mFlag_Load = true;//滑动可监听
-
                             }
                         });
                     } else if (jsonModel.getState() == 201 && jsonModel.getJsonList().size() == 0) {
+
+                        if (itemList.size() == 0) {
+                            itemAdapter = new ShuoshuoAdapter(itemList, mContext, mPicGridViewList, handler);
+                            handler.sendEmptyMessage(9);
+                        } else {
+                            handler.sendEmptyMessage(4);
+                        }
+                        //结束progress dialog
                         handler.sendEmptyMessage(5);
-                        handler.sendEmptyMessage(4);
-                    } else {
-                        handler.sendEmptyMessage(5);
-                        handler.sendEmptyMessage(9);
                     }
-                }else {
+                } else {
                     final JsonModel<NoteModel, NoteModel> jsonModel = JsonUtil.toModel((String) result, new TypeToken<JsonModel<NoteModel, NoteModel>>() {
                     }.getType());
                     if (jsonModel.getState() == 501 && jsonModel.getJsonList().size() != 0) {
@@ -258,9 +266,9 @@ public class ShuoshuoListview extends RelativeLayout {
                             @Override
                             public void run() {
                                 if (mPage == 1) {
-                                    Log.e("BOOL","TRUE");
+                                    Log.e("BOOL", "TRUE");
                                     itemAdapter = new ShuoshuoAdapter(noteList, mContext, handler);
-                                   // ListView lv = (ListView) findViewById(R.id.lv);
+                                    // ListView lv = (ListView) findViewById(R.id.lv);
                                     lv.setAdapter(itemAdapter);
                                     handler.sendEmptyMessage(5);
                                 } else {
@@ -276,14 +284,14 @@ public class ShuoshuoListview extends RelativeLayout {
                         handler.sendEmptyMessage(5);
                         handler.sendEmptyMessage(4);
                         handler.sendEmptyMessage(0);
-                    } else if(jsonModel.getState() == 506) handler.sendEmptyMessage(5);
+                    } else if (jsonModel.getState() == 506) handler.sendEmptyMessage(5);
                 }
             }
+
             @Override
             public void OnError(Exception e) {
                 e.printStackTrace();
             }
         });
     }
-
 }

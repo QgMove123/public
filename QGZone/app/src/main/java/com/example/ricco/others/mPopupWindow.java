@@ -8,13 +8,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
+import com.example.ricco.qgzone.R;
+
 /**
  * PopupWindow
  */
 public class mPopupWindow extends PopupWindow {
 
     private Activity context;
-    private boolean flag = true;
 
     public mPopupWindow(Activity context, View root, int width, int height, boolean animated) {
         super(root, width, height);
@@ -37,7 +38,7 @@ public class mPopupWindow extends PopupWindow {
         });
         if (animated) {
             //设置动画效果
-//            setAnimationStyle(R.style.popupWindowAnim);
+            setAnimationStyle(R.style.popupWindowAnim);
         }
         //设置popup消失事件
         setOnDismissListener(new PopupWindow.OnDismissListener() {

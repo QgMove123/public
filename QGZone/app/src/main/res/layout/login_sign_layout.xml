@@ -19,10 +19,10 @@
 
             <ImageView
                 android:id="@+id/cover"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/sign_pic"/>
+                android:src="@mipmap/sign_pic"/>
 
                 <LinearLayout
                     android:id="@+id/id_content"

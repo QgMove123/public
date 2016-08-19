@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         app:rightText="@string/action_edit"
         app:leftText="@string/action_back"
-        app:title="我的资料"/>
+        app:title="个人信息"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                     android:layout_width="70dp"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/head_icon"/>
 
                 <TextView
                     android:id="@+id/user_name"
@@ -56,32 +56,32 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/birth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -89,12 +89,12 @@
             <Button
                 android:id="@+id/exit"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_marginTop="24dp"
                 android:layout_gravity="center"
                 android:text="@string/action_log_out"
                 android:textColor="#ffffff"
-                android:background="#FF11A8F4"/>
+                android:background="@drawable/rect_gray_blue"/>
 
             </LinearLayout>
 

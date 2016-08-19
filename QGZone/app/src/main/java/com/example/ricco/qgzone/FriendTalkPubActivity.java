@@ -13,15 +13,15 @@ import com.example.ricco.others.ImageLoader;
 import com.example.ricco.others.ShuoshuoListview;
 import com.example.ricco.others.TopBar;
 import com.example.ricco.others.CircleImageVIew;
+import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.ToastUtil;
 
-import java.text.ChoiceFormat;
 
 /**
  * 好友主页
  * Created by Ricco on 2016/8/18.
  */
-public class FriendTalkPubActivity extends BaseActivity implements View.OnClickListener{
+public class FriendTalkPubActivity extends BaseActivity implements View.OnClickListener {
 
     private View mHeadView = null;
     private Context mContext = FriendTalkPubActivity.this;
@@ -31,36 +31,27 @@ public class FriendTalkPubActivity extends BaseActivity implements View.OnClickL
     private LinearLayout mTalkPub = null;
     private LinearLayout mAlbum = null;
     private LinearLayout mMsgBoard = null;
-    // 初始化数据
     private int friendId;
-    private boolean mChoice;
     private String mUrl = Constant.TalkPub.individuallity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         friendId = getIntent().getIntExtra("friendId", 0);
-        mChoice = getIntent().getBooleanExtra("isHeadView", false);
+        LogUtil.e("friendId", friendId + "");
+        // 初始化头视图
+        initHeadView();
+        ShuoshuoListview.setHeader(mHeadView);
 
-        if (mChoice) {
-            // 初始化头视图
-            initHeadView();
-            ShuoshuoListview.setHeader(mHeadView);
-        } else {
-            ShuoshuoListview.setHeader(null);
-        }
         // 设置shuoShuoListView url
-        ShuoshuoListview.setShuoshuoURL(mUrl + friendId + "&");
+        ShuoshuoListview.setShuoshuoURL(mUrl + friendId + "&page=");
 
         // 加载主视图
         setContentView(R.layout.fragment_zone);
 
         mTopBar = (TopBar) findViewById(R.id.tb_zone);
-        if (mChoice) {
-            mTopBar.setTitle("好友主页");
-        } else {
-            mTopBar.setTitle("说说");
-        }
+        mTopBar.setTitle("好友主页");
+
         mTopBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
             @Override
             public void LeftClick(View view) {
@@ -94,25 +85,23 @@ public class FriendTalkPubActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_talk_pub:
-                FriendTalkPubActivity.actionStart(mContext, friendId, false);
+                PerTalkActivity.actionStart(mContext, friendId);
                 break;
             case R.id.ll_album:
-                ToastUtil.showShort(mContext, "you click album!");
-//                AlbumActivity.actionStart(mContext, friendId);
+                AlbumActivity.actionStart(mContext, friendId);
                 break;
             case R.id.ll_msg_board:
                 MsgBoardActivity.actionStart(mContext, friendId);
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 
     // 快速启动
-    public static void actionStart(Context context, int friendId, boolean isHeadView) {
+    public static void actionStart(Context context, int friendId) {
         Intent intent = new Intent(context, FriendTalkPubActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("friendId", friendId);
-        intent.putExtra("isHeadView", isHeadView);
         context.startActivity(intent);
     }
 }

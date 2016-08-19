@@ -5,7 +5,9 @@
     android:id="@+id/parent"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    >
 
     <com.example.ricco.others.TopBar
         android:id="@+id/topbar"
@@ -18,7 +20,7 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_marginTop="18dp"
         android:background="@color/greyViewBg">
         <TextView
@@ -26,17 +28,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="名称"
-            android:textSize="22dp"
-            android:layout_marginLeft="15dp"
+            android:text="名称:"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
             android:textColor="@color/black"
             />
         <EditText
             android:id="@+id/edi_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="@null"
+            android:paddingLeft="20dp"
             android:layout_toRightOf="@id/tv_name"/>
     </TableRow>
 
@@ -49,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="15dp"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:text="权限设置"
         android:textColor="@color/greyTextBg"
         />
@@ -63,29 +66,30 @@
         <RadioButton
             android:id="@+id/rb_public"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:button="@null"
             android:text="所有人可见"
-            android:textSize="22dp"
+            android:textSize="20dp"
             android:checked="true"
             android:gravity="center_vertical"
-            android:paddingLeft="15dp"
+            android:paddingLeft="20dp"
             android:textColor="@color/black"
-            android:drawableEnd="@drawable/new_album_check_selector"
-            android:paddingRight="15dp"
             />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/greyTextBg"/>
         <RadioButton
             android:id="@+id/rb_private"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:button="@null"
             android:text="回答密码可见"
-            android:textSize="22dp"
+            android:textSize="20dp"
             android:checked="false"
             android:gravity="center_vertical"
-            android:paddingLeft="15dp"
+            android:paddingLeft="20dp"
             android:textColor="@color/black"
-            android:drawableEnd="@drawable/new_album_check_selector"
             />
     </RadioGroup>
 

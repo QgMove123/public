@@ -35,7 +35,7 @@
                     android:layout_width="70dp"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/head"/>
+                    android:src="@mipmap/head_icon"/>
 
                 <TextView
                     android:id="@+id/nickname"
@@ -46,7 +46,7 @@
                     android:layout_below="@+id/user_pic"
                     android:layout_marginTop="10dp"
                     android:layout_centerHorizontal="true"
-                    android:drawableRight="@drawable/edit"/>
+                    android:drawableRight="@mipmap/edit"/>
 
             </RelativeLayout>
 
@@ -58,32 +58,32 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <com.example.ricco.utils.InfoItem
+            <com.example.ricco.others.InfoItem
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -95,7 +95,7 @@
                 android:text="@string/text_password_problem"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:gravity="center_vertical"
-                android:drawableRight="@drawable/edit"
+                android:drawableRight="@mipmap/edit"
                 android:paddingRight="10dp"/>
 
             <TextView
@@ -105,7 +105,7 @@
                 android:text="@string/prompt_password"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:gravity="center_vertical"
-                android:drawableRight="@drawable/edit"
+                android:drawableRight="@mipmap/edit"
                 android:paddingRight="10dp"/>
 
             </LinearLayout>

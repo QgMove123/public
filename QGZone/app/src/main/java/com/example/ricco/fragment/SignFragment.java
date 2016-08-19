@@ -55,6 +55,7 @@ public class SignFragment extends Fragment implements View.OnClickListener {
 
         //密保问题选择
         problem = (Spinner) view.findViewById(R.id.problem);
+        //监听密保问题的选项
         problem.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
 
             @Override
@@ -72,7 +73,7 @@ public class SignFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * 设置注册按钮的回调接口
+     * 设置注册按钮的回调接口，跳转到登录的界面
      */
     public interface SignBtnClickListener {
         void onSignBtnClick();
@@ -84,9 +85,8 @@ public class SignFragment extends Fragment implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
-
+        //注册操作，设置出错处理
         attemptSign();
-
     }
 
     /**
@@ -157,34 +157,31 @@ public class SignFragment extends Fragment implements View.OnClickListener {
             userModel.setUserSecretId(id);
             userModel.setUserSecretAnswer(as);
 
-            this.sendSign(JsonUtil.toJson(userModel));
+            HttpUtil.Get(Constant.Account.userSignUp+"?jsonObject="+JsonUtil.toJson(userModel),
+                        callBackListener);
         }
     }
 
-    // 发送注册信息给服务器
-    private void sendSign(String json) {
-        HttpUtil.Get(Constant.Account.userSignUp+"?jsonObject="+json, new HttpUtil.CallBackListener() {
-            @Override
-            public void OnFinish(String result) {
-
-                Message msg = new Message();
-                try {
-                    //通过JSONObject取出服务器传回的状态和信息
-                    JSONObject dataJson = new JSONObject(result);
-                    msg.what = Integer.valueOf(dataJson.getString("state"));
-                    msg.obj = dataJson.getString("userId");
-                    mHandler.sendMessage(msg);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void OnError(Exception e) {
+    private HttpUtil.CallBackListener callBackListener = new HttpUtil.CallBackListener() {
+        @Override
+        public void OnFinish(String result) {
+            Message msg = new Message();
+            try {
+                //通过JSONObject取出服务器传回的状态和信息
+                JSONObject dataJson = new JSONObject(result);
+                msg.what = Integer.valueOf(dataJson.getString("state"));
+                msg.obj = dataJson.getString("userId");
+            } catch (JSONException e) {
                 e.printStackTrace();
+            } finally {
+                mHandler.sendMessage(msg);
             }
-        });
-    }
+        }
+
+        @Override
+        public void OnError(Exception e) {
+        }
+    };
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -192,7 +189,9 @@ public class SignFragment extends Fragment implements View.OnClickListener {
             switch (msg.what) {
                 case 101:
                     Toast.makeText(getActivity(), "注册成功", Toast.LENGTH_SHORT).show();
+                    //调用接口回调，跳转页面
                     if(getActivity() instanceof SignBtnClickListener) {
+                        //保存注册后的帐号
                         ((LoginSignActivity)getActivity()).setAccount((String) msg.obj);
                         ((SignBtnClickListener) getActivity()).onSignBtnClick();
                     }

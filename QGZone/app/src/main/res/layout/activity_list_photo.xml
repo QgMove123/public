@@ -27,7 +27,7 @@
         android:cacheColorHint="@android:color/transparent"
         android:listSelector="@android:color/transparent"
         android:background="@color/greyParentBg"
-        android:paddingTop="8dp"
+        android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         />

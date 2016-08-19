@@ -1,4 +1,4 @@
-package com.example.ricco.utils;
+package com.example.ricco.others;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,12 +11,12 @@ import com.example.ricco.qgzone.R;
  * 输入新密码对话框的自定义View
  * Created by chenyi on 2016/8/11.
  */
-public class DialogItem extends LinearLayout{
+public class PassItem extends LinearLayout{
 
     private EditText pass1;
     private EditText pass2;
 
-    public DialogItem(Context context) {
+    public PassItem(Context context) {
         super(context);
         //加载新控件的布局
         LayoutInflater.from(context).inflate(R.layout.item_dialog, this);

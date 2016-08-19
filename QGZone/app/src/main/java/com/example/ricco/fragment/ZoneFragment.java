@@ -16,9 +16,9 @@ import com.example.ricco.qgzone.FriendTalkPubActivity;
 import com.example.ricco.qgzone.InfoActivity;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.MsgBoardActivity;
+import com.example.ricco.qgzone.PerTalkActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.others.CircleImageVIew;
-import com.example.ricco.utils.ToastUtil;
 
 /**
  * Created by Ricco on 2016/8/9.
@@ -33,7 +33,7 @@ public class ZoneFragment extends BaseFragment implements View.OnClickListener{
     private LinearLayout mTalkPub = null;
     private LinearLayout mAlbum = null;
     private LinearLayout mMsgBoard = null;
-    private String mUrl = Constant.TalkPub.individuallity + Constant.HOST_ID + "&";
+    private String mUrl = Constant.TalkPub.individuallity + Constant.HOST_ID + "&page=";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class ZoneFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         ShuoshuoListview.setHeader(mHeadView);
         ShuoshuoListview.setShuoshuoURL(mUrl);
         View layout = inflater.inflate(R.layout.fragment_zone,
@@ -102,7 +103,7 @@ public class ZoneFragment extends BaseFragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_talk_pub:
-                FriendTalkPubActivity.actionStart(mContext, Constant.HOST_ID, false);
+                PerTalkActivity.actionStart(mContext, Constant.HOST_ID);
                 break;
             case R.id.ll_album:
                 AlbumActivity.actionStart(mContext, Constant.HOST_ID);

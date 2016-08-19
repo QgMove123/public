@@ -65,10 +65,32 @@ public class AboutAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         ImageLoader.getInstance(1).loadImage(Constant.civUrl+data.get(position).getSender().getUserImage(), viewHolder.headPic, false);
-        viewHolder.name.setText(data.get(position).getSender().getUserName() + data.get(position).getRelationType());
+        viewHolder.name.setText(data.get(position).getSender().getUserName() + transformType(data.get(position).getRelationType()));
         viewHolder.time.setText(data.get(position).getRelationTime().toLocaleString());
         viewHolder.words.setText(data.get(position).getRelationContent());
         return view;
+    }
+
+    public String transformType(String str) {
+        String type = "";
+        switch (str) {
+            case "na":
+                type = "给你留言";
+                break;
+            case  "nc":
+                type = "在你的留言板中给你评论";
+                break;
+            case "tc":
+                type = "回复你的说说";
+                break;
+            case "st":
+                type = "给你点赞";
+                break;
+            case "fa":
+                type = "";
+                break;
+        }
+        return type;
     }
 
     /**

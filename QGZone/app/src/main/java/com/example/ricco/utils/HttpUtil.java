@@ -1,9 +1,11 @@
 package com.example.ricco.utils;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,26 +22,26 @@ import java.util.List;
  */
 public class HttpUtil {
 
-    public static String sessionid = null;
+    public static  String sessionid = null;
 
     /**
      * 接口，用于回调
      */
     public interface CallBackListener {
-        public void OnFinish(String result);
+        public void OnFinish(String JsonResult);
         public void OnError(Exception e);
     }
 
-    public static void Get(final String url, final CallBackListener listener) {
-        new Thread() {
+    public static void Get(final String url, final CallBackListener listener){
+        new Thread(){
             @Override
             public void run() {
                 HttpURLConnection conn = null;
-                BufferedReader br = null;
                 try {
                     URL httpUrl = new URL(url);
-                    conn = (HttpURLConnection) httpUrl.openConnection();
+                    conn = (HttpURLConnection)httpUrl.openConnection();
                     conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(8000);
                     if (sessionid != null) {
                         conn.setRequestProperty("cookie", sessionid);
                     } else {
@@ -46,36 +50,24 @@ public class HttpUtil {
                             sessionid = cookieval.substring(0, cookieval.indexOf(";"));
                         }
                     }
-                    conn.setConnectTimeout(8000);
-                    conn.setReadTimeout(8000);
                     conn.connect();
-                    Log.e("run: connect", conn + "");
-                    Log.e("run: session", sessionid + "");
+                    LogUtil.e("HttpUtil",conn.getResponseCode()+"");
                     StringBuilder str = new StringBuilder("");
-                    br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
                     String line = null;
-                    while ((line = br.readLine()) != null) {
+                    while((line=br.readLine())!=null){
                         str.append(line);
                     }
-                    if (listener != null) {
-                        //回调OnFinish()
+                    if(listener!=null){
                         listener.OnFinish(str.toString());
-                        LogUtil.e("HttpUtil","Finish");
+                        LogUtil.e("HttpUtilGet","Finish");
                     }
-                } catch (IOException e) {
-                    //回调OnError()
-                    if(listener != null) {
-                        listener.OnError(e);
-                    }
-                    LogUtil.e("HttpUtil","Error");
+                } catch (Exception e) {
+                    listener.OnError(e);
+                    LogUtil.e("HttpUtilGet","Error");
                 } finally {
-                    try {
-                        br.close();
+                    if(conn!=null){
                         conn.disconnect();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             }
@@ -96,20 +88,21 @@ public class HttpUtil {
                     URL httpUrl = new URL(url);
                     conn = (HttpURLConnection) httpUrl.openConnection();
                     conn.setRequestMethod("POST");
-                    if(sessionid != null) {
-                        conn.setRequestProperty("cookie", sessionid);
-                    } else {
-                        String cookieval = conn.getHeaderField("set-cookie");
-                        if(cookieval != null) {
-                            sessionid = cookieval.substring(0, cookieval.indexOf(";"));
-                        }
-                    }
-
                     conn.setConnectTimeout(8000);
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
                     conn.setRequestProperty("Content-Type",
                             "multipart/form-data;boundary=" + boundary);
+                    if (sessionid != null) {
+                        conn.setRequestProperty("cookie", sessionid);
+                    } else {
+                        String cookieval = conn.getHeaderField("set-cookie");
+                        if (cookieval != null) {
+                            sessionid = cookieval.substring(0, cookieval.indexOf(";"));
+                        }
+                    }
+                    conn.connect();
+//                    LogUtil.e("HttpUtil",conn.getResponseCode()+"");
                     DataOutputStream dos =new DataOutputStream(conn.getOutputStream());
                     //输出字符串
                     if(JsonOrString!=null) {
@@ -119,7 +112,6 @@ public class HttpUtil {
                         dos.writeUTF(JsonOrString);
                         dos.writeBytes(end);
                     }
-                    Log.e("run: connect", conn+"");
                     //输出图片
                     int size = 0;
                     if (imgPaths != null && (size = imgPaths.size())!= 0) {
@@ -129,16 +121,16 @@ public class HttpUtil {
                             dos.writeBytes(end);
                             FileInputStream is = new FileInputStream(imgPaths.get(i));
                             BufferedInputStream bis = new BufferedInputStream(is);
-                            byte[] b = new byte[1024 * 8];
+                            byte[] buffer = new byte[1024 * 8];
                             int len;
-                            while ((len = bis.read(b)) != -1) {
-                                dos.write(b, 0, len);
+                            while ((len = bis.read(buffer)) != -1) {
+                                dos.write(buffer, 0, len);
                             }
                             dos.writeBytes(end);
                         }
                     }
                     dos.writeBytes(prefix+boundary+prefix+end);
-                    Log.e("run: session", sessionid+"");
+                    dos.flush();
                     //读入
                     StringBuilder str = new StringBuilder("");
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -154,10 +146,11 @@ public class HttpUtil {
 
                 } catch (MalformedURLException e) {
                     listener.OnError(e);
-                    LogUtil.e("HttpUtilGet","Error");
+                    LogUtil.e("HttpUtilPost","Error");
                 } catch (IOException e) {
+                    e.printStackTrace();
                     listener.OnError(e);
-                    LogUtil.e("HttpUtilGet","Error");
+                    LogUtil.e("HttpUtilPost","Error");
                 } finally {
                     if (conn != null) {
                         conn.disconnect();

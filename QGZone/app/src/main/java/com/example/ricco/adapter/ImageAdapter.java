@@ -71,8 +71,8 @@ public class ImageAdapter extends BaseAdapter {
         }
 
         //2.状态重置
-        viewHolder.item_img.setImageResource(R.color.lightBlue);
-        viewHolder.item_btn.setImageResource(R.color.lightBlue);
+        viewHolder.item_img.setImageResource(R.color.greyViewBg);
+        viewHolder.item_btn.setImageResource(R.mipmap.upload_photo_unselected);
         viewHolder.item_img.setColorFilter(null);
 
         viewHolder.item_img.setMaxWidth(screenWidth/3);
@@ -90,13 +90,13 @@ public class ImageAdapter extends BaseAdapter {
                 if(selectedImg.contains(filePath)){
                     selectedImg.remove(filePath);
                     viewHolder.item_img.setColorFilter(null);
-                    viewHolder.item_btn.setImageResource(R.mipmap.ic_launcher);
+                    viewHolder.item_btn.setImageResource(R.mipmap.upload_photo_unselected);
                 }
                 //未被选择
                 else{
                     selectedImg.add(filePath);
                     viewHolder.item_img.setColorFilter(Color.parseColor("#77000000"));
-                    viewHolder.item_btn.setImageResource(R.mipmap.ic_launcher);
+                    viewHolder.item_btn.setImageResource(R.mipmap.upload_photo_selected);
                 }
 
             }

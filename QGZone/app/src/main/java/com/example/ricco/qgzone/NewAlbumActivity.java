@@ -114,6 +114,7 @@ public class NewAlbumActivity extends BaseActivity{
         radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         rb_private = (RadioButton) radioGroup.findViewById(R.id.rb_private);
         rb_public = (RadioButton) radioGroup.findViewById(R.id.rb_public);
+        rb_public.setButtonDrawable(R.mipmap.new_album_checked);
 
         View root = getLayoutInflater().inflate(R.layout.popup_enter_password, null);
         popup = new mPopupWindow(this, root,
@@ -179,15 +180,18 @@ public class NewAlbumActivity extends BaseActivity{
         rb_private.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popup.showAtLocation(findViewById(R.id.parent), Gravity.CENTER, 0, 0);
+                popup.showAtLocation(findViewById(R.id.parent), Gravity.CENTER, 0, -250);
             }
         });
 
         popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(permit == null||permit == ""){
+                String str = popup_edi.getText().toString();
+                if(str.equals("")){
                     rb_public.toggle();
+                    rb_private.setButtonDrawable(0);
+                    rb_public.setButtonDrawable(R.mipmap.new_album_checked);
                 }
                 Window window = NewAlbumActivity.this.getWindow();
                 WindowManager.LayoutParams Ip = window.getAttributes();
@@ -205,9 +209,11 @@ public class NewAlbumActivity extends BaseActivity{
                     albumState = 1;
                     permit = str;
                     popup.dismiss();
+                    rb_public.setButtonDrawable(0);
+                    rb_private.setButtonDrawable(R.mipmap.new_album_checked);
                 } else {
                     popup_edi.setText("");
-                    ToastUtil.showLong(NewAlbumActivity.this,
+                    ToastUtil.showShort(NewAlbumActivity.this,
                             "请输入5~15位密码,可以包含字母、数字、下划线");
                 }
             }

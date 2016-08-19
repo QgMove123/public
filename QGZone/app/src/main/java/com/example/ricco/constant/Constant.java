@@ -42,9 +42,10 @@ public final class Constant {
         public static final String MessageGet = "http://" + host + "/QGzone/MessageGet";
         public static final String MessageSearch = "http://" + host + "/QGzone/MessageSearch";
         public static final String RelationGet = "http://" + host + "/QGzone/RelationsGet";
+        public static final String RelationNextList = "http://" + host + "/QGzone/RelationNextList";
         public static final String RelationDelete = "http://" + host + "/QGzone/RelationsDelete";
+        public static final String RelationGetDetails = "http://" + host + "/QGzone/RelatonGetDetails";
         public static final String RelationRefresh = "http://" + host + "/QGzone/RelationRefresh";
-        public static final String RelationGetDetails = "http://" + host + "/QGzone/RelationGetDetails";
         public static final String MessageChange = "http://" + host + "/QGzone/MessageChange";
         public static final String UserChangeSecret = "http://" + host + "/QGzone/UserChangeSecret";
         public static final String UserChangePassword = "http://" + host + "/QGzone/UserChangePassword";
@@ -67,10 +68,11 @@ public final class Constant {
     // 所有与说说相关的url
     public static final class TalkPub {
         public static final String individuallity = "http://" + host + "/QGzone/TwitterOfOthers?userId=";
+        public static final String dongtaitalkpub = "http://" + host + "/QGzone/TwitterGetTest?page=";
     }
 
     // 获取的头像的url
-    public static final String civUrl = "http://"+ host + ":8080/QGzone/jpg/";
+    public static final String civUrl = "http://"+ host + "/QGzone/jpg/";
 
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;

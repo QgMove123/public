@@ -7,7 +7,7 @@
         android:id="@+id/item_img"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@color/lightBlue"
+        android:src="@color/greyViewBg"
         android:scaleType="centerCrop"/>
 
     <ImageButton

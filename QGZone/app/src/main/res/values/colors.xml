@@ -19,6 +19,5 @@
     <color name="greyTextBg">#d2d2d2</color>
     <color name="greyViewBg">#efefef</color>
     <color name="lightBlue">#69c9f5</color>
-    <color name="blueTextBg">#4141ff</color>
     <color name="redTextBg">#FF4081</color>
 </resources>

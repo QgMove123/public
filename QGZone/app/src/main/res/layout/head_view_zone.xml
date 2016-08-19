@@ -12,7 +12,8 @@
             android:id="@+id/civ_zone"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:src="@mipmap/head_icon"/>
     </RelativeLayout>
 
     <LinearLayout

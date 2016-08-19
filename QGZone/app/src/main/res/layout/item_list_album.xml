@@ -9,7 +9,7 @@
         android:id="@+id/item_img"
         android:layout_width="180dp"
         android:layout_height="135dp"
-        android:src="@mipmap/list_album_normal"
+        android:src="@color/greyViewBg"
         android:scaleType="centerCrop"/>
 
     <TextView
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:text="未命名相册"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:layout_gravity="bottom"
         android:gravity="center_vertical"
         android:paddingLeft="8dp"

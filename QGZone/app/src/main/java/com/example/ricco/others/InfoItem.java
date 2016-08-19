@@ -1,4 +1,4 @@
-package com.example.ricco.utils;
+package com.example.ricco.others;
 
 import android.content.Context;
 import android.util.AttributeSet;
