@@ -10,11 +10,17 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
+        <activity android:name=".CheckFriendActivity" />
         <!-- adjustPan用于使软键盘不闪退 -->
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".AlbumActivity"
@@ -26,7 +32,7 @@
         <activity
             android:name=".ViewPhotoActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
-        <activity android:name=".ActivityCheckFriend" />
+
         <activity android:name=".MsgBoardActivity" />
         <activity
             android:name=".TalkPubActivity"
@@ -35,15 +41,18 @@
             android:name=".WriteMsgBoardActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ImageDetailActivity" />
-        <activity android:name=".ActivityApplyFriend" />
-        <activity android:name=".FirstActivity" />
-        <activity android:name=".InfoActivity" />
-        <activity android:name=".LoginSignActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        <activity android:name=".FriendTalkPubActivity" />
+        <activity android:name=".ApplyFriendActivity" />
+
+        <activity android:name=".FirstActivity">
+        <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
         </activity>
+        <activity android:name=".InfoActivity" />
+        <activity android:name=".LoginSignActivity" />
+        <activity android:name=".EditInfoActivity" />
         <activity android:name=".PerTalkActivity" />
     </application>
 

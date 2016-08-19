@@ -36,16 +36,8 @@ public class SignFragment extends Fragment implements View.OnClickListener {
     private EditText answer;
     private EditText password;
     private Spinner problem;
+    //记录选择的密保问题
     private int id;
-
-    /**
-     * 设置注册按钮的回调接口
-     */
-    public interface SignBtnClickListener
-    {
-
-        void onSignBtnClick();
-    }
 
     @Nullable
     @Override
@@ -77,6 +69,13 @@ public class SignFragment extends Fragment implements View.OnClickListener {
         });
 
         return view;
+    }
+
+    /**
+     * 设置注册按钮的回调接口
+     */
+    public interface SignBtnClickListener {
+        void onSignBtnClick();
     }
 
     /**

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:title="好友请求"
-        custom:leftText="返回"
+        custom:leftText="\＜ 返回"
         />
 
     <ListView

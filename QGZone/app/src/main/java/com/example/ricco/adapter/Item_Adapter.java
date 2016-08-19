@@ -29,6 +29,7 @@ import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.entity.NoteModel;
 import com.example.ricco.entity.TwitterCommentModel;
@@ -54,7 +55,7 @@ import java.util.TimerTask;
  * Created by Mr_Do on 2016/8/8.
  */
 public class Item_Adapter extends BaseAdapter{
-    private final String IP = "192.168.43.172";
+    private final String IP = Constant.host;
     private Handler handler;
     private View contentView;
     private PopupWindow mPopupWindow;
@@ -234,7 +235,7 @@ public class Item_Adapter extends BaseAdapter{
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         handler.sendEmptyMessage(1);
-                                        String url = "http://" + IP + ":8080/QGzone/TwitterCommentDelete?commentId=" + twitterItem.getComment().get(position).getCommentId();
+                                        String url = "http://" + IP + "/QGzone/TwitterCommentDelete?commentId=" + twitterItem.getComment().get(position).getCommentId();
                                         Log.e("URL", url);
                                         HttpUtil.Get(url, new HttpUtil.CallBackListener() {
                                             @Override
@@ -313,7 +314,7 @@ public class Item_Adapter extends BaseAdapter{
                     holder = holders.get(index);
                     if (twitterItems != null) twitterItem = twitterItems.get(position);
                     else if (noteItems != null) noteItem = noteItems.get(position);
-                    HttpUtil.Get("http://" + IP + ":8080/QGzone/TwitterCommentAdd?twitterId=" + twitterItem.getTwitterId()
+                    HttpUtil.Get("http://" + IP + "/QGzone/TwitterCommentAdd?twitterId=" + twitterItem.getTwitterId()
                             + "&targetId=" + twitterItem.getTalkId()
                             + "&comment=" + holder.editText.getText().toString(), new HttpUtil.CallBackListener() {
                         @Override
@@ -364,7 +365,7 @@ public class Item_Adapter extends BaseAdapter{
                                     setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String url = "http://" + IP + ":8080/QGzone/TwitterDelete?twitterId=" + twitterItem.getTwitterId();
+                                    String url = "http://" + IP + "/QGzone/TwitterDelete?twitterId=" + twitterItem.getTwitterId();
                                     Log.e("URL", url);
                                     HttpUtil.Get(url, new HttpUtil.CallBackListener() {
                                         @Override
@@ -410,7 +411,7 @@ public class Item_Adapter extends BaseAdapter{
                     holder = holders.get(index);
                     v.setEnabled(false);
                     if (twitterItems != null) twitterItem = twitterItems.get(position);
-                    String url = "http://"+IP+":8080/QGzone/TwitterSupport?twitterId="+twitterItem.getTwitterId();
+                    String url = "http://"+IP+"/QGzone/TwitterSupport?twitterId="+twitterItem.getTwitterId();
                     HttpUtil.Get(url, new HttpUtil.CallBackListener(){
                         @Override
                         public void OnFinish(String result) {
@@ -476,7 +477,7 @@ public class Item_Adapter extends BaseAdapter{
 //            case R.id.dongtai_shangchu:{
 //                //删除该item
 //                //删除说说
-//                String url = "http:"+IP+":8080:QGzone/TwitterDelete?twitterId="+twitterItem.getTalkId();
+//                String url = "http:"+IP+":QGzone/TwitterDelete?twitterId="+twitterItem.getTalkId();
 //                HttpUtil.Get(url, new HttpUtil.CallBackListener(){
 //                    @Override
 //                    public void OnFinish(Object result) {
@@ -494,7 +495,7 @@ public class Item_Adapter extends BaseAdapter{
 //            case  R.id.dongtai_zan:{
 //                //检测可见度，切换可不可见
 //                //给说说点赞
-//                String url = "http://"+IP+":8080/QGzone/TwitterSupport?twitterId="+twitterItem.getTalkId();
+//                String url = "http://"+IP+"/QGzone/TwitterSupport?twitterId="+twitterItem.getTalkId();
 //                HttpUtil.Get(url, new HttpUtil.CallBackListener(){
 //                    @Override
 //                    public void OnFinish(Object result) {
@@ -545,8 +546,8 @@ public class Item_Adapter extends BaseAdapter{
 //    }
     /*要用到的方法*/
     private String getURL(String ip, int twitterId, int position){
-        Log.e("Tag","http://"+ip+":8080/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg");
-        return "http://"+ip+":8080/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg";
+        Log.e("Tag","http://"+ip+"/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg");
+        return "http://"+ip+"/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg";
     }
     private void showPopupWindow(final int position, final TwitterModel twitterModel) {//弹出框，包含回复功能
         showKeyBroad();
@@ -568,7 +569,7 @@ public class Item_Adapter extends BaseAdapter{
             public void onClick(View v) {
                 mPopupWindow.dismiss();
                 if(!holder.editText.getText().equals("")) {
-                    HttpUtil.Get("http://" + IP + ":8080/QGzone/TwitterCommentAdd?twitterId=" + twitterModel.getTwitterId()
+                    HttpUtil.Get("http://" + IP + "/QGzone/TwitterCommentAdd?twitterId=" + twitterModel.getTwitterId()
                             + "&targetId=" + twitterModel.getComment().get(position).getCommenterId()
                             + "&comment=" + huifuEditText.getText().toString(), new HttpUtil.CallBackListener() {
                         @Override

@@ -6,16 +6,15 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.example.ricco.adapter.Respond_Adapter;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.fragment.BaseFragment;
 import com.example.ricco.others.BottomControlPanel;
+import com.example.ricco.utils.HttpUtil;
 
 public class MainActivity extends BaseActivity implements BottomControlPanel.BottomPanelCallback {
 
@@ -33,6 +32,13 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
         initUI();
         fragmentManager = getFragmentManager();
         setDefaultFirstFragment(Constant.FRAGMENT_FLAG_DONGTAI);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        HttpUtil.Get(Constant.Account.userSignOut, null);
+        super.onDestroy();
     }
 
     //初始化UI界面并设置接口回调

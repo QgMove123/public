@@ -31,7 +31,11 @@ public class AboutAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return data.size();
+        if(data != null) {
+            return data.size();
+        } else {
+            return 0;
+        }
     }
 
     @Override
@@ -60,9 +64,9 @@ public class AboutAdapter extends BaseAdapter {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        ImageLoader.getInstance(1).loadImage(Constant.Account.Picture+data.get(position).getSender().getUserImage(), viewHolder.headPic, false);
+        ImageLoader.getInstance(1).loadImage(Constant.civUrl+data.get(position).getSender().getUserImage(), viewHolder.headPic, false);
         viewHolder.name.setText(data.get(position).getSender().getUserName() + data.get(position).getRelationType());
-        viewHolder.time.setText(data.get(position).getRelationTime().toString());
+        viewHolder.time.setText(data.get(position).getRelationTime().toLocaleString());
         viewHolder.words.setText(data.get(position).getRelationContent());
         return view;
     }
