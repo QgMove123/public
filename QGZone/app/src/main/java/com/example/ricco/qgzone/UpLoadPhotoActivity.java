@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -19,7 +20,9 @@ import com.example.ricco.entity.JsonModel;
 import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.StateUtil;
+import com.example.ricco.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,12 +130,29 @@ public class UpLoadPhotoActivity extends BaseActivity {
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog = ProgressDialog.
-                        show(UpLoadPhotoActivity.this, null, "正在上传");
+
                 //1.获取选中图片
                 List<String> selectedImg = imgAdapter.getSelectedImg();
-                //2.上传到服务器
+                //2.1 返回路径
+                if (getIntent().getStringExtra("CallForPath").equals("DongTai")){
+                    Intent intent = new Intent(UpLoadPhotoActivity.this , TalkPubActivity.class);
+                    String allPath = new String("");
+                    if(selectedImg.size()<=9) {
+                        for (int i = 0; i < selectedImg.size(); i++) {
+                            allPath += selectedImg.get(i) + "@";
+                        }
+                        intent.putExtra("Path", allPath);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        ToastUtil.showShort(UpLoadPhotoActivity.this,"不能超过九张");
+                        return;
+                    }
+                }
                 if (albumId == -1) return;
+                //2.2 上传到服务器
+                progressDialog = ProgressDialog.
+                        show(UpLoadPhotoActivity.this, null, "正在上传");
                 String url = Constant.Album.uploadPhoto + "?albumId=" + albumId;
                 HttpUtil.Post(url, null, selectedImg, new HttpUtil.CallBackListener() {
                     @Override
@@ -170,4 +190,5 @@ public class UpLoadPhotoActivity extends BaseActivity {
         intent.putExtra("albumId", albumId);
         context.startActivity(intent);
     }
+
 }

@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -17,32 +18,34 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
+import com.example.ricco.adapter.ImageAdapter;
 import com.example.ricco.entity.TwitterModel;
 import com.example.ricco.others.ImageLoader;
 import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.ToastUtil;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * 发表说说
  */
 public class TalkPubActivity extends BaseActivity {
-    private String[] imgPath = new String[9];
-    private Intent mIntent;
+    private String[] imgPath;
     private TwitterModel twitterModel;
     public Handler handler;
-    private URL url;
+    private String url = "http://192.168.1.109:8080/QGzone/TwitterAdd";
     private int mPicNum = 0;
-    private Bitmap bitmap;
     private ArrayList<Bitmap> bitmaps;
-    private ArrayList<HashMap<String, Object>> mPicGridViewList = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, String>> mPicGridViewList = new ArrayList<HashMap<String, String>>();
     private GridView mPicGridView;
 
     @Override
@@ -51,59 +54,52 @@ public class TalkPubActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_talkpub);
         final EditText talkPub = (EditText) findViewById(R.id.shuos_edittext);
-        talkPub.requestFocus();
         mPicGridView = (GridView) findViewById(R.id.talkpub_gridview);
         ImageButton addPic = (ImageButton) findViewById(R.id.shuos_addpic_btn);
-        bitmaps = new ArrayList<Bitmap>();
+
 
         /*打开图片选择器*/
         addPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)  {
-                mIntent = new Intent(TalkPubActivity.this, UpLoadPhotoActivity.class);
-                mIntent.putExtra("Call","DongTai");
-                startActivity(mIntent);
+                Intent startChoosePicIntent = new Intent(TalkPubActivity.this, UpLoadPhotoActivity.class);
+                startChoosePicIntent.putExtra("CallForPath","DongTai");
+                startActivity (startChoosePicIntent);
+                finish();
             }
         });
 
-        /*获取图片数据并保存*/
-        if((mIntent=getIntent())!=null){
-            if(mIntent.getStringArrayExtra("Path")!=null) {
-                imgPath = mIntent.getStringArrayExtra("Path");
-                for (int i = 0; i < 9 && imgPath[i] != null; i++) {
-                    bitmap = BitmapFactory.decodeFile(imgPath[i]);
-                    bitmaps.add(bitmap);
-                    mPicNum ++;
-                }
-            }
-        }
+
 
         /*加载图片到GridView*/
+        //1.获取路径
+        Intent intent = getIntent();
 
-        //1.绑定数据
+        if(intent.getStringExtra("Path") != null) {
+            LogUtil.e("Len", intent.getStringExtra("Path"));
+            imgPath = intent.getStringExtra("Path").split("@");
+            HashMap<String,String> map = new HashMap<>();
+            for(int i=0; imgPath!=null && i<imgPath.length && imgPath[i] != null;i++){
+                LogUtil.e("Len",imgPath[i]);
+                map.put("image",imgPath[i]);
+                mPicGridViewList.add(map);
+            }
+        }else{
+            Log.e(">>>","false");
+        }
+        //  2.绑定到GridView
         SimpleAdapter adapter = new SimpleAdapter(TalkPubActivity.this, mPicGridViewList,
-                R.layout.gridview_item_layout, new String[]{"image"}, new int[]{R.id.shuos_pic}){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                ImageView imageView = (ImageView) convertView.findViewById(R.id.shuos_pic);
-                ImageLoader.getInstance(1).loadImage(imgPath[position],imageView,true);
-                return convertView;
-            }
-        };
-        //2.重新计算GridView的高度
-        adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-            @Override
-            public boolean setViewValue(View view, Object data,
-                                        String textRepresentation) {
-                if (view instanceof ImageView && data instanceof Bitmap) {
-                    ImageView iv = (ImageView) view;
-                    iv.setImageBitmap((Bitmap) data);
-                    return true;
+                R.layout.gridview_item_layout, new String[]{"image"}, new int[]{R.id.shuos_pic}) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    convertView = LayoutInflater.from(TalkPubActivity.this).inflate(R.layout.gridview_item_layout,null);
+                    ImageView imageView = (ImageView) convertView.findViewById(R.id.shuos_pic);
+                    ImageLoader.getInstance(1).loadImage(imgPath[position],imageView,true);
+                    return convertView;
                 }
-                return false;
-            }
-        });
+            };
         mPicGridView.setAdapter(adapter);
+
 
         /*设置标题栏的监听事件*/
         TopBar shousTitleBar = (TopBar) findViewById(R.id.shuos_title_bar);
@@ -117,48 +113,59 @@ public class TalkPubActivity extends BaseActivity {
 
             @Override
             public void RightClick(View view) {//发表说说
-                if(isNetworkAvailable(TalkPubActivity.this)) {
-                    EditText shuosEditText = (EditText) findViewById(R.id.shuos_edittext);
-                    twitterModel = new TwitterModel();
-                    twitterModel.setTwitterWord(shuosEditText.getText().toString());
-                    shuosEditText.setText("");
-                    shuosEditText.setEnabled(true);
-                    twitterModel.setTime(new Date().toString());
-                    twitterModel.setTwitterPicture(mPicNum);
-                    twitterModel.setTalkerName("aaa");
-                    twitterModel.setTalkId(122222);
-                    HashMap<String,String> stringHashMap = new HashMap<String, String>();
-                    stringHashMap.put("twitterWord",twitterModel.getTwitterWord());
-//                    HttpUtil.Post("http://192.168.3.16:8080/QGzone/TwitterAdd", stringHashMap, bitmaps, new HttpUtil.CallBackListener() {
-//                        @Override
-//                        public void OnFinish(String result) {
-//                            Log.e("Conn", (String) result);
-//                            finish();
-//                        }
-//
-//                        @Override
-//                        public void OnError(Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    });
-                }
+                final EditText shuosEditText = (EditText) findViewById(R.id.shuos_edittext);
+                ArrayList<String> pathList = new ArrayList<String>();
+                for(int i=0; imgPath!=null&&i<imgPath.length; i++)
+                    pathList.add(imgPath[i]);
+//                twitterModel = new TwitterModel();
+//                twitterModel.setTwitterWord(shuosEditText.getText().toString());
+//                mPicNum = imgPath.length;
+//                twitterModel.setTwitterPicture(mPicNum);
+//                String json = JsonUtil.toJson(twitterModel);
+                HttpUtil.Post(url, shuosEditText.getText().toString(), pathList, new HttpUtil.CallBackListener() {
+                    @Override
+                    public void OnFinish(String result) {
+                        LogUtil.e("SendDongtai",result);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                shuosEditText.setText("");
+                                finish();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void OnError(Exception e) {
+                        ToastUtil.showShort(TalkPubActivity.this,"服务器异常");
+                    }
+                });
             }
         });
-
     }
 
-    /*检查当前网络是否可用 */
-    public boolean isNetworkAvailable(Activity activity) {
-        boolean flag = false;
-        //得到网络连接信息
-        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        //去进行判断网络是否连接
-        if (manager.getActiveNetworkInfo() != null) {
-            flag = manager.getActiveNetworkInfo().isAvailable();
-        }
-        return flag;
-    }
-
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode==1&&resultCode==2){
+//            String[] datas = data.getStringArrayExtra("Path");
+//
+//
+//            //2.绑定数据
+//            SimpleAdapter adapter = new SimpleAdapter(TalkPubActivity.this, mPicGridViewList,
+//                    R.layout.gridview_item_layout, new String[]{"image"}, new int[]{R.id.shuos_pic});
+//            mPicGridView.setAdapter(adapter);
+// {
+//                @Override
+//                public View getView(int position, View convertView, ViewGroup parent) {
+//                    ImageView imageView = (ImageView) convertView.findViewById(R.id.shuos_pic);
+//                    ImageLoader.getInstance(1).loadImage(imgPath[position],imageView,true);
+//
+//                    return convertView;
+//                }
+//            };
+//            }
+//        }
+//    }
 }
 
 

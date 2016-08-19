@@ -44,23 +44,23 @@ public class PhotoAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        return photoList.size();
-    }
+        public int getCount() {
+            return photoList.size();
+        }
 
-    @Override
-    public Object getItem(int position) {
-        return photoList.get(position);
-    }
+        @Override
+        public Object getItem(int position) {
+            return photoList.get(position);
+        }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        //1.获取item中的控件并保存至ViewHolder
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            //1.获取item中的控件并保存至ViewHolder
         ViewHolder viewHolder = null;
         if(convertView == null){
             convertView = inflater.inflate(R.layout.item_list_photo, parent, false);

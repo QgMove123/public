@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/dongtai_background"/>
-    <com.example.ricco.utils.CircleImageVIew
+    <com.example.ricco.others.CircleImageVIew
         android:id="@+id/talk_list_personphoto"
         android:layout_width="67dp"
         android:layout_height="67dp"

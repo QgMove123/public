@@ -17,8 +17,9 @@ public class MsgBoardActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ShuoshuoListview.setHeader(null);
+        ShuoshuoListview.setisNote(true);
         String url = getIntent().getStringExtra("friendID");
-        ShuoshuoListview.setShuoshuoURL("http://192.168.43.172:8080/QGzone/NoteOfOthers?userId=留言板主人的id&page=");
+        ShuoshuoListview.setShuoshuoURL("http://192.168.1.109:8080/QGzone/NoteOfOthers?userId=10000&page=");
         setContentView(R.layout.activity_msgeboard);
         TextView to_WriteMsgBoard = (TextView) findViewById(R.id.liuyan_to_write);
         to_WriteMsgBoard.setOnClickListener(new View.OnClickListener() {

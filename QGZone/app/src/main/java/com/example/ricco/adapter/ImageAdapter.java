@@ -25,7 +25,7 @@ import java.util.Set;
  */
 public class ImageAdapter extends BaseAdapter {
 
-    private List<String> selectedImg = new ArrayList<>();
+    private  static List<String> selectedImg = new ArrayList<>();
     private List<String> imgList;
     private LayoutInflater inflater;
     private int screenWidth;
@@ -105,7 +105,7 @@ public class ImageAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public List<String> getSelectedImg() {
+    public  List<String> getSelectedImg() {
         return selectedImg;
     }
 

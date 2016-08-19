@@ -123,7 +123,10 @@ public class ShuoshuoListview extends RelativeLayout {
                     itemAdapter.notifyDataSetChanged();
                     break;
                 }
-
+                case 9:{
+                    ToastUtil.showShort(mContext,"网络异常了");
+                    break;
+                }
             }
         }
     };
@@ -203,7 +206,7 @@ public class ShuoshuoListview extends RelativeLayout {
                             for (int j = 0; j < itemList.get(mItemPosition).getTwitterPicture(); j++) {
                                 try {
                                     Log.e("twitterpicture", itemList.get(mItemPosition).getTwitterPicture() + "  " + (mItemPosition - 12 * (mPage - 1)) + "  " + mItemPosition + "  " + (mPage - 1));
-                                    URL url = new URL("http://192.168.3.16:8080/QGzone/twitterPhotos/_" + jsonModel.getJsonList().get(mItemPosition - 12 * (mPage - 1)).getTwitterId() + "_" + (j + 1) + ".jpg");
+                                    URL url = new URL("http://192.168.1.109:8080/QGzone/twitterPhotos/_" + jsonModel.getJsonList().get(mItemPosition - 12 * (mPage - 1)).getTwitterId() + "_" + (j + 1) + ".jpg");
                                     Bitmap bitmap = BitmapFactory.decodeStream(url.openStream());
                                     Log.e("fileSize", bitmap.getByteCount() + "");
                                     if (bitmap != null) {
@@ -241,6 +244,9 @@ public class ShuoshuoListview extends RelativeLayout {
                     } else if (jsonModel.getState() == 201 && jsonModel.getJsonList().size() == 0) {
                         handler.sendEmptyMessage(5);
                         handler.sendEmptyMessage(4);
+                    } else {
+                        handler.sendEmptyMessage(5);
+                        handler.sendEmptyMessage(9);
                     }
                 }else {
                     final JsonModel<NoteModel, NoteModel> jsonModel = JsonUtil.toModel((String) result, new TypeToken<JsonModel<NoteModel, NoteModel>>() {

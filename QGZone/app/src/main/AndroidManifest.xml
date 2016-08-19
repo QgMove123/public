@@ -28,15 +28,18 @@
             android:name=".ViewPhotoActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
-        <activity android:name=".MsgBoardActivity" />
+        <activity android:name=".MsgBoardActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
         <activity
             android:name=".TalkPubActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".WriteMsgBoardActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ImageDetailActivity" />
         <activity android:name=".FriendTalkPubActivity" />
+
         <activity android:name=".ApplyFriendActivity" />
         <activity android:name=".FirstActivity">
             <intent-filter>
