@@ -87,12 +87,6 @@ public class InfoActivity extends BaseActivity {
         requestInfo(url);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        HttpUtil.Get(Constant.Account.userSignOut, null);
-    }
-
     /**
      * 初始化个人信息的表格
      */

@@ -82,7 +82,7 @@ public class ShuoshuoListview extends RelativeLayout {
                     mpdialog.setTitle("请稍等");                       //设置标题
                     mpdialog.setMessage("正在加载...");               //设置内容
                     mpdialog.setIndeterminate(false);              //设置进度条是否可以不明确
-                    mpdialog.setCancelable(false);                  //设置进度条是否可以取消
+                    mpdialog.setCancelable(true);                  //设置进度条是否可以取消
                     mpdialog.show();                            //显示进度条
                     break;
                 }

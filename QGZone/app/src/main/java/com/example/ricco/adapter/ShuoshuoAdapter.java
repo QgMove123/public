@@ -72,7 +72,7 @@ import java.util.TimerTask;
  * Created by Mr_Do on 2016/8/8.
  */
 public class ShuoshuoAdapter extends BaseAdapter{
-    private final String IP = "192.168.3.16";
+    private final String IP = Constant.host;
     private Handler handler;
     private View contentView;
     private PopupWindow mPopupWindow;
