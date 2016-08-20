@@ -6,10 +6,13 @@ package com.example.ricco.constant;
 public final class Constant {
 
     //主机号
-    public static final String host = "192.168.1.109:8080";
+    public static final String host = "192.168.1.106:8080";
 
     //自己的ID，用于访问自己页面
-    public static final int HOST_ID = 10000;
+    public static  int HOST_ID = 10000;
+
+    //自己的名字
+    public static String HOST_NAME = "";
 
     //好友ID
     public static int FRIEND_ID = 0;
@@ -75,7 +78,7 @@ public final class Constant {
         public static final String deletecomment = "http://" + host + "/QGzone/TwitterCommentDelete?commentId=";//删除评论
         public static final String getbigpicture = "http://"+host+"/QGzone/twitterPhotos/";//获取大图
         public static final String getshuoshuopic = "http://"+host+"/QGzone/twitterPhotos/_";//获取说说图片
-        public static final String sendshuoshuo = "http://"+host+"/QGzone/TwitterAdd";
+        public static final String sendshuoshuo = "http://"+host+"/QGzone/TwitterAdd";//发表说说
     }
 
     //与留言有关的url
@@ -83,7 +86,8 @@ public final class Constant {
         public static final String deletenote = "http://" + host + "/QGzone/NoteDelete?noteId=";//删除留言
         public static final String notecomment = "http://" + host + "/QGzone/NoteCommentAdd";//评论留言
         public static final String deletecomment = "http://" + host + "/QGzone/NoteCommentDelete?commentId=";//删除留言评论
-        public static final String noteofothers = "http://"+host+"/QGzone/NoteOfOthers";
+        public static final String noteofothers = "http://"+host+"/QGzone/NoteOfOthers";//别人的留言
+        public static final String addnote = "http://"+host+"/QGzone/NoteAdd";
     }
 
     // 获取的头像的url

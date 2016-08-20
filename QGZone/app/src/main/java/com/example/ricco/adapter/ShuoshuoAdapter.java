@@ -60,8 +60,8 @@ import java.util.TimerTask;
  */
 public class ShuoshuoAdapter extends BaseAdapter{
     private final String IP = Constant.host;
-    private int ID = Constant.HOST_ID;
-    private String name;
+    private final int ID = Constant.HOST_ID;
+    private final String NAME = Constant.HOST_NAME;
     private Handler handler;
     private PopupWindow mPopupWindow;
     private ArrayList<ArrayList<HashMap<String, Object>>> mPicGridViewList = new ArrayList<ArrayList<HashMap<String, Object>>>();
@@ -198,11 +198,11 @@ public class ShuoshuoAdapter extends BaseAdapter{
 
 
         if(twitterItems != null){
-
+            Log.e("size-s",twitterItem.getSupporterId().size()+"aaa");
             /*根据逻辑改变点赞按钮*/
-            if(twitterItem.getSupporterId()!=null&&twitterItem.getSupporterId().contains(3)){//这里需要id
-                holder.zanImageBtn.setBackground(context.getDrawable(R.mipmap.dongtai_has_zan));
-            }else holder.zanImageBtn.setBackground(context.getDrawable(R.mipmap.dongtai_before_zan));
+            if(twitterItem.getSupporterId()!=null&&twitterItem.getSupporterId().contains(ID)){//这里需要id
+                holder.zanImageBtn.setImageDrawable(context.getDrawable(R.mipmap.dongtai_has_zan));
+            }else holder.zanImageBtn.setImageDrawable(context.getDrawable(R.mipmap.dongtai_before_zan));
 
             /*两种列表的数据绑定*/
             twitterItem = twitterItems.get(position);
@@ -317,6 +317,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
                 @Override
                 public void onClick(final View v) {//点赞按钮
                     Log.e("Click", "OK");
+                    Log.e("Zan",ID+"aaa");
 //                    final int index = Integer.parseInt(v.getTag().toString());
                     holder = holders.get(position);
                     v.setEnabled(false);
@@ -327,14 +328,14 @@ public class ShuoshuoAdapter extends BaseAdapter{
                         public void OnFinish(String result) {
                             //返回状态
                             Log.e("Tag",result+"");
+                            LogUtil.e("ID",ID+"");
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if(twitterItem.getSupporterId().contains(3))twitterItem.getSupporterId().remove(Integer.valueOf(3));
-                                    else twitterItem.getSupporterId().add(Integer.valueOf(ID));//这里需要id
+                                    if(twitterItem.getSupporterId().contains(ID))twitterItem.getSupporterId().remove(Integer.valueOf(ID));
+                                    else twitterItem.getSupporterId().add(ID);//这里需要id
 
                                     handler.sendEmptyMessage(8);
-
                                     v.setEnabled(true);
                                 }
                             });
@@ -444,8 +445,9 @@ public class ShuoshuoAdapter extends BaseAdapter{
                 }else if(noteItems != null){
                     Log.e("sayItemPosition",sayItemPosition+"");
                     noteModel = noteItems.get(sayItemPosition);
-                    URL = Constant.Note.notecomment+noteModel.getComment().get(position).getCommenterId()+"&noteId="+noteItem.getNoteId()+
+                    URL = Constant.Note.notecomment+"?targetId="+noteModel.getComment().get(position).getCommenterId()+"&noteId="+noteItem.getNoteId()+
                             "&comment=";//评论留言
+                    LogUtil.e("NOTE_URL",URL);
                     showPopupWindow(URL,noteModel.getComment().get(position).getCommenterName(), sayItemPosition);
                 }
             }
@@ -550,7 +552,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
                                 twitterCommentModel = new TwitterCommentModel();
                                 twitterCommentModel.setTime(jsonModel.getJsonObject().getTime());
                                 twitterCommentModel.setTargetName(twitterItem.getTalkerName());
-                                twitterCommentModel.setCommenterName("123");    //这里需要名字
+                                twitterCommentModel.setCommenterName(NAME);    //这里需要名字
                                 twitterCommentModel.setCommenterId(ID);
                                 twitterCommentModel.setComment(holder.editText.getText().toString());
                                 handler.post(new Runnable() {
@@ -568,7 +570,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
                                 noteCommentModel = new NoteCommentModel();
                                 noteCommentModel.setTime(jsonModel.getJsonObject().getTime());
                                 noteCommentModel.setTargetName(noteItem.getNoteManName());
-                                noteCommentModel.setCommenterName("123");   //这里需要名字
+                                noteCommentModel.setCommenterName(NAME);   //这里需要名字
                                 noteCommentModel.setComment(holder.editText.getText().toString());
                                 handler.post(new Runnable() {
                                     @Override
@@ -637,12 +639,14 @@ public class ShuoshuoAdapter extends BaseAdapter{
                                 twitterCommentModel = new TwitterCommentModel();
                                 twitterCommentModel.setTime(jsonModel.getJsonObject().getTime());
                                 twitterCommentModel.setTargetName(targe);
-                                twitterCommentModel.setCommenterName("123");    //这里需要名字
+                                twitterCommentModel.setCommenterName(NAME);    //这里需要名字
                                 twitterCommentModel.setCommenterId(ID);
                                 twitterCommentModel.setComment(huifuEditText.getText().toString());
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
+                                        LogUtil.e("EDIT_POSITION",position+"aaaa");
+                                        holder = holders.get(position);
                                         twitterItem = twitterItems.get(position);
                                         twitterItem.getComment().add(twitterCommentModel);
                                         ((Respond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();
@@ -656,11 +660,12 @@ public class ShuoshuoAdapter extends BaseAdapter{
                                 noteCommentModel = new NoteCommentModel();
                                 noteCommentModel.setTime(jsonModel.getJsonObject().getTime());
                                 noteCommentModel.setTargetName(targe);
-                                noteCommentModel.setCommenterName("123");   //这里需要名字
+                                noteCommentModel.setCommenterName(NAME);   //这里需要名字
                                 noteCommentModel.setComment(huifuEditText.getText().toString());
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
+                                        holder = holders.get(position);
                                         noteItem = noteItems.get(position);
                                         noteItem.getComment().add(noteCommentModel);
                                         ((NoteRespond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();

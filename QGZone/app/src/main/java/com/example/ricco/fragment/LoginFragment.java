@@ -196,6 +196,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     }
                     UserModel um = JsonUtil.toObject(msg.obj.toString(), UserModel.class);
                     Constant.HOST_ID = Integer.parseInt(um.getUserId());
+                    Constant.HOST_NAME = um.getUserName();
                     break;
                 case 112:
                     Log.e("handleMessage: ", "登录失败");

@@ -285,7 +285,10 @@ public class ShuoshuoListview extends RelativeLayout {
                         handler.sendEmptyMessage(5);
                         handler.sendEmptyMessage(4);
                         handler.sendEmptyMessage(0);
-                    } else if (jsonModel.getState() == 506) handler.sendEmptyMessage(5);
+                    } else if (jsonModel.getState() == 506){
+                        handler.sendEmptyMessage(5);
+                        handler.sendEmptyMessage(10);
+                    }
                 }
             }
 
