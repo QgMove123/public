@@ -1,13 +1,11 @@
 package com.example.ricco.constant;
 
-import javax.net.ssl.HostnameVerifier;
-
 /**
  *全局常量
  */
 public final class Constant {
     //主机号
-    public static final String host = "192.168.1.100:8080";
+    public static final String host = "192.168.3.49:8080";
     //自己的ID，用于访问自己页面
     public static final int HOST_ID = 1;
     //好友ID
@@ -33,13 +31,19 @@ public final class Constant {
     public static final class Account {
         public static final String userSignUp = "http://" + host + "/QGzone/UserSignUp";
         public static final String userSignIn = "http://" + host + "/QGzone/UserSignIn";
+        public static final String userSignOut = "http://" + host + "/QGzone/UserSignOut";
         public static final String userCheckSecret = "http://" + host + "/QGzone/UserCheckSecret";
         public static final String userForgetPassword = "http://" + host + "/QGzone/UserForgetPassword";
         public static final String MessageGet = "http://" + host + "/QGzone/MessageGet";
+        public static final String MessageSearch = "http://" + host + "/QGzone/MessageSearch";
         public static final String RelationGet = "http://" + host + "/QGzone/RelationsGet";
         public static final String RelationDelete = "http://" + host + "/QGzone/RelationsDelete";
-        public static final String Picture = "http://" + host + "/QGzone/jpg/";
-        public static final String friendInfo = "http://" + host + "/QGzone/MessageSearch?userId=";
+        public static final String RelationRefresh = "http://" + host + "/QGzone/RelationRefresh";
+        public static final String RelationGetDetails = "http://" + host + "/QGzone/RelationGetDetails";
+        public static final String MessageChange = "http://" + host + "/QGzone/MessageChange";
+        public static final String UserChangeSecret = "http://" + host + "/QGzone/UserChangeSecret";
+        public static final String UserChangePassword = "http://" + host + "/QGzone/UserChangePassword";
+        public static final String UserUploadImage = "http://" + host + "/QGzone/UserUploadImage";
     }
 
     // 所有与好友相关的的url

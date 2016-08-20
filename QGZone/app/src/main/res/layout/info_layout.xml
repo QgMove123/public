@@ -28,7 +28,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="#c8edfe">
 
-                <com.example.ricco.utils.CircleImageVIew
+                <com.example.ricco.others.CircleImageVIew
                     android:id="@+id/user_pic"
                     android:layout_height="70dp"
                     android:layout_width="70dp"

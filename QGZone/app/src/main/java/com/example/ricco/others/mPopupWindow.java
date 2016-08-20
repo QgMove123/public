@@ -1,17 +1,12 @@
 package com.example.ricco.others;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
-
-import com.example.ricco.qgzone.R;
 
 /**
  * PopupWindow
@@ -42,7 +37,7 @@ public class mPopupWindow extends PopupWindow {
         });
         if (animated) {
             //设置动画效果
-            setAnimationStyle(R.style.popupWindowAnim);
+//            setAnimationStyle(R.style.popupWindowAnim);
         }
         //设置popup消失事件
         setOnDismissListener(new PopupWindow.OnDismissListener() {

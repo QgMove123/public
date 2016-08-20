@@ -56,6 +56,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
+        HttpUtil.sessionid = null;
         account = (EditText) view.findViewById(R.id.account);
         password = (EditText) view.findViewById(R.id.password);
         Bundle bundle = getArguments();

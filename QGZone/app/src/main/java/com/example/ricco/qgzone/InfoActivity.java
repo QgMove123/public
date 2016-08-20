@@ -58,7 +58,7 @@ public class InfoActivity extends BaseActivity {
         if(intent != null && intent.getStringExtra("user").equals("friend")) {
             tb.setRightIsVisable(false);
             findViewById(R.id.exit).setVisibility(View.GONE);
-            url = Constant.Account.friendInfo + intent.getIntExtra("id", 0);
+            url = Constant.Account.MessageSearch + intent.getIntExtra("id", 0);
         } else {
 
             exit.setOnClickListener(new View.OnClickListener() {
@@ -78,13 +78,19 @@ public class InfoActivity extends BaseActivity {
 
                 @Override
                 public void RightClick(View view) {
-//                    EditInfoActivity.actionStart(InfoActivity.this, message);
+                    EditInfoActivity.actionStart(InfoActivity.this, message);
                 }
             });
             url = Constant.Account.MessageGet;
         }
 
         requestInfo(url);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HttpUtil.Get(Constant.Account.userSignOut, null);
     }
 
     /**
