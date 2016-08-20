@@ -12,18 +12,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
-import android.text.Editable;
-import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -37,36 +31,26 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
 import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.entity.NoteCommentModel;
 import com.example.ricco.entity.NoteModel;
 import com.example.ricco.entity.TwitterCommentModel;
 import com.example.ricco.entity.TwitterModel;
-import com.example.ricco.fragment.DongTaiFragment;
 import com.example.ricco.others.CircleImageVIew;
 import com.example.ricco.others.ImageLoader;
-import com.example.ricco.others.ShuoshuoListview;
 import com.example.ricco.qgzone.ImageDetailActivity;
-import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.HttpUtil;
-
 import com.example.ricco.utils.Item_Adapter_View;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.TalkPicGridView;
 import com.example.ricco.utils.TalkRespondListView;
 import com.google.gson.reflect.TypeToken;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -76,11 +60,10 @@ import java.util.TimerTask;
  */
 public class ShuoshuoAdapter extends BaseAdapter{
     private final String IP = Constant.host;
+    private int ID = Constant.HOST_ID;
+    private String name;
     private Handler handler;
-    private View contentView;
     private PopupWindow mPopupWindow;
-    private EditText huifuEditText;
-    private ImageButton huifuImageButton;
     private ArrayList<ArrayList<HashMap<String, Object>>> mPicGridViewList = new ArrayList<ArrayList<HashMap<String, Object>>>();
     private List<Item_Adapter_View> holders = new ArrayList<Item_Adapter_View>();
     private Item_Adapter_View holder = null;//自定义的一个类用来缓存convertview
@@ -92,10 +75,6 @@ public class ShuoshuoAdapter extends BaseAdapter{
     private NoteModel noteItem;
     private TwitterCommentModel twitterCommentModel;
     private NoteCommentModel noteCommentModel;
-    private TwitterCommentModel comment;
-    private int resourceId;
-    private int ID = Constant.HOST_ID;
-    private String name;
 
     public ShuoshuoAdapter(ArrayList<TwitterModel> items, Context context,
                            ArrayList<ArrayList<HashMap<String, Object>>> mPicGridViewList, Handler handler){
@@ -213,9 +192,9 @@ public class ShuoshuoAdapter extends BaseAdapter{
 
         //加载头像
         if(twitterItems!=null&&twitterItems.size()>0)
-            ImageLoader.getInstance(1).loadImage("http://"+IP+":8080/QGzone/jpg/"+twitterItem.getTalkId()+".jpg",holder.perPhotoImageVIew,false);
+            ImageLoader.getInstance(1).loadImage(Constant.civUrl+twitterItem.getTalkId()+".jpg",holder.perPhotoImageVIew,false);
         else if(noteItems != null&&noteItems.size()>0)
-            ImageLoader.getInstance(1).loadImage("http://"+IP+":8080/QGzone/jpg/"+noteItem.getNoteManId()+".jpg",holder.perPhotoImageVIew,false);
+            ImageLoader.getInstance(1).loadImage(Constant.civUrl+noteItem.getNoteManId()+".jpg",holder.perPhotoImageVIew,false);
 
 
         if(twitterItems != null){
@@ -295,7 +274,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
                                     setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String url = "http://" + IP + ":8080/QGzone/TwitterDelete?twitterId=" + twitterItem.getTwitterId();
+                                    String url = Constant.TalkPub.deleteshuoshuo + twitterItem.getTwitterId();//删除说说
                                     Log.e("URL", url);
                                     HttpUtil.Get(url, new HttpUtil.CallBackListener() {
                                         @Override
@@ -342,7 +321,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
                     holder = holders.get(position);
                     v.setEnabled(false);
                     if (twitterItems != null) twitterItem = twitterItems.get(position);
-                    String url = "http://"+IP+":8080/QGzone/TwitterSupport?twitterId="+twitterItem.getTwitterId();
+                    String url = Constant.TalkPub.supportshuoshuo+twitterItem.getTwitterId();//点赞
                     HttpUtil.Get(url, new HttpUtil.CallBackListener(){
                         @Override
                         public void OnFinish(String result) {
@@ -352,7 +331,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
                                 @Override
                                 public void run() {
                                     if(twitterItem.getSupporterId().contains(3))twitterItem.getSupporterId().remove(Integer.valueOf(3));
-                                    else twitterItem.getSupporterId().add(Integer.valueOf(3));//这里需要id
+                                    else twitterItem.getSupporterId().add(Integer.valueOf(ID));//这里需要id
 
                                     handler.sendEmptyMessage(8);
 
@@ -393,7 +372,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
                                     setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String url = "http://" + IP + ":8080/QGzone/NoteDelete?noteId=" + noteItem.getNoteId();
+                                    String url = Constant.Note.deletenote + noteItem.getNoteId();
                                     LogUtil.e("URL", url);
                                     handler.sendEmptyMessage(1);
                                     HttpUtil.Get(url, new HttpUtil.CallBackListener() {
@@ -458,15 +437,15 @@ public class ShuoshuoAdapter extends BaseAdapter{
                 if(twitterItems != null){
                     Log.e("sayItemPosition",sayItemPosition+"");
                     twitterModel = twitterItems.get(sayItemPosition);
-                    URL = "http://" + IP + ":8080/QGzone/TwitterCommentAdd?twitterId=" + twitterModel.getTwitterId()
+                    URL = Constant.TalkPub.shuoshuocomment+"?twitterId=" + twitterModel.getTwitterId()
                             + "&targetId=" + twitterModel.getComment().get(position).getCommenterId()
-                            + "&comment=";
+                            + "&comment=";//评论说说
                     showPopupWindow(URL,twitterModel.getComment().get(position).getCommenterName(),sayItemPosition);
                 }else if(noteItems != null){
                     Log.e("sayItemPosition",sayItemPosition+"");
                     noteModel = noteItems.get(sayItemPosition);
-                    URL = "http://" + IP + ":8080/QGzone/NoteCommentAdd?targetId="+noteModel.getComment().get(position).getCommenterId()+"&noteId="+noteItem.getNoteId()+
-                            "&comment=";
+                    URL = Constant.Note.notecomment+noteModel.getComment().get(position).getCommenterId()+"&noteId="+noteItem.getNoteId()+
+                            "&comment=";//评论留言
                     showPopupWindow(URL,noteModel.getComment().get(position).getCommenterName(), sayItemPosition);
                 }
             }
@@ -492,8 +471,8 @@ public class ShuoshuoAdapter extends BaseAdapter{
                                 public void onClick(DialogInterface dialog, int which) {
                                     String url = null;
                                     handler.sendEmptyMessage(1);
-                                    if(twitterItems!=null) url = "http://" + IP + ":8080/QGzone/TwitterCommentDelete?commentId=" + twitterItem.getComment().get(position).getCommentId();
-                                    else if(noteItems != null) url = "http://" + IP + ":8080/QGzone/NoteCommentDelete?commentId="+noteItem.getComment().get(position).getCommentId();//需要删除留言评论的id
+                                    if(twitterItems!=null) url = Constant.TalkPub.deletecomment+ twitterItem.getComment().get(position).getCommentId();
+                                    else if(noteItems != null) url = Constant.Note.deletecomment+noteItem.getComment().get(position).getCommentId();//需要删除留言评论的id
                                     Log.e("URL", url);
                                     HttpUtil.Get(url, new HttpUtil.CallBackListener() {
                                         @Override
@@ -554,11 +533,11 @@ public class ShuoshuoAdapter extends BaseAdapter{
                 else if(noteItems != null) noteItem = noteItems.get(position);
                 String URL = null;
                 if(twitterItems != null){
-                    URL = "http://" + IP + ":8080/QGzone/TwitterCommentAdd?twitterId=" + twitterItem.getTwitterId()
+                    URL = Constant.TalkPub.shuoshuocomment+"?twitterId=" + twitterItem.getTwitterId()
                             + "&targetId=" + twitterItem.getTalkId()
                             + "&comment=";
                 }else{
-                    URL = "http://" + IP + ":8080/QGzone/NoteCommentAdd?targetId="+ noteItem.getTargetId()+"&noteId="+noteItem.getNoteId()+"&comment=";
+                    URL = Constant.Note.notecomment+"?targetId="+ noteItem.getTargetId()+"&noteId="+noteItem.getNoteId()+"&comment=";
                 }
                 if(!holder.editText.getText().toString().equals("")) {
                     HttpUtil.Get(URL + holder.editText.getText().toString(), new HttpUtil.CallBackListener() {
@@ -615,9 +594,9 @@ public class ShuoshuoAdapter extends BaseAdapter{
         return convertView;
     }
     /*要用到的方法*/
-    private String getURL(String ip, int twitterId, int position){
-        Log.e("Tag","http://"+ip+":8080/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg");
-        return "http://"+ip+":8080/QGzone/twitterPhotos/"+twitterId+"_"+(position+1)+".jpg";
+    private String getURL(String ip, int twitterId, int position){//获取大图片
+        Log.e("Tag",Constant.TalkPub.getbigpicture+twitterId+"_"+(position+1)+".jpg");
+        return Constant.TalkPub.getbigpicture+twitterId+"_"+(position+1)+".jpg";
     }
     private void showPopupWindow(final String url, final String targe, final int position) {//弹出框，包含回复功能
         showKeyBroad();

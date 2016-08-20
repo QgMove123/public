@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
 import com.example.ricco.adapter.ImageAdapter;
+import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.TwitterModel;
 import com.example.ricco.others.ImageLoader;
 import com.example.ricco.others.TopBar;
@@ -42,7 +43,7 @@ public class TalkPubActivity extends BaseActivity {
     private String[] imgPath;
     private TwitterModel twitterModel;
     public Handler handler;
-    private String url = "http://192.168.1.109:8080/QGzone/TwitterAdd";
+    private String url = Constant.TalkPub.sendshuoshuo;
     private int mPicNum = 0;
     private ArrayList<Bitmap> bitmaps;
     private ArrayList<HashMap<String, String>> mPicGridViewList = new ArrayList<HashMap<String, String>>();

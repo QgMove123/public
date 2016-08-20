@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.example.ricco.adapter.ShuoshuoAdapter;
+import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.JsonModel;
 import com.example.ricco.entity.NoteModel;
 import com.example.ricco.entity.TwitterModel;
@@ -211,7 +212,7 @@ public class ShuoshuoListview extends RelativeLayout {
                             for (int j = 0; j < itemList.get(mItemPosition).getTwitterPicture(); j++) {
                                 try {
                                     Log.e("twitterpicture", itemList.get(mItemPosition).getTwitterPicture() + "  " + (mItemPosition - 12 * (mPage - 1)) + "  " + mItemPosition + "  " + (mPage - 1));
-                                    URL url = new URL("http://192.168.1.109:8080/QGzone/twitterPhotos/_" + jsonModel.getJsonList().get(mItemPosition - 12 * (mPage - 1)).getTwitterId() + "_" + (j + 1) + ".jpg");
+                                    URL url = new URL(Constant.TalkPub.getshuoshuopic + jsonModel.getJsonList().get(mItemPosition - 12 * (mPage - 1)).getTwitterId() + "_" + (j + 1) + ".jpg");//说说图片
                                     Bitmap bitmap = BitmapFactory.decodeStream(url.openStream());
                                     Log.e("fileSize", bitmap.getByteCount() + "");
                                     if (bitmap != null) {

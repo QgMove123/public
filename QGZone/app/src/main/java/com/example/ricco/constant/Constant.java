@@ -67,8 +67,23 @@ public final class Constant {
 
     // 所有与说说相关的url
     public static final class TalkPub {
-        public static final String individuallity = "http://" + host + "/QGzone/TwitterOfOthers?userId=";
-        public static final String dongtaitalkpub = "http://" + host + "/QGzone/TwitterGetTest?page=";
+        public static final String individuallity = "http://" + host + "/QGzone/TwitterOfOthers?userId=";//别人的说说
+        public static final String dongtaitalkpub = "http://" + host + "/QGzone/TwitterGetTest?page=";//所有人的说说
+        public static final String deleteshuoshuo = "http://" + host + "/QGzone/TwitterDelete?twitterId=";//删除说说
+        public static final String supportshuoshuo = "http://"+host+"/QGzone/TwitterSupport?twitterId=";//点赞
+        public static final String shuoshuocomment = "http://" + host + "/QGzone/TwitterCommentAdd";//评论说说
+        public static final String deletecomment = "http://" + host + "/QGzone/TwitterCommentDelete?commentId=";//删除评论
+        public static final String getbigpicture = "http://"+host+"/QGzone/twitterPhotos/";//获取大图
+        public static final String getshuoshuopic = "http://"+host+"/QGzone/twitterPhotos/_";//获取说说图片
+        public static final String sendshuoshuo = "http://"+host+"/QGzone/TwitterAdd";
+    }
+
+    //与留言有关的url
+    public static final class Note{
+        public static final String deletenote = "http://" + host + "/QGzone/NoteDelete?noteId=";//删除留言
+        public static final String notecomment = "http://" + host + "/QGzone/NoteCommentAdd";//评论留言
+        public static final String deletecomment = "http://" + host + "/QGzone/NoteCommentDelete?commentId=";//删除留言评论
+        public static final String noteofothers = "http://"+host+"/QGzone/NoteOfOthers";
     }
 
     // 获取的头像的url

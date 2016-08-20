@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ricco.constant.Constant;
 import com.example.ricco.others.ShuoshuoListview;
 
 /**
@@ -19,7 +20,7 @@ public class MsgBoardActivity extends BaseActivity{
         ShuoshuoListview.setHeader(null);
         ShuoshuoListview.setisNote(true);
         String url = getIntent().getStringExtra("friendID");
-        ShuoshuoListview.setShuoshuoURL("http://192.168.1.109:8080/QGzone/NoteOfOthers?userId=10000&page=");
+        ShuoshuoListview.setShuoshuoURL(Constant.Note.noteofothers+"?userId="+url+"&page=");
         setContentView(R.layout.activity_msgeboard);
         TextView to_WriteMsgBoard = (TextView) findViewById(R.id.liuyan_to_write);
         to_WriteMsgBoard.setOnClickListener(new View.OnClickListener() {
