@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.ricco.qgzone.R;
 
 /**
- * 导航栏
+ * TopBar
  */
 public class TopBar extends RelativeLayout{
     //1.声明导航栏中包含以下子控件
@@ -45,9 +45,19 @@ public class TopBar extends RelativeLayout{
 
         leftButton.setText(ta.getString(R.styleable.TopBar_leftText));
         leftButton.setBackground(ta.getDrawable(R.styleable.TopBar_leftBackground));
+        if(ta.getBoolean(R.styleable.TopBar_leftIsVisability,true)){
+            leftButton.setVisibility(VISIBLE);
+        }else{
+            leftButton.setVisibility(INVISIBLE);
+        }
 
         rightButton.setText(ta.getString(R.styleable.TopBar_rightText));
         rightButton.setBackground(ta.getDrawable(R.styleable.TopBar_rightBackground));
+        if(ta.getBoolean(R.styleable.TopBar_RightIsVisability,true)){
+            rightButton.setVisibility(VISIBLE);
+        }else{
+            rightButton.setVisibility(INVISIBLE);
+        }
 
         ta.recycle();
 
@@ -60,7 +70,6 @@ public class TopBar extends RelativeLayout{
         rightButton.setTextSize(16);
         midTextView.setTextColor(Color.WHITE);
         midTextView.setTextSize(20);
-
 
         //5.将子控件以LayoutParams形式加入到ViewGroup中
         LayoutParams MidParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
@@ -91,6 +100,18 @@ public class TopBar extends RelativeLayout{
                 listener.RightClick(v);
             }
         });
+    }
+
+    public void setTitle(String title) {
+        midTextView.setText(title);
+    }
+
+    public void setLeftText(String leftText) {
+        leftButton.setText(leftText);
+    }
+
+    public void setRightText(String rightText) {
+        rightButton.setText(rightText);
     }
 
     //左按钮隐藏或显示

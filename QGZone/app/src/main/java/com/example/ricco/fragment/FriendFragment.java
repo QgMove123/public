@@ -215,7 +215,6 @@ public class FriendFragment extends BaseFragment {
                 mHandler.sendEmptyMessageDelayed(1, 1000);
             }
         });
-
         mTopBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
             @Override
             public void LeftClick(View view) {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <Button
+        android:id="@+id/popup_btn_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上传相片"/>
+
+    <Button
+        android:id="@+id/popup_btn_edi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="编辑相册"/>
+
+    <Button
+        android:id="@+id/popup_btn_clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="清空相册"/>
+
+    <Button
+        android:id="@+id/popup_btn_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除相册"/>
+
+</LinearLayout>

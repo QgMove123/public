@@ -1,12 +1,23 @@
 package com.example.ricco.utils;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Get、Post请求
@@ -32,7 +43,6 @@ public class HttpUtil {
                 try {
                     URL httpUrl = new URL(url);
                     conn = (HttpURLConnection) httpUrl.openConnection();
-                    conn.setRequestMethod("GET");
                     if (sessionid != null) {
                         conn.setRequestProperty("cookie", sessionid);
                     } else {
@@ -41,6 +51,7 @@ public class HttpUtil {
                             sessionid = cookieval.substring(0, cookieval.indexOf(";"));
                         }
                     }
+                    conn.setRequestMethod("GET");
                     conn.setConnectTimeout(8000);
                     conn.setReadTimeout(8000);
                     conn.connect();
@@ -55,14 +66,12 @@ public class HttpUtil {
                     if (listener != null) {
                         //回调OnFinish()
                         listener.OnFinish(str.toString());
-                        LogUtil.e("HttpUtil","Finish");
+                        LogUtil.e("HttpUtil", "Finish");
                     }
                 } catch (IOException e) {
                     //回调OnError()
-                    if(listener != null) {
-                        listener.OnError(e);
-                    }
-                    LogUtil.e("HttpUtil","Error");
+                    listener.OnError(e);
+                    LogUtil.e("HttpUtil", "Error");
                 } finally {
                     try {
                         br.close();
@@ -76,20 +85,28 @@ public class HttpUtil {
             }
         }.start();
     }
-
-    public static void Post(final String url, final String JsonOrString,
-                            final List<String> imgPaths, final CallBackListener listener){
+    public static void Post(final String url, final HashMap<String,String> hashMap,
+                            final ArrayList<Bitmap> bitmaps, final CallBackListener listener){
         new Thread(new Runnable() {
             @Override
             public void run() {
+                String msg = new String();
                 String boundary = "---------------------------7de2c25201d48";
                 String prefix = "--";
                 String end = "\r\n";
-
-                HttpURLConnection conn = null;
                 try {
                     URL httpUrl = new URL(url);
-                    conn = (HttpURLConnection) httpUrl.openConnection();
+                    HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+//                    if(sessionid != null) {
+//                        conn.setRequestProperty("cookie", sessionid);
+//                    }else {
+//                        String cookieval = conn.getHeaderField("set-cookie");
+//                        if (cookieval != null) {
+//                            sessionid = cookieval.substring(0, cookieval.indexOf(";"));
+//                            Log.e("Tag",sessionid+"get");
+//                        }
+//                    }
+
                     conn.setRequestMethod("POST");
                     if(sessionid != null) {
                         conn.setRequestProperty("cookie", sessionid);
@@ -103,18 +120,19 @@ public class HttpUtil {
                     conn.setConnectTimeout(8000);
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
-                    conn.setRequestProperty("Content-Type",
-                            "multipart/form-data;boundary=" + boundary);
-                    DataOutputStream dos =new DataOutputStream(conn.getOutputStream());
-                    //输出字符串
-                    if(JsonOrString!=null) {
-                        dos.writeBytes(prefix + boundary + end);
-                        dos.writeBytes("Content-Disposition: form-data; name=\"twitterWord\"" + end);
+                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                    DataOutputStream dos =new DataOutputStream (conn.getOutputStream());
+
+
+                    for(Map.Entry<String,String> entry : hashMap.entrySet()){
+                        String strkey = entry.getKey();
+                        String strval = entry.getValue();
+                        dos.writeBytes(prefix+boundary+end);
+                        dos.writeBytes("Content-Disposition: form-data; name=\""+strkey+"\"" + end);
                         dos.writeBytes(end);
-                        dos.writeUTF(JsonOrString);
+                        dos.writeUTF(strval);
                         dos.writeBytes(end);
                     }
-                    Log.e("run: connect", conn+"");
                     //输出图片
                     int size = 0;
                     if (imgPaths != null && (size = imgPaths.size())!= 0) {
@@ -124,16 +142,16 @@ public class HttpUtil {
                             dos.writeBytes(end);
                             FileInputStream is = new FileInputStream(imgPaths.get(i));
                             BufferedInputStream bis = new BufferedInputStream(is);
-                            byte[] b = new byte[1024 * 8];
+                            byte[] buffer = new byte[1024 * 8];
                             int len;
-                            while ((len = bis.read(b)) != -1) {
-                                dos.write(b, 0, len);
+                            while ((len = bis.read(buffer)) != -1) {
+                                dos.write(buffer, 0, len);
                             }
                             dos.writeBytes(end);
                         }
                     }
                     dos.writeBytes(prefix+boundary+prefix+end);
-                    Log.e("run: session", sessionid+"");
+                    dos.flush();
                     //读入
                     StringBuilder str = new StringBuilder("");
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -147,9 +165,11 @@ public class HttpUtil {
                         LogUtil.e("HttpUtilPost","Finish");
                     }
 
+
+                    listener.OnFinish(conn.getResponseCode()+"");
                 } catch (MalformedURLException e) {
+                    e.printStackTrace();
                     listener.OnError(e);
-                    LogUtil.e("HttpUtilGet","Error");
                 } catch (IOException e) {
                     listener.OnError(e);
                     LogUtil.e("HttpUtilGet","Error");
@@ -161,5 +181,4 @@ public class HttpUtil {
             }
         }).start();
     }
-
 }

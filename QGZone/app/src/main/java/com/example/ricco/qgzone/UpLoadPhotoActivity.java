@@ -13,14 +13,16 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
-
 import com.example.ricco.adapter.ImageAdapter;
+import com.example.ricco.constant.Constant;
+import com.example.ricco.entity.JsonModel;
 import com.example.ricco.others.TopBar;
-
+import com.example.ricco.utils.HttpUtil;
+import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.StateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author yason
@@ -46,26 +48,36 @@ public class UpLoadPhotoActivity extends BaseActivity {
 
     private GridView gridView;
     private List<String> imgList;
-    private Set<String> selectedImg;
-    private String[] imgPath = new String[9];//用于返回给动态页的Path
     private ImageAdapter imgAdapter;
+
+    private int albumId;
+
+    private String jResult;
 
     private ProgressDialog progressDialog;
 
-    private Intent mIntent;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            progressDialog.dismiss();
-            imgAdapter = new ImageAdapter(UpLoadPhotoActivity.this, imgList);
-            gridView.setAdapter(imgAdapter);
+            switch(msg.what){
+                case 0x110:
+                    initAdapter();
+                    break;
+                case 0x111:
+                    upLoadPhoto();
+                    break;
+            }
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_photo);
+
+        albumId = getIntent().
+                getIntExtra("albumId",-1);
 
         initView();
 
@@ -75,41 +87,31 @@ public class UpLoadPhotoActivity extends BaseActivity {
 
     }
 
-    /**
-     * 初始化控件
-     */
     private void initView() {
         topBar = (TopBar) findViewById(R.id.topbar);
         btn_upload = (Button) findViewById(R.id.btn_upload);
         gridView = (GridView) findViewById(R.id.gridview);
     }
 
-    /**
-     * 准备数据源
-     */
     private void initDatas() {
-        progressDialog = ProgressDialog.show(this, null, "正在加载...");
+        imgList = new ArrayList<>();
         new Thread() {
             @Override
             public void run() {
-
                 Uri imgUri = MediaStore.Images.Media.INTERNAL_CONTENT_URI;
                 ContentResolver cr = getContentResolver();
                 Cursor cursor = cr.query(imgUri, null, null, null, null);
-                imgList = new ArrayList<String>();
                 while (cursor.moveToNext()) {
-                    String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                    String path = cursor.getString(cursor.
+                            getColumnIndex(MediaStore.Images.Media.DATA));
                     imgList.add(path);
                 }
                 cursor.close();
-                handler.sendEmptyMessage(0);
+                handler.sendEmptyMessage(0x110);
             }
         }.start();
     }
 
-    /**
-     * 设置事件监听
-     */
     private void initEvent() {
         //topBar点击事件
         topBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
@@ -125,25 +127,47 @@ public class UpLoadPhotoActivity extends BaseActivity {
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog = ProgressDialog.
+                        show(UpLoadPhotoActivity.this, null, "正在上传");
                 //1.获取选中图片
-                selectedImg = imgAdapter.getSelectedImg();
-                //保存图片
-                for(int i=0; i<9&&i<selectedImg.toArray().length&&selectedImg.toArray()[i]!=null; i++)
-                    imgPath[i] = (String) selectedImg.toArray()[i];
-                //2.上传到服务器或返回给说说发表页
-                if((mIntent=getIntent())!=null){
-                    if(mIntent.getStringExtra("Call").equals("DongTai")){
-                        mIntent = new Intent(UpLoadPhotoActivity.this, TalkPubActivity.class);
-                        mIntent.putExtra("Path",imgPath);
-                        startActivity(mIntent);
+                List<String> selectedImg = imgAdapter.getSelectedImg();
+                //2.上传到服务器
+                if (albumId == -1) return;
+                String url = Constant.Album.uploadPhoto + "?albumId=" + albumId;
+                HttpUtil.Post(url, null, selectedImg, new HttpUtil.CallBackListener() {
+                    @Override
+                    public void OnFinish(String JsonResult) {
+                        jResult = JsonResult;
+                        handler.sendEmptyMessage(0x111);
                     }
-                }
+
+                    @Override
+                    public void OnError(Exception e) {
+                    }
+                });
             }
         });
     }
 
-    public static void actionStart(Context context){
+
+    private void initAdapter() {
+        imgAdapter = new ImageAdapter(UpLoadPhotoActivity.this, imgList);
+        gridView.setAdapter(imgAdapter);
+    }
+
+    private void upLoadPhoto() {
+        progressDialog.dismiss();
+        JsonModel jsonModel = JsonUtil.toObject(jResult, JsonModel.class);
+        int state = jsonModel.getState();
+        boolean flag = StateUtil.albumState(UpLoadPhotoActivity.this, state);
+        if (flag) {
+            finish();
+        }
+    }
+
+    public static void actionStart(Context context,int albumId){
         Intent intent = new Intent(context, UpLoadPhotoActivity.class);
+        intent.putExtra("albumId", albumId);
         context.startActivity(intent);
     }
 }

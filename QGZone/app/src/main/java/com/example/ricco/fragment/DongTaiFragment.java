@@ -25,7 +25,6 @@ import com.example.ricco.others.ShuoshuoListview;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.MsgBoardActivity;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.qgzone.TalkPubActivity;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.ToastUtil;

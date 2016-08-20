@@ -12,7 +12,7 @@ import com.example.ricco.entity.MessageModel;
 import com.example.ricco.others.ImageLoader;
 import com.example.ricco.qgzone.InfoActivity;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.utils.CircleImageVIew;
+import com.example.ricco.others.CircleImageVIew;
 import com.example.ricco.utils.ToastUtil;
 
 import java.util.List;

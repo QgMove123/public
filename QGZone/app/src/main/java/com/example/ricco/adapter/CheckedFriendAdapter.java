@@ -17,7 +17,7 @@ import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.FriendApplyModel;
 import com.example.ricco.others.ImageLoader;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.utils.CircleImageVIew;
+import com.example.ricco.others.CircleImageVIew;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.ToastUtil;

@@ -10,10 +10,9 @@
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        custom:title="选择相片"
-        custom:leftText="相册"
-        custom:rightText="取消"
-        custom:leftIsVisability="false"
+        custom:title="QG相册"
+        custom:leftText="返回"
+        custom:rightText="菜单"
         />
 
     <GridView
@@ -27,21 +26,5 @@
         android:stretchMode="columnWidth"
         android:cacheColorHint="@android:color/transparent"
         android:listSelector="@android:color/transparent"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btn_upload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="确定"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            />
-
-    </RelativeLayout>
 
 </LinearLayout>

@@ -10,9 +10,11 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import com.example.ricco.others.ImageLoader;
 import com.example.ricco.qgzone.R;
-import com.example.ricco.utils.ImageLoader;
+import com.example.ricco.utils.LogUtil;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,8 +24,8 @@ import java.util.Set;
  * UpLoadPhoto适配器
  */
 public class ImageAdapter extends BaseAdapter {
-    private Set<String> selectedImg = new HashSet<>();
 
+    private List<String> selectedImg = new ArrayList<>();
     private List<String> imgList;
     private LayoutInflater inflater;
     private int screenWidth;
@@ -80,29 +82,30 @@ public class ImageAdapter extends BaseAdapter {
                 imgList.get(position), viewHolder.item_img, true);
 
         //4.设置点击监听事件
+        final String filePath = imgList.get(position);
         viewHolder.item_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String filePath = imgList.get(position);
                 //已经被选择
                 if(selectedImg.contains(filePath)){
-                    imgList.remove(filePath);
+                    selectedImg.remove(filePath);
                     viewHolder.item_img.setColorFilter(null);
                     viewHolder.item_btn.setImageResource(R.mipmap.ic_launcher);
                 }
                 //未被选择
                 else{
-                    imgList.add(filePath);
+                    selectedImg.add(filePath);
                     viewHolder.item_img.setColorFilter(Color.parseColor("#77000000"));
                     viewHolder.item_btn.setImageResource(R.mipmap.ic_launcher);
                 }
+
             }
         });
 
         return convertView;
     }
 
-    public Set<String> getSelectedImg() {
+    public List<String> getSelectedImg() {
         return selectedImg;
     }
 
