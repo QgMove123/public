@@ -1,5 +1,6 @@
 package com.example.ricco.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.ricco.adapter.AboutAdapter;
 import com.example.ricco.constant.Constant;
 import com.example.ricco.entity.RelationModel;
+import com.example.ricco.qgzone.DetailsActivity;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.HttpUtil;
@@ -61,10 +63,12 @@ public class AboutMeFragment extends BaseFragment {
                     Map<String, String> jsonObjiect = new HashMap<>();
                     jsonObjiect.put("relatedId", data.get(pos).getRelatedId()+"");
                     jsonObjiect.put("relationType", data.get(pos).getRelationType());
-                    HttpUtil.Get(Constant.Account.RelationGetDetails+"?jsonObject="+JsonUtil.toJson(jsonObjiect), callBackListener);
+                    HttpUtil.Get(Constant.Account.RelationGetDetails+"?jsonObject="+
+                            JsonUtil.toJson(jsonObjiect), callBackListener);
                     break;
                 case R.id.button2:
-                    sendRelation(Constant.Account.RelationDelete+"?jsonObject={\"relationId\"=\""+ data.get(pos).getRelationId() +"\"}");
+                    sendRelation(Constant.Account.RelationDelete+"?jsonObject={\"relationId\"=\""
+                            + data.get(pos).getRelationId() +"\"}");
                     data.remove(pos);
                     break;
                 default:
@@ -76,12 +80,12 @@ public class AboutMeFragment extends BaseFragment {
          @Override
          public void OnFinish(String result) {
              Message msg = new Message();
+             Log.e("result", result);
 
              try {
                  JSONObject dataJson = new JSONObject(result);
                  msg.what = Integer.valueOf(dataJson.getString("state"));
-                 msg.obj = dataJson.getString("Object");
-                 Log.e("OnFinish: object", msg.obj+"");
+                 msg.obj = dataJson.getString("object");
              } catch (JSONException e) {
                  e.printStackTrace();
              } finally {
@@ -170,7 +174,6 @@ public class AboutMeFragment extends BaseFragment {
                 AboutJsonModel object = JsonUtil.toObject(result, AboutJsonModel.class);
                 msg.what = object.state;
                 msg.obj = object.relations;
-
                 mHandler.sendMessage(msg);
             }
 
@@ -203,10 +206,14 @@ public class AboutMeFragment extends BaseFragment {
                     }
                     break;
                 case 421:
-//                    Intent intent = new Intent(getActivity(),  DetailsActivity.class);
-//                    intent.putExtra("message", msg.obj.toString());
-//                    startActivity(intent);
-                    Toast.makeText(getActivity(), "查看详情成功", LENGTH_SHORT).show();
+                    if(msg.obj != null) {
+                        Intent intent = new Intent(getActivity(),  DetailsActivity.class);
+                        intent.putExtra("type", data.get(pos).getRelationType());
+                        intent.putExtra("model", msg.obj.toString());
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getActivity(), "该动态没有详情", LENGTH_SHORT).show();
+                    }
                     break;
                 case 422:
                 case 402:

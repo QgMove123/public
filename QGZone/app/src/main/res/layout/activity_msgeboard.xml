@@ -15,16 +15,18 @@
     <TextView
         android:id="@+id/liuyan_to_write"
         android:layout_width="match_parent"
-        android:paddingLeft="16dp"
-        android:layout_height="50dp"
-        android:paddingTop="16dp"
-        android:textColor="@color/colorLiuYanBtn"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/search_background"
+        android:layout_margin="16dp"
+        android:padding="8dp"
         android:text="留个言吧..."
-        android:background="@color/colorLiuYanBg"
+        android:textColor="@color/colorLiuYanBtn"
+        android:gravity="center_horizontal"
         />
     <com.example.ricco.others.ShuoshuoListview
         android:id="@+id/msgboard_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </com.example.ricco.others.ShuoshuoListview>
+
 </LinearLayout>

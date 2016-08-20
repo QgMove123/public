@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--说说列表的Item-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:id="@+id/say_layout"
-    android:descendantFocusability="beforeDescendants">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.ricco.others.TopBar
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:title="动态详情"
+        custom:leftText="@string/action_back"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp">
+
         <com.example.ricco.others.CircleImageVIew
             android:id="@+id/list_personphoto"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@mipmap/head_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             />
         <TextView
             android:id="@+id/dongtai_name_text"
@@ -25,7 +31,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:textSize="20dp"
-            android:textColor="@color/colorFont"
             android:text="Name"/>
         <TextView
             android:id="@+id/dongtai_time_text"
@@ -35,19 +40,14 @@
             android:layout_below="@+id/dongtai_name_text"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="10dp"
-            android:text="time"
-            android:textColor="@color/colorBottomUnchecked"
-            />
+            android:text="time"/>
         <Button
             android:id="@+id/liuyan_huifu_btn"
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="16dp"
-            android:layout_centerVertical="true"
             android:textSize="10dp"
-            android:background="@drawable/button_bule_round"
-            android:textColor="@color/colorWhite"
             android:text="回复"/>
         <Button
             android:id="@+id/liuyan_shanchu_btn"
@@ -55,10 +55,7 @@
             android:layout_height="30dp"
             android:layout_toLeftOf="@+id/liuyan_huifu_btn"
             android:layout_marginRight="32dp"
-            android:layout_centerVertical="true"
             android:textSize="10dp"
-            android:background="@drawable/button_bule_round"
-            android:textColor="@color/colorWhite"
             android:text="删除"/>
     </RelativeLayout>
     <TextView
@@ -78,27 +75,27 @@
         android:stretchMode="columnWidth">
     </com.example.ricco.utils.TalkPicGridView>
     <RelativeLayout
+        android:id="@+id/icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
             android:id="@+id/dongtai_zan"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:layout_alignParentRight="true"
-            android:background="@color/disapear"/>
+            android:layout_alignParentRight="true"/>
         <ImageButton
             android:id="@+id/dongtai_pinglun"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/dongtai_zan"
             android:src="@mipmap/comment_dongtai"
             android:background="@color/disapear"
             android:layout_marginRight="20dp"/>
         <ImageButton
             android:id="@+id/dongtai_shangchu"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/dongtai_pinglun"
             android:src="@mipmap/delete_dongtai"
             android:background="@color/disapear"
@@ -110,8 +107,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         >
         <EditText
@@ -121,20 +119,19 @@
             android:hint="评论"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:textColorHint="@color/colorLiuYanBg"
             android:drawableRight="@mipmap/dongtai_has_zan"
             android:background="@mipmap/search_background"
-            android:maxLength="50"
+            android:layout_margin="16dp"
             android:maxLines="1"/>
         <ImageButton
             android:id="@+id/respond_ImageButton"
-            android:layout_width="64dp"
-            android:layout_height="32dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignRight="@+id/respond_EditText"
-            android:background="@color/disapear" />
+            android:background="@color/disapear"
+            android:padding="16dp"/>
     </RelativeLayout>
+
 
 </LinearLayout>

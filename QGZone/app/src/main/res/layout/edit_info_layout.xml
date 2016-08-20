@@ -25,7 +25,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="180dp"
                 android:layout_gravity="center_horizontal"
                 android:background="#c8edfe">
 
@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
                     android:textSize="20dp"
+                    android:gravity="center_vertical"
                     android:layout_below="@+id/user_pic"
                     android:layout_marginTop="10dp"
                     android:layout_centerHorizontal="true"
@@ -95,7 +96,7 @@
                 android:text="@string/text_password_problem"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:gravity="center_vertical"
-                android:drawableRight="@mipmap/edit"
+                android:drawableRight="@mipmap/pencil"
                 android:paddingRight="10dp"/>
 
             <TextView
@@ -105,7 +106,7 @@
                 android:text="@string/prompt_password"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:gravity="center_vertical"
-                android:drawableRight="@mipmap/edit"
+                android:drawableRight="@mipmap/pencil"
                 android:paddingRight="10dp"/>
 
             </LinearLayout>

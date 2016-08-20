@@ -8,11 +8,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/qgicon"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".ActivityCheckFriend" />
+        <activity android:name=".CheckFriendActivity" />
         <!-- adjustPan用于使软键盘不闪退 -->
         <activity
             android:name=".MainActivity"
@@ -34,15 +34,15 @@
 
         <activity
             android:name=".TalkPubActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".WriteMsgBoardActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ImageDetailActivity" />
+        <activity android:name=".ImageDetailActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
         <activity android:name=".FriendTalkPubActivity" />
 
         <activity android:name=".ApplyFriendActivity" />
-
         <activity android:name=".FirstActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -52,7 +52,9 @@
         <activity android:name=".InfoActivity" />
         <activity android:name=".LoginSignActivity" />
         <activity android:name=".EditInfoActivity" />
-        <activity android:name=".PerTalkActivity" />
+        <activity android:name=".PerTalkActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".DetailsActivity" />
     </application>
 
 </manifest>

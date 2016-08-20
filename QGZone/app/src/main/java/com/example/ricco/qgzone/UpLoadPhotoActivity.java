@@ -123,6 +123,9 @@ public class UpLoadPhotoActivity extends BaseActivity {
 
             @Override
             public void RightClick(View view) {
+                if (getIntent().getStringExtra("CallForPath").equals("DongTai")) {
+                    setResult(RESULT_CANCELED);
+                }
                 finish();
             }
         });
@@ -135,6 +138,7 @@ public class UpLoadPhotoActivity extends BaseActivity {
                 List<String> selectedImg = imgAdapter.getSelectedImg();
                 //2.1 返回路径
                 if (getIntent().getStringExtra("CallForPath").equals("DongTai")){
+
                     Intent intent = new Intent(UpLoadPhotoActivity.this , TalkPubActivity.class);
                     String allPath = new String("");
                     if(selectedImg.size()<=9) {
@@ -142,7 +146,7 @@ public class UpLoadPhotoActivity extends BaseActivity {
                             allPath += selectedImg.get(i) + "@";
                         }
                         intent.putExtra("Path", allPath);
-                        startActivity(intent);
+                        setResult(RESULT_OK, intent);
                         finish();
                     }else{
                         ToastUtil.showShort(UpLoadPhotoActivity.this,"不能超过九张");
@@ -188,6 +192,7 @@ public class UpLoadPhotoActivity extends BaseActivity {
     public static void actionStart(Context context,int albumId){
         Intent intent = new Intent(context, UpLoadPhotoActivity.class);
         intent.putExtra("albumId", albumId);
+        intent.putExtra("CallForPath", "Error");
         context.startActivity(intent);
     }
 

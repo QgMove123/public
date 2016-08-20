@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--首页ListView的HeadView-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/talklist_title_layout">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/dongtai_background"/>
+    android:background="@mipmap/dongtai_background" >
+
     <com.example.ricco.others.CircleImageVIew
         android:id="@+id/talk_list_personphoto"
-        android:layout_width="67dp"
-        android:layout_height="67dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_centerInParent="true"
+        android:src="@mipmap/head_icon"
         />
 </RelativeLayout>

@@ -195,6 +195,10 @@ public class ShuoshuoListview extends RelativeLayout {
 
     private void loadData() {
 
+        if (lv.getHeaderViewsCount() > 0) {
+            lv.removeHeaderView(header);
+            lv.addHeaderView(header);
+        }
         handler.sendEmptyMessage(1);
         Log.e("URL-2", shuoshuoURL + mPage);
         HttpUtil.Get(shuoshuoURL + mPage, new HttpUtil.CallBackListener() {

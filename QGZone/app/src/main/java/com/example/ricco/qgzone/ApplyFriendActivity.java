@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.ricco.adapter.ApplyFriendAdapter;
@@ -90,6 +91,14 @@ public class ApplyFriendActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_friend);
         init();
+
+        mListv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InfoActivity.actionStart(ApplyFriendActivity.this,
+                        "friend", mDatas.get(position).getUserId());
+            }
+        });
 
         mTopBar.setRightIsVisable(false);
         mTopBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {

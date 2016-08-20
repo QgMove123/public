@@ -6,7 +6,7 @@ package com.example.ricco.constant;
 public final class Constant {
 
     //主机号
-    public static final String host = "192.168.1.106:8080";
+    public static final String host = "192.168.43.138:8080";
 
     //自己的ID，用于访问自己页面
     public static  int HOST_ID = 10000;
@@ -43,12 +43,12 @@ public final class Constant {
         public static final String userCheckSecret = "http://" + host + "/QGzone/UserCheckSecret";
         public static final String userForgetPassword = "http://" + host + "/QGzone/UserForgetPassword";
         public static final String MessageGet = "http://" + host + "/QGzone/MessageGet";
-        public static final String MessageSearch = "http://" + host + "/QGzone/MessageSearch";
+        public static final String MessageSearch = "http://" + host + "/QGzone/MessageSearch?userId=";
         public static final String RelationGet = "http://" + host + "/QGzone/RelationsGet";
         public static final String RelationNextList = "http://" + host + "/QGzone/RelationNextList";
-        public static final String RelationDelete = "http://" + host + "/QGzone/RelationsDelete";
-        public static final String RelationGetDetails = "http://" + host + "/QGzone/RelatonGetDetails";
+        public static final String RelationDelete = "http://" + host + "/QGzone/RelationDelete";
         public static final String RelationRefresh = "http://" + host + "/QGzone/RelationRefresh";
+        public static final String RelationGetDetails = "http://" + host + "/QGzone/RelatonGetDetails";
         public static final String MessageChange = "http://" + host + "/QGzone/MessageChange";
         public static final String UserChangeSecret = "http://" + host + "/QGzone/UserChangeSecret";
         public static final String UserChangePassword = "http://" + host + "/QGzone/UserChangePassword";
@@ -92,6 +92,7 @@ public final class Constant {
 
     // 获取的头像的url
     public static final String civUrl = "http://"+ host + "/QGzone/jpg/";
+    public static final String picture = "http://"+ host + "/QGzone/twitterPhotos/_";
 
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;
