@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.ricco.constant.Constant;
 import com.example.ricco.others.ShuoshuoListview;
+import com.example.ricco.others.TopBar;
 
 /**
  * 留言板
@@ -19,18 +20,29 @@ public class MsgBoardActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         ShuoshuoListview.setHeader(null);
         ShuoshuoListview.setisNote(true);
-        String url = getIntent().getStringExtra("friendID");
-        ShuoshuoListview.setShuoshuoURL(Constant.Note.noteofothers+"?userId="+url+"&page=");
+        final int friendId = getIntent().getIntExtra("friendId", 0);
+        if(friendId == 0) return;
+        ShuoshuoListview.setShuoshuoURL(Constant.Note.noteofothers+"?userId="+friendId+"&page=");
         setContentView(R.layout.activity_msgeboard);
         TextView to_WriteMsgBoard = (TextView) findViewById(R.id.liuyan_to_write);
         to_WriteMsgBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(MsgBoardActivity.this, WriteMsgBoardActivity.class);
-                startActivity(intent);
+                WriteMsgBoardActivity.actionStart(MsgBoardActivity.this, friendId);
             }
         });
+        TopBar topBar = (TopBar) findViewById(R.id.note_topbar);
+        topBar.setOnTopBarClickListener(new TopBar.TopBarClickListener() {
+            @Override
+            public void LeftClick(View view) {
+                finish();
+            }
 
+            @Override
+            public void RightClick(View view) {
+
+            }
+        });
     }
 
     public static void actionStart(Context context, int friendId) {

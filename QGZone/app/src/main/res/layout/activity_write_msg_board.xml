@@ -6,6 +6,7 @@
     android:orientation="vertical"
     xmlns:custom="http://schemas.android.com/apk/res-auto">
     <com.example.ricco.others.TopBar
+        android:id="@+id/msgboard_topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:title="留言板"

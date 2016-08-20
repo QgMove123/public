@@ -72,22 +72,23 @@
         android:layout_height="wrap_content">
         <ImageButton
             android:id="@+id/dongtai_zan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="16dp"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:background="@color/disapear"/>
         <ImageButton
             android:id="@+id/dongtai_pinglun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_toLeftOf="@+id/dongtai_zan"
             android:src="@mipmap/comment_dongtai"
             android:background="@color/disapear"
             android:layout_marginRight="20dp"/>
         <ImageButton
             android:id="@+id/dongtai_shangchu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_toLeftOf="@+id/dongtai_pinglun"
             android:src="@mipmap/delete_dongtai"
             android:background="@color/disapear"
@@ -114,6 +115,7 @@
             android:drawableRight="@mipmap/dongtai_has_zan"
             android:background="@mipmap/search_background"
            android:layout_margin="16dp"
+            android:maxLength="50"
             android:maxLines="1"/>
         <ImageButton
             android:id="@+id/respond_ImageButton"
