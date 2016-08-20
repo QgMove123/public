@@ -18,7 +18,6 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,7 +25,6 @@
             android:name=".AlbumActivity"
             android:launchMode="singleTask">
         </activity>
-
         <activity android:name=".NewAlbumActivity" />
         <activity android:name=".PhotoActivity" />
         <activity android:name=".UpLoadPhotoActivity" />
@@ -43,9 +41,11 @@
             android:name=".WriteMsgBoardActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ImageDetailActivity" />
-        <activity android:name=".LoginSignActivity" />
+        <activity android:name=".ActivityApplyFriend" />
+        <activity android:name=".FirstActivity" />
         <activity android:name=".InfoActivity" />
-        <activity android:name=".EditInfoActivity" />
+        <activity android:name=".LoginSignActivity" />
+        <activity android:name=".PerTalkActivity" />
     </application>
 
 </manifest>
