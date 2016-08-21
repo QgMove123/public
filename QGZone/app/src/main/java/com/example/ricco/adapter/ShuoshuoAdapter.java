@@ -49,6 +49,9 @@ import com.example.ricco.utils.TalkPicGridView;
 import com.example.ricco.utils.TalkRespondListView;
 import com.example.ricco.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -190,11 +193,13 @@ public class ShuoshuoAdapter extends BaseAdapter{
 
 
         //加载头像
-        if(twitterItems!=null&&twitterItems.size()>0)
-            ImageLoader.getInstance(1).loadImage(Constant.civUrl+twitterItem.getTalkId()+".jpg",holder.perPhotoImageVIew,false);
-        else if(noteItems != null&&noteItems.size()>0)
-            ImageLoader.getInstance(1).loadImage(Constant.civUrl+noteItem.getNoteManId()+".jpg",holder.perPhotoImageVIew,false);
-
+        if(twitterItems!=null&&twitterItems.size()>0) {
+            ImageLoader.getInstance(1).loadImage(Constant.civUrl + twitterItem.getTalkId() + ".jpg", holder.perPhotoImageVIew, false);
+            if(holder.perPhotoImageVIew.getImageMatrix() == null) holder.perPhotoImageVIew.setImageDrawable(context.getDrawable(R.mipmap.head_icon));
+        }else if(noteItems != null&&noteItems.size()>0) {
+            ImageLoader.getInstance(1).loadImage(Constant.civUrl + noteItem.getNoteManId() + ".jpg", holder.perPhotoImageVIew, false);
+            if(holder.perPhotoImageVIew.getImageMatrix() == null) holder.perPhotoImageVIew.setImageDrawable(context.getDrawable(R.mipmap.head_icon));
+        }
 
         if(twitterItems != null){
             Log.e("size-s",twitterItem.getSupporterId().size()+"aaa");
@@ -552,57 +557,61 @@ public class ShuoshuoAdapter extends BaseAdapter{
                     URL = Constant.Note.notecomment+"?targetId="+ noteItem.getTargetId()+"&noteId="+noteItem.getNoteId()+"&comment=";
                 }
                 if(!holder.editText.getText().toString().equals("")) {
-                    HttpUtil.Get(URL + holder.editText.getText().toString(), new HttpUtil.CallBackListener() {
-                        @Override
-                        public void OnFinish(String result) {
-                            handler.sendEmptyMessage(5);
-                            if (twitterItems != null) {
-                                final JsonModel<TwitterCommentModel, TwitterCommentModel> jsonModel =
-                                        JsonUtil.toModel((String) result, new TypeToken<JsonModel<TwitterCommentModel, TwitterCommentModel>>() {
-                                        }.getType());
-                                twitterCommentModel = new TwitterCommentModel();
-                                twitterCommentModel.setTime(jsonModel.getJsonObject().getTime());
-                                twitterCommentModel.setTargetName(twitterItem.getTalkerName());
-                                twitterCommentModel.setCommenterName(NAME);    //这里需要名字
-                                twitterCommentModel.setCommenterId(ID);
-                                twitterCommentModel.setComment(holder.editText.getText().toString());
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        twitterItem.getComment().add(twitterCommentModel);
-                                        ((Respond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();
-                                        holder.editText.setText("");
-                                    }
-                                });
-                            } else if (noteItems != null) {
-                                final JsonModel<NoteCommentModel, NoteCommentModel> jsonModel =
-                                        JsonUtil.toModel((String) result, new TypeToken<JsonModel<NoteCommentModel, NoteCommentModel>>() {
-                                        }.getType());
-                                noteCommentModel = new NoteCommentModel();
-                                noteCommentModel.setTime(jsonModel.getJsonObject().getTime());
-                                noteCommentModel.setTargetName(noteItem.getNoteManName());
-                                noteCommentModel.setCommenterName(NAME);   //这里需要名字
-                                noteCommentModel.setComment(holder.editText.getText().toString());
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        noteItem.getComment().add(noteCommentModel);
-                                        ((NoteRespond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();
-                                        holder.editText.setText("");
-                                    }
-                                });
+                    try {
+                        HttpUtil.Get(URL + URLEncoder.encode(holder.editText.getText().toString(),"utf-8"), new HttpUtil.CallBackListener() {
+                            @Override
+                            public void OnFinish(String result) {
+                                handler.sendEmptyMessage(5);
+                                if (twitterItems != null) {
+                                    final JsonModel<TwitterCommentModel, TwitterCommentModel> jsonModel =
+                                            JsonUtil.toModel((String) result, new TypeToken<JsonModel<TwitterCommentModel, TwitterCommentModel>>() {
+                                            }.getType());
+                                    twitterCommentModel = new TwitterCommentModel();
+                                    twitterCommentModel.setTime(jsonModel.getJsonObject().getTime());
+                                    twitterCommentModel.setTargetName(twitterItem.getTalkerName());
+                                    twitterCommentModel.setCommenterName(NAME);    //这里需要名字
+                                    twitterCommentModel.setCommenterId(ID);
+                                    twitterCommentModel.setComment(holder.editText.getText().toString());
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            twitterItem.getComment().add(twitterCommentModel);
+                                            ((Respond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();
+                                            holder.editText.setText("");
+                                        }
+                                    });
+                                } else if (noteItems != null) {
+                                    final JsonModel<NoteCommentModel, NoteCommentModel> jsonModel =
+                                            JsonUtil.toModel((String) result, new TypeToken<JsonModel<NoteCommentModel, NoteCommentModel>>() {
+                                            }.getType());
+                                    noteCommentModel = new NoteCommentModel();
+                                    noteCommentModel.setTime(jsonModel.getJsonObject().getTime());
+                                    noteCommentModel.setTargetName(noteItem.getNoteManName());
+                                    noteCommentModel.setCommenterName(NAME);   //这里需要名字
+                                    noteCommentModel.setComment(holder.editText.getText().toString());
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            noteItem.getComment().add(noteCommentModel);
+                                            ((NoteRespond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();
+                                            holder.editText.setText("");
+                                        }
+                                    });
+                                }
+                                Log.e("Tag", result.toString());
                             }
-                            Log.e("Tag", result.toString());
-                        }
 
-                        @Override
-                        public void OnError(Exception e) {
-                            handler.sendEmptyMessage(5);
-                            handler.sendEmptyMessage(0);
-                            handler.sendEmptyMessage(10);
-                            e.printStackTrace();
-                        }
-                    });
+                            @Override
+                            public void OnError(Exception e) {
+                                handler.sendEmptyMessage(5);
+                                handler.sendEmptyMessage(0);
+                                handler.sendEmptyMessage(10);
+                                e.printStackTrace();
+                            }
+                        });
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -644,61 +653,67 @@ public class ShuoshuoAdapter extends BaseAdapter{
                 mPopupWindow.dismiss();
                 handler.sendEmptyMessage(1);
                 if(!huifuEditText.getText().equals("")) {
-                    HttpUtil.Get(url + huifuEditText.getText().toString(), new HttpUtil.CallBackListener() {
-                        @Override
-                        public void OnFinish(String result) {
-                            handler.sendEmptyMessage(5);
-                            if (twitterItems != null) {
-                                final JsonModel<TwitterCommentModel, TwitterCommentModel> jsonModel =
-                                        JsonUtil.toModel((String) result, new TypeToken<JsonModel<TwitterCommentModel, TwitterCommentModel>>() {
-                                        }.getType());
-                                twitterCommentModel = new TwitterCommentModel();
-                                twitterCommentModel.setTime(jsonModel.getJsonObject().getTime());
-                                twitterCommentModel.setTargetName(targe);
-                                twitterCommentModel.setCommenterName(NAME);    //这里需要名字
-                                twitterCommentModel.setCommenterId(ID);
-                                twitterCommentModel.setComment(huifuEditText.getText().toString());
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        LogUtil.e("EDIT_POSITION",position+"aaaa");
-                                        holder = holders.get(position);
-                                        twitterItem = twitterItems.get(position);
-                                        twitterItem.getComment().add(twitterCommentModel);
-                                        ((Respond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();
-                                        huifuEditText.setText("");
-                                    }
-                                });
-                            } else if (noteItems != null) {
-                                final JsonModel<NoteCommentModel, NoteCommentModel> jsonModel =
-                                        JsonUtil.toModel((String) result, new TypeToken<JsonModel<NoteCommentModel, NoteCommentModel>>() {
-                                        }.getType());
-                                noteCommentModel = new NoteCommentModel();
-                                noteCommentModel.setTime(jsonModel.getJsonObject().getTime());
-                                noteCommentModel.setTargetName(targe);
-                                noteCommentModel.setCommenterName(NAME);   //这里需要名字
-                                noteCommentModel.setComment(huifuEditText.getText().toString());
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        holder = holders.get(position);
-                                        noteItem = noteItems.get(position);
-                                        noteItem.getComment().add(noteCommentModel);
-                                        ((NoteRespond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();
-                                        huifuEditText.setText("");
-                                    }
-                                });
+                    try {
+                        HttpUtil.Get(url + URLEncoder.encode(huifuEditText.getText().toString(),"utf-8"), new HttpUtil.CallBackListener() {
+                            @Override
+                            public void OnFinish(String result) {
+                                handler.sendEmptyMessage(5);
+                                if (twitterItems != null) {
+                                    final JsonModel<TwitterCommentModel, TwitterCommentModel> jsonModel =
+                                            JsonUtil.toModel((String) result, new TypeToken<JsonModel<TwitterCommentModel, TwitterCommentModel>>() {
+                                            }.getType());
+                                    twitterCommentModel = new TwitterCommentModel();
+                                    twitterCommentModel.setTime(jsonModel.getJsonObject().getTime());
+                                    twitterCommentModel.setTargetName(targe);
+                                    twitterCommentModel.setCommenterName(NAME);    //这里需要名字
+                                    twitterCommentModel.setCommenterId(ID);
+                                    twitterCommentModel.setComment(huifuEditText.getText().toString());
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            LogUtil.e("EDIT_POSITION",position+"aaaa");
+                                            holder = holders.get(position);
+                                            twitterItem = twitterItems.get(position);
+                                            twitterItem.getComment().add(twitterCommentModel);
+                                            ((Respond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();
+                                            huifuEditText.setText("");
+                                        }
+                                    });
+                                } else if (noteItems != null) {
+                                    final JsonModel<NoteCommentModel, NoteCommentModel> jsonModel =
+                                            JsonUtil.toModel((String) result, new TypeToken<JsonModel<NoteCommentModel, NoteCommentModel>>() {
+                                            }.getType());
+                                    noteCommentModel = new NoteCommentModel();
+                                    noteCommentModel.setTime(jsonModel.getJsonObject().getTime());
+                                    noteCommentModel.setTargetName(targe);
+                                    noteCommentModel.setCommenterName(NAME);   //这里需要名字
+                                    noteCommentModel.setComment(huifuEditText.getText().toString());
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            holder = holders.get(position);
+                                            noteItem = noteItems.get(position);
+                                            noteItem.getComment().add(noteCommentModel);
+                                            ((NoteRespond_Adapter) holder.listView.getAdapter()).notifyDataSetChanged();
+                                            huifuEditText.setText("");
+                                        }
+                                    });
+                                }
+                                Log.e("Tag", result.toString());
                             }
-                            Log.e("Tag", result.toString());
-                        }
 
-                        @Override
-                        public void OnError(Exception e) {
-                            handler.sendEmptyMessage(5);
-                            ToastUtil.showShort(context,"网络可能出问题了");
-                            e.printStackTrace();
-                        }
-                    });
+                            @Override
+                            public void OnError(Exception e) {
+                                handler.sendEmptyMessage(5);
+                                ToastUtil.showShort(context,"网络可能出问题了");
+                                e.printStackTrace();
+                            }
+                        });
+                    } catch (UnsupportedEncodingException e) {
+                        handler.sendEmptyMessage(5);
+                        ToastUtil.showShort(context,"网络可能出问题了");
+                        e.printStackTrace();
+                    }
                 }
             }
         });
