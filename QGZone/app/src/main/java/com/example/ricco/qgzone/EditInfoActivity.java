@@ -438,7 +438,10 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
                     ImageLoader.getInstance(1).loadImage(path, userPic, true);
                 case 131:
                 case 141:
+                    Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                    break;
                 case 151:
+                    finish();
                     Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     break;
                 case 132:

@@ -16,6 +16,7 @@ import com.example.ricco.others.ImageLoader;
 import com.example.ricco.others.CircleImageVIew;
 import com.example.ricco.others.InfoItem;
 import com.example.ricco.others.TopBar;
+import com.example.ricco.utils.ActivityCollector;
 import com.example.ricco.utils.HttpUtil;
 
 
@@ -93,6 +94,9 @@ public class InfoActivity extends BaseActivity {
             //好友进入时，隐藏编辑和退出按钮，设置获取好友信息的url
             tb.setRightIsVisable(false);
             exit.setVisibility(View.GONE);
+            /**
+             * 修改url
+             */
             url = Constant.Account.MessageSearch + intent.getIntExtra("id", 0);
         } else {
             //用户查看我的资料时设置监听，设置获取用户信息的url
@@ -102,6 +106,7 @@ public class InfoActivity extends BaseActivity {
                     HttpUtil.Get(Constant.Account.userSignOut, null);
                     Intent intent1 = new Intent(InfoActivity.this, FirstActivity.class);
                     startActivity(intent1);
+                    ActivityCollector.finishAll();
                 }
             });
             url = Constant.Account.MessageGet;
@@ -182,7 +187,8 @@ public class InfoActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                     try {
-                        ImageLoader.getInstance(1).loadImage(Constant.civUrl + map.getString("userImage"), headPic, false);
+                        ImageLoader.getInstance(1).loadImage(Constant.civUrl
+                                + map.getString("userImage"), headPic, false);
                         name.setText(map.getString("userName"));
                     } catch (JSONException e) {
                         e.printStackTrace();

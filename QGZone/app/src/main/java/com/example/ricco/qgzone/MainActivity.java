@@ -34,13 +34,6 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
         setDefaultFirstFragment(Constant.FRAGMENT_FLAG_DONGTAI);
     }
 
-
-    @Override
-    protected void onDestroy() {
-        HttpUtil.Get(Constant.Account.userSignOut, null);
-        super.onDestroy();
-    }
-
     //初始化UI界面并设置接口回调
     private void initUI() {
         bottomPanel = (BottomControlPanel) findViewById(R.id.bottom_layout);
@@ -55,7 +48,7 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
      */
     @Override
     public void onBottomPanelClick(int itemId) {
-        // TODO Auto-generated method stub
+
         String tag = "";
         switch (itemId) {
             case Constant.BTN_FLAG_DONGTAI:
@@ -176,14 +169,14 @@ public class MainActivity extends BaseActivity implements BottomControlPanel.Bot
 
     @Override
     protected void onStop() {
-        // TODO Auto-generated method stub
+
         super.onStop();
         nowFragTag = "";
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // TODO Auto-generated method stub
+
     }
 
    //以下代码用于实现点击编辑框外部隐藏软键盘效果

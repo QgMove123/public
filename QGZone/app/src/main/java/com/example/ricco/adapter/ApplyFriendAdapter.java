@@ -103,7 +103,7 @@ public class ApplyFriendAdapter extends BaseAdapter {
                 LogUtil.d("ApplyAdapter", "" + position);
                 new AlertDialog.Builder(mContext)
                         .setTitle("添加请求")
-                        .setMessage("请问你是否要添加其为好友")
+                        .setMessage("请问你是否要发送好友请求")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

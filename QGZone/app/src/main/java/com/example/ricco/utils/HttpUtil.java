@@ -52,6 +52,7 @@ public class HttpUtil {
                     }
                     conn.connect();
                     LogUtil.e("HttpUtil",conn.getResponseCode()+"");
+                    LogUtil.e("HttpUtil","sessionid = " + sessionid);
                     StringBuilder str = new StringBuilder("");
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
                     String line = null;
@@ -103,6 +104,7 @@ public class HttpUtil {
                     }
                     conn.connect();
 //                    LogUtil.e("HttpUtil",conn.getResponseCode()+"");
+                    LogUtil.e("HttpUtil","sessionid = " + sessionid);
                     DataOutputStream dos =new DataOutputStream(conn.getOutputStream());
                     //输出字符串
                     if(JsonOrString!=null) {

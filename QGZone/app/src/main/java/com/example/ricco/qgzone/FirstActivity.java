@@ -37,7 +37,9 @@ public class FirstActivity extends Activity implements View.OnClickListener {
             case R.id.sign :
                 intent.putExtra("way", "sign");
                 break;
+
         }
         startActivity(intent);
+        this.finish();
     }
 }

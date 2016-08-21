@@ -25,6 +25,9 @@ import com.example.ricco.utils.JsonUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * 注册功能Fragment
  * Created by chenyi on 2016/8/11.
@@ -157,8 +160,12 @@ public class SignFragment extends Fragment implements View.OnClickListener {
             userModel.setUserSecretId(id);
             userModel.setUserSecretAnswer(as);
 
-            HttpUtil.Get(Constant.Account.userSignUp+"?jsonObject="+JsonUtil.toJson(userModel),
-                        callBackListener);
+            try {
+                HttpUtil.Get(Constant.Account.userSignUp+"?jsonObject="+ URLEncoder.encode(JsonUtil.toJson(userModel), "utf-8"),
+                            callBackListener);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
     }
 

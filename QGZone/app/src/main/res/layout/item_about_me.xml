@@ -16,11 +16,12 @@
         android:id="@+id/friend_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginLeft="10dp"
         android:text="name"
+        android:textSize="20dp"
+        android:textColor="@color/colorFont"
         android:layout_alignTop="@+id/friend_pic"
-        android:layout_toEndOf="@+id/friend_pic"
-        android:layout_marginStart="24dp" />
+        android:layout_toEndOf="@+id/friend_pic" />
 
     <TextView
         android:id="@+id/time"
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="time"
+        android:textColor="@color/colorBottomUnchecked"
         android:layout_alignBottom="@+id/friend_pic"
         android:layout_alignStart="@+id/friend_name" />
 

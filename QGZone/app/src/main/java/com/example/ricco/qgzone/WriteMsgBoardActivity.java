@@ -36,28 +36,38 @@ public class WriteMsgBoardActivity extends BaseActivity {
             @Override
             public void RightClick(View view) {
                 LogUtil.e("LIUYAN",url + msgBoard.getText().toString());
-                HttpUtil.Get(url + msgBoard.getText().toString(), new HttpUtil.CallBackListener() {
-                    @Override
-                    public void OnFinish(String JsonResult) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                msgBoard.setText("");
-                                ToastUtil.showShort(WriteMsgBoardActivity.this, "发表成功");
-                            }
-                        });
-                    }
+                if(!msgBoard.getText().toString().equals("")) {
+                    HttpUtil.Get(url + msgBoard.getText().toString(), new HttpUtil.CallBackListener() {
+                        @Override
+                        public void OnFinish(String JsonResult) {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    msgBoard.setText("");
+                                    ToastUtil.showShort(WriteMsgBoardActivity.this, "发表成功");
+                                }
+                            });
+                        }
 
-                    @Override
-                    public void OnError(Exception e) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                ToastUtil.showShort(WriteMsgBoardActivity.this, "发表失败");
-                            }
-                        });
-                    }
-                });
+                        @Override
+                        public void OnError(Exception e) {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToastUtil.showShort(WriteMsgBoardActivity.this, "发表失败");
+                                }
+                            });
+                        }
+                    });
+                }else{
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+                            msgBoard.setText("");
+                            ToastUtil.showShort(WriteMsgBoardActivity.this, "发表失败");
+//                        }
+//                    });
+                }
             }
         });
     }

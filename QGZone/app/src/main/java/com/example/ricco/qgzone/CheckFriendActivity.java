@@ -113,7 +113,8 @@ public class CheckFriendActivity extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToastUtil.showShort(CheckFriendActivity.this, "outside:" + position);
+                InfoActivity.actionStart(CheckFriendActivity.this,
+                        "friend", mDatas.get(position).getRequesterId());
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

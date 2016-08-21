@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ricco.constant.Constant;
+import com.example.ricco.others.CircleImageVIew;
+import com.example.ricco.others.ImageLoader;
 import com.example.ricco.others.ShuoshuoListview;
 import com.example.ricco.qgzone.MainActivity;
 import com.example.ricco.qgzone.R;
@@ -17,13 +19,17 @@ import com.example.ricco.qgzone.R;
 public class DongTaiFragment extends BaseFragment {
 
     private ShuoshuoListview mShuoshuo = null;
+    private View mHeadView = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View header = View.inflate(getActivity(), R.layout.dongtai_title_layout, null);
-        ShuoshuoListview.setHeader(header);
+        // 初始化头视图
+        initHeadView();
+        ShuoshuoListview.setHeader(mHeadView);
         ShuoshuoListview.setisNote(false);
         ShuoshuoListview.setShuoshuoURL(Constant.TalkPub.dongtaitalkpub);
+
         View layout = inflater.inflate(R.layout.fragment_dongtai, container, false);
         MainActivity.nowFragTag = Constant.FRAGMENT_FLAG_DONGTAI;
         return layout;
@@ -33,6 +39,15 @@ public class DongTaiFragment extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mShuoshuo = (ShuoshuoListview) getActivity().findViewById(R.id.dongtai_fragment);
+    }
+
+    private void initHeadView() {
+        mHeadView = View.inflate(getActivity(), R.layout.dongtai_title_layout, null);
+        CircleImageVIew civ = (CircleImageVIew) mHeadView.findViewById(R.id.talk_list_personphoto);
+
+        //拿头像
+        ImageLoader.getInstance(1)
+                .loadImage(Constant.civUrl + Constant.HOST_ID + ".jpg", civ, false);
     }
 
     @Override

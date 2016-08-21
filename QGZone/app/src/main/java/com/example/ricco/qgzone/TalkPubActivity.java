@@ -48,6 +48,7 @@ public class TalkPubActivity extends BaseActivity {
     private ArrayList<Bitmap> bitmaps;
     private ArrayList<HashMap<String, String>> mPicGridViewList = new ArrayList<HashMap<String, String>>();
     private GridView mPicGridView;
+    private ImageButton addPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,51 +57,18 @@ public class TalkPubActivity extends BaseActivity {
         setContentView(R.layout.activity_talkpub);
         final EditText talkPub = (EditText) findViewById(R.id.shuos_edittext);
         mPicGridView = (GridView) findViewById(R.id.talkpub_gridview);
-        ImageButton addPic = (ImageButton) findViewById(R.id.shuos_addpic_btn);
+        addPic = (ImageButton) findViewById(R.id.shuos_addpic_btn);
 
 
         /*打开图片选择器*/
         addPic.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)  {
+            public void onClick(View v) {
                 Intent startChoosePicIntent = new Intent(TalkPubActivity.this, UpLoadPhotoActivity.class);
-                startChoosePicIntent.putExtra("CallForPath","DongTai");
-                startActivity (startChoosePicIntent);
-                finish();
+                startChoosePicIntent.putExtra("CallForPath", "DongTai");
+                startActivityForResult(startChoosePicIntent, 1);
             }
         });
-
-
-
-        /*加载图片到GridView*/
-        //1.获取路径
-        Intent intent = getIntent();
-
-        if(intent.getStringExtra("Path") != null) {
-            LogUtil.e("Len", intent.getStringExtra("Path"));
-            imgPath = intent.getStringExtra("Path").split("@");
-            HashMap<String,String> map = new HashMap<>();
-            for(int i=0; imgPath!=null && i<imgPath.length && imgPath[i] != null;i++){
-                LogUtil.e("Len",imgPath[i]);
-                map.put("image",imgPath[i]);
-                mPicGridViewList.add(map);
-            }
-        }else{
-            Log.e(">>>","false");
-        }
-        //  2.绑定到GridView
-        SimpleAdapter adapter = new SimpleAdapter(TalkPubActivity.this, mPicGridViewList,
-                R.layout.gridview_item_layout, new String[]{"image"}, new int[]{R.id.shuos_pic}) {
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    convertView = LayoutInflater.from(TalkPubActivity.this).inflate(R.layout.gridview_item_layout,null);
-                    ImageView imageView = (ImageView) convertView.findViewById(R.id.shuos_pic);
-                    ImageLoader.getInstance(1).loadImage(imgPath[position],imageView,true);
-                    return convertView;
-                }
-            };
-        mPicGridView.setAdapter(adapter);
-
 
         /*设置标题栏的监听事件*/
         TopBar shousTitleBar = (TopBar) findViewById(R.id.shuos_title_bar);
@@ -116,17 +84,13 @@ public class TalkPubActivity extends BaseActivity {
             public void RightClick(View view) {//发表说说
                 final EditText shuosEditText = (EditText) findViewById(R.id.shuos_edittext);
                 ArrayList<String> pathList = new ArrayList<String>();
-                for(int i=0; imgPath!=null&&i<imgPath.length; i++)
+                for (int i = 0; imgPath != null && i < imgPath.length; i++)
                     pathList.add(imgPath[i]);
-//                twitterModel = new TwitterModel();
-//                twitterModel.setTwitterWord(shuosEditText.getText().toString());
-//                mPicNum = imgPath.length;
-//                twitterModel.setTwitterPicture(mPicNum);
-//                String json = JsonUtil.toJson(twitterModel);
+
                 HttpUtil.Post(url, shuosEditText.getText().toString(), pathList, new HttpUtil.CallBackListener() {
                     @Override
                     public void OnFinish(String result) {
-                        LogUtil.e("SendDongtai",result);
+                        LogUtil.e("SendDongtai", result);
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -138,35 +102,48 @@ public class TalkPubActivity extends BaseActivity {
 
                     @Override
                     public void OnError(Exception e) {
-                        ToastUtil.showShort(TalkPubActivity.this,"服务器异常");
+                        ToastUtil.showShort(TalkPubActivity.this, "服务器异常");
                     }
                 });
             }
         });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if(requestCode==1&&resultCode==2){
-//            String[] datas = data.getStringArrayExtra("Path");
-//
-//
-//            //2.绑定数据
-//            SimpleAdapter adapter = new SimpleAdapter(TalkPubActivity.this, mPicGridViewList,
-//                    R.layout.gridview_item_layout, new String[]{"image"}, new int[]{R.id.shuos_pic});
-//            mPicGridView.setAdapter(adapter);
-// {
-//                @Override
-//                public View getView(int position, View convertView, ViewGroup parent) {
-//                    ImageView imageView = (ImageView) convertView.findViewById(R.id.shuos_pic);
-//                    ImageLoader.getInstance(1).loadImage(imgPath[position],imageView,true);
-//
-//                    return convertView;
-//                }
-//            };
-//            }
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            //// TODO: 2016/8/20 强制用户点击，待下次优化
+            addPic.setClickable(false);
+            /*加载图片到GridView*/
+            //1.获取路径
+            if (data.getStringExtra("Path") != null) {
+                LogUtil.e("Len", data.getStringExtra("Path"));
+                imgPath = data.getStringExtra("Path").split("@");
+                HashMap<String, String> map = new HashMap<>();
+                for (int i = 0; imgPath != null && i < imgPath.length && imgPath[i] != null; i++) {
+                    LogUtil.e("Len", imgPath[i]);
+                    map.put("image", imgPath[i]);
+                    mPicGridViewList.add(map);
+                }
+            } else {
+                Log.e(">>>", "false");
+            }
+            //  2.绑定到GridView
+            SimpleAdapter adapter = new SimpleAdapter(TalkPubActivity.this, mPicGridViewList,
+                    R.layout.gridview_item_layout, new String[]{"image"}, new int[]{R.id.shuos_pic}) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    convertView = LayoutInflater.from(TalkPubActivity.this).inflate(R.layout.gridview_item_layout, null);
+                    ImageView imageView = (ImageView) convertView.findViewById(R.id.shuos_pic);
+                    ImageLoader.getInstance(1).loadImage(imgPath[position], imageView, true);
+                    return convertView;
+                }
+            };
+            mPicGridView.setAdapter(adapter);
+        }
+
+    }
 }
 
 
