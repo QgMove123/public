@@ -90,7 +90,7 @@ public class AboutMeFragment extends BaseFragment {
              try {
                  JSONObject dataJson = new JSONObject(result);
                  msg.what = Integer.valueOf(dataJson.getString("state"));
-                 msg.obj = dataJson.getString("Object");
+                 msg.obj = dataJson.getString("object");
                  Log.e("OnFinish: object", msg.obj+"");
              } catch (JSONException e) {
                  msg.obj = null;

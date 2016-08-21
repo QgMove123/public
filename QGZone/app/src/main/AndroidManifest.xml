@@ -50,7 +50,8 @@
         </intent-filter>
         </activity>
         <activity android:name=".InfoActivity" />
-        <activity android:name=".LoginSignActivity" />
+        <activity android:name=".LoginSignActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".EditInfoActivity" />
         <activity android:name=".PerTalkActivity"
             android:windowSoftInputMode="adjustPan" />
