@@ -23,11 +23,14 @@ import com.example.ricco.others.PassItem;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +45,7 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
     private EditText answer;
     private Spinner problem;
     private int id;
+    private boolean isflag;
     private Map<String, Object> jsonObjiect = new HashMap<>();
 
     @Nullable
@@ -49,6 +53,7 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //加载忘记密码Fragment的布局
         View view = inflater.inflate(R.layout.forget_pass_fragment, container, false);
+        isflag = true;
 
         //确认修改密码的按钮
         sure = (Button) view.findViewById(R.id.sure_button);
@@ -74,6 +79,12 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        isflag = false;
+        super.onDestroyView();
     }
 
     /**
@@ -116,8 +127,12 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
             jsonObjiect.put("oldSecretId", id+"");
             jsonObjiect.put("oldAnswer", as);
 
-            HttpUtil.Get(Constant.Account.userCheckSecret+"?jsonObject="+JsonUtil.toJson(jsonObjiect),
-                        callBackListener);
+            try {
+                HttpUtil.Get(Constant.Account.userCheckSecret+"?jsonObject="+URLEncoder.encode(JsonUtil.toJson(jsonObjiect), "utf-8"),
+                            callBackListener);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -143,8 +158,12 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
                     canCloseDialog(dialog, true);
                     jsonObjiect.put("newPassword" , password);
                     //发送修改密码的信息
-                    HttpUtil.Get(Constant.Account.userForgetPassword+"?jsonObject="+JsonUtil.toJson(jsonObjiect),
-                                callBackListener);
+                    try {
+                        HttpUtil.Get(Constant.Account.userForgetPassword+"?jsonObject="+ URLEncoder.encode(JsonUtil.toJson(jsonObjiect), "utf-8"),
+                                    callBackListener);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     //对话框不关闭，并且提示错误
                     canCloseDialog(dialog, false);
@@ -201,6 +220,7 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
         @Override
         public void OnError(Exception e) {
             e.printStackTrace();
+            mHandler.sendEmptyMessage(0);
         }
     };
 
@@ -209,23 +229,30 @@ public class ForgetPassFragment extends Fragment implements View.OnClickListener
      */
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-
-            switch (msg.what) {
-                case 1211:
-                    NewPassDialog();
-                    break;
-                case 1212:
-                    Toast.makeText(getActivity(), "找不到帐号或密保答案错误", Toast.LENGTH_SHORT).show();
-                    break;
-                case 121:
-                    Toast.makeText(getActivity(), "密码修改成功", Toast.LENGTH_SHORT).show();
-                    getFragmentManager().popBackStack();
-                    break;
-                case 122:
-                    Toast.makeText(getActivity(), "密码修改失败", Toast.LENGTH_SHORT).show();
-                    break;
-                default:break;
+            if(isflag) {
+                switch (msg.what) {
+                    case 0:
+                        ToastUtil.showShort(getActivity(), "服务器异常");
+                        break;
+                    case 1211:
+                        NewPassDialog();
+                        break;
+                    case 1212:
+                        Toast.makeText(getActivity(), "找不到帐号或密保答案错误", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 121:
+                        Toast.makeText(getActivity(), "密码修改成功", Toast.LENGTH_SHORT).show();
+                        getFragmentManager().popBackStack();
+                        break;
+                    case 122:
+                        Toast.makeText(getActivity(), "密码修改失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        ToastUtil.showShort(getActivity(), "连接不上服务器，请查看IP");
+                        break;
+                }
             }
+
         }
     };
 }

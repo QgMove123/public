@@ -43,7 +43,8 @@
         <activity android:name=".FriendTalkPubActivity" />
 
         <activity android:name=".ApplyFriendActivity" />
-        <activity android:name=".FirstActivity">
+        <activity android:name=".FirstActivity"
+            android:launchMode="singleTask">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />

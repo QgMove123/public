@@ -6,10 +6,10 @@ package com.example.ricco.constant;
 public final class Constant {
 
     //主机号
-    public static final String host = "192.168.43.138:8080";
+    public static final String host = "192.168.1.101:8080";
 
     //自己的ID，用于访问自己页面
-    public static  int HOST_ID = 10000;
+    public static  int HOST_ID;
 
     //自己的名字
     public static String HOST_NAME = "";

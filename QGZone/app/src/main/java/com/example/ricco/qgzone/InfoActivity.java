@@ -18,6 +18,7 @@ import com.example.ricco.others.InfoItem;
 import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.ActivityCollector;
 import com.example.ricco.utils.HttpUtil;
+import com.example.ricco.utils.ToastUtil;
 
 
 import org.json.JSONException;
@@ -38,6 +39,7 @@ public class InfoActivity extends BaseActivity {
     private Button exit;
     private TopBar tb;
     private String url;
+    private boolean isflag;
     //用于存储获取的帐号信息
     private String message;
 
@@ -52,6 +54,8 @@ public class InfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_layout);
+
+        isflag = true;
 
         tb = (TopBar) findViewById(R.id.topBar);
         headPic = (CircleImageVIew) findViewById(R.id.user_pic);
@@ -79,6 +83,12 @@ public class InfoActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        isflag = false;
+        super.onDestroy();
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
         requestInfo(url);
@@ -103,7 +113,8 @@ public class InfoActivity extends BaseActivity {
             exit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HttpUtil.Get(Constant.Account.userSignOut, null);
+                    HttpUtil.Get(Constant.Account.userSignOut, cbl);
+//                    requestInfo(Constant.Account.userSignOut);
                     Intent intent1 = new Intent(InfoActivity.this, FirstActivity.class);
                     startActivity(intent1);
                     ActivityCollector.finishAll();
@@ -112,6 +123,22 @@ public class InfoActivity extends BaseActivity {
             url = Constant.Account.MessageGet;
         }
     }
+
+    /**
+     * 退出登录的回调
+     */
+    private HttpUtil.CallBackListener cbl = new HttpUtil.CallBackListener() {
+        @Override
+        public void OnFinish(String JsonResult) {
+
+        }
+
+        @Override
+        public void OnError(Exception e) {
+            mHandler.sendEmptyMessage(1);
+            e.printStackTrace();
+        }
+    };
 
     /**
      * 初始化个人信息的表格
@@ -163,6 +190,7 @@ public class InfoActivity extends BaseActivity {
 
             @Override
             public void OnError(Exception e) {
+                mHandler.sendEmptyMessage(0);
                 e.printStackTrace();
             }
         });
@@ -173,34 +201,43 @@ public class InfoActivity extends BaseActivity {
      */
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
+            if (isflag) {
+                switch (msg.what) {
+                    case 1:
+                        ToastUtil.showShort(InfoActivity.this, "注销成功");
+                        break;
+                    case 0:
+                        ToastUtil.showShort(InfoActivity.this, "服务器异常");
+                        break;
+                    case 161:
+                        JSONObject map = (JSONObject) msg.obj;
 
-            switch (msg.what) {
-                case 161:
-                    JSONObject map = (JSONObject) msg.obj;
-
-                    //遍历个人信息的控件，存储个人信息
-                    try {
-                        for (InfoItem ii : infoArry) {
-                            ii.setEditText(map.getString(ii.getTextView()));
+                        //遍历个人信息的控件，存储个人信息
+                        try {
+                            for (InfoItem ii : infoArry) {
+                                ii.setEditText(map.getString(ii.getTextView()));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        ImageLoader.getInstance(1).loadImage(Constant.civUrl
-                                + map.getString("userImage"), headPic, false);
-                        name.setText(map.getString("userName"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                        try {
+                            ImageLoader.getInstance(1).loadImage(Constant.civUrl
+                                    + map.getString("userImage"), headPic, false);
+                            name.setText(map.getString("userName"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                    break;
-                case 162:
-                    Toast.makeText(InfoActivity.this, "获取个人信息失败，请查看网络连接", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
+                        break;
+                    case 162:
+                        Toast.makeText(InfoActivity.this, "获取个人信息失败，请查看网络连接", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        ToastUtil.showShort(InfoActivity.this, "连接不上服务器，请查看IP");
+                        break;
+                }
             }
+
         }
     };
 }

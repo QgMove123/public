@@ -47,6 +47,11 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
         tx.commit();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+    }
+
     /**
      * 继承注册Fragment的按钮接口，跳转到登录Fragment
      */

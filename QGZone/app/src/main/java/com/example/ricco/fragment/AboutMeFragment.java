@@ -24,6 +24,7 @@ import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.SelectPopupWindow;
+import com.example.ricco.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +51,7 @@ public class AboutMeFragment extends BaseFragment {
     //自定义的弹出框类
     private SelectPopupWindow popupWindow;
     private int pos;
+    private boolean isflag;
 
     /**
      *     为弹出窗口实现监听类
@@ -76,17 +78,22 @@ public class AboutMeFragment extends BaseFragment {
             }
         }
     };
-     private HttpUtil.CallBackListener callBackListener = new HttpUtil.CallBackListener() {
+
+    /**
+     * popupwindow的接口回调，用于更新UI
+     */
+    private HttpUtil.CallBackListener callBackListener = new HttpUtil.CallBackListener() {
          @Override
          public void OnFinish(String result) {
              Message msg = new Message();
-             Log.e("result", result);
 
              try {
                  JSONObject dataJson = new JSONObject(result);
                  msg.what = Integer.valueOf(dataJson.getString("state"));
-                 msg.obj = dataJson.getString("object");
+                 msg.obj = dataJson.getString("Object");
+                 Log.e("OnFinish: object", msg.obj+"");
              } catch (JSONException e) {
+                 msg.obj = null;
                  e.printStackTrace();
              } finally {
                  mHandler.sendMessage(msg);
@@ -103,6 +110,7 @@ public class AboutMeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_aboutme, container, false);
+        isflag = true;
 
         aboutList = (ListView) view.findViewById(R.id.list_about_me);
         aa = new AboutAdapter(getActivity(), data);
@@ -114,7 +122,7 @@ public class AboutMeFragment extends BaseFragment {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_IDLE) {
                     if (view.getLastVisiblePosition() == view.getCount() - 1 && flag) {
-                        sendRelation(Constant.Account.RelationNextList+"?jsonObject={\"page\"=\""+(++page)+"\"}");
+                        sendRelation(Constant.Account.RelationGet+"?jsonObject={\"page\"=\""+(++page)+"\"}");
                     } else if (!flag) {
                         Toast.makeText(getActivity(), "已显示全部记录", LENGTH_SHORT).show();
                     }
@@ -151,6 +159,13 @@ public class AboutMeFragment extends BaseFragment {
         return view;
     }
 
+
+    @Override
+    public void onDestroyView() {
+        isflag = false;
+        super.onDestroyView();
+    }
+
     @Override
     public void onResume() {
         // TODO Auto-generated method stub
@@ -174,6 +189,7 @@ public class AboutMeFragment extends BaseFragment {
                 AboutJsonModel object = JsonUtil.toObject(result, AboutJsonModel.class);
                 msg.what = object.state;
                 msg.obj = object.relations;
+
                 mHandler.sendMessage(msg);
             }
 
@@ -187,52 +203,58 @@ public class AboutMeFragment extends BaseFragment {
     private Handler mHandler = new Handler() {
 
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 441:
-                    data.addAll(0, (Collection<? extends RelationModel>) msg.obj);
-                    aa.notifyDataSetChanged();
-                    srl.setRefreshing(false);
-                    break;
-                case 411:
-                    aa.notifyDataSetChanged();
-                    Toast.makeText(getActivity(), "删除成功", LENGTH_SHORT).show();
-                    break;
-                case 401:
-                    if(msg.obj != null){
-                        data.addAll((Collection<? extends RelationModel>) msg.obj);
+            if (isflag) {
+                switch (msg.what) {
+                    case 0:
+                        ToastUtil.showShort(getActivity(), "服务器异常");
+                        break;
+                    case 441:
+                        data.addAll(0, (Collection<? extends RelationModel>) msg.obj);
                         aa.notifyDataSetChanged();
-                    } else {
+                        srl.setRefreshing(false);
+                        break;
+                    case 411:
+                        aa.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "删除成功", LENGTH_SHORT).show();
+                        break;
+                    case 401:
+                        if(msg.obj != null){
+                            data.addAll((Collection<? extends RelationModel>) msg.obj);
+                            aa.notifyDataSetChanged();
+                        } else {
+                            flag = false;
+                        }
+                        break;
+                    case 421:
+                        if(msg.obj != null) {
+                            Intent intent = new Intent(getActivity(),  DetailsActivity.class);
+                            intent.putExtra("type", data.get(pos).getRelationType());
+                            intent.putExtra("model", msg.obj.toString());
+                            startActivity(intent);
+                        }
+                        Toast.makeText(getActivity(), "查看详情成功", LENGTH_SHORT).show();
+                        break;
+                    case 422:
+                    case 402:
+                        Toast.makeText(getActivity(), "查看失败，请查看网络连接", LENGTH_SHORT).show();
+                        break;
+                    case 442:
+                        srl.setRefreshing(false);
+                        Toast.makeText(getActivity(), "没有新消息", LENGTH_SHORT).show();
+                        break;
+                    case 412:
+                        Toast.makeText(getActivity(), "删除失败", LENGTH_SHORT).show();
+                        break;
+                    case 403:
                         flag = false;
-                    }
-                    break;
-                case 421:
-                    if(msg.obj != null) {
-                        Intent intent = new Intent(getActivity(),  DetailsActivity.class);
-                        intent.putExtra("type", data.get(pos).getRelationType());
-                        intent.putExtra("model", msg.obj.toString());
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(getActivity(), "该动态没有详情", LENGTH_SHORT).show();
-                    }
-                    break;
-                case 422:
-                case 402:
-                    Toast.makeText(getActivity(), "查看失败，请查看网络连接", LENGTH_SHORT).show();
-                    break;
-                case 442:
-                    srl.setRefreshing(false);
-                    Toast.makeText(getActivity(), "没有新消息", LENGTH_SHORT).show();
-                    break;
-                case 412:
-                    Toast.makeText(getActivity(), "删除失败", LENGTH_SHORT).show();
-                    break;
-                case 403:
-                    flag = false;
-                    Toast.makeText(getActivity(), "已显示全部记录", LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
+                        Toast.makeText(getActivity(), "已显示全部记录", LENGTH_SHORT).show();
+                        break;
+                    default:
+                        ToastUtil.showShort(getActivity(), "连接不上服务器，请查看IP");
+                        break;
+                }
             }
+
         }
     };
 
