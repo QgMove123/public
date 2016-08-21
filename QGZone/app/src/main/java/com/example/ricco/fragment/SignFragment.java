@@ -1,6 +1,8 @@
 package com.example.ricco.fragment;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +23,7 @@ import com.example.ricco.qgzone.LoginSignActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +42,7 @@ public class SignFragment extends Fragment implements View.OnClickListener {
     private EditText answer;
     private EditText password;
     private Spinner problem;
+    private boolean isflag;
     //记录选择的密保问题
     private int id;
 
@@ -46,6 +50,8 @@ public class SignFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sign_fragment, container, false);
+
+        isflag = true;
 
         //输入框
         nickName = (EditText) view.findViewById(R.id.nickname);
@@ -73,6 +79,12 @@ public class SignFragment extends Fragment implements View.OnClickListener {
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        isflag = false;
+        super.onDestroyView();
     }
 
     /**
@@ -122,18 +134,18 @@ public class SignFragment extends Fragment implements View.OnClickListener {
 
         //检查密码是否有效
         if (!isPasswordValid(pass)) {
-            password.setError("密码长度出错");
+            password.setError("6-15位密码");
             focusView = password;
             cancel = true;
         }
 
         //检查昵称格式
         if (TextUtils.isEmpty(name)) {
-            nickName.setError("昵称不能为空");
+            nickName.setError("昵称不能为空，");
             focusView = nickName;
             cancel = true;
         } else if (!isNickNameValid(name)) {
-            nickName.setError("昵称格式错误");
+            nickName.setError("昵称仅限中文、英文、数字、下划线");
             focusView = nickName;
             cancel = true;
         }
@@ -144,7 +156,7 @@ public class SignFragment extends Fragment implements View.OnClickListener {
             focusView = answer;
             cancel = true;
         } else if (!isNickNameValid(as)) {
-            answer.setError("密保格式错误");
+            answer.setError("密保仅限中文、英文、数字、下划线");
             focusView = answer;
             cancel = true;
         }
@@ -187,27 +199,48 @@ public class SignFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void OnError(Exception e) {
+            mHandler.sendEmptyMessage(0);
         }
     };
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
 
-            switch (msg.what) {
-                case 101:
-                    Toast.makeText(getActivity(), "注册成功", Toast.LENGTH_SHORT).show();
-                    //调用接口回调，跳转页面
-                    if(getActivity() instanceof SignBtnClickListener) {
-                        //保存注册后的帐号
-                        ((LoginSignActivity)getActivity()).setAccount((String) msg.obj);
-                        ((SignBtnClickListener) getActivity()).onSignBtnClick();
-                    }
-                    break;
-                case 102:
-                    Toast.makeText(getActivity(), "注册失败", Toast.LENGTH_SHORT).show();
-                    break;
-                default:break;
+            if(isflag) {
+                switch (msg.what) {
+                    case 0:
+                        ToastUtil.showShort(getActivity(), "服务器异常");
+                        break;
+                    case 101:
+                        Toast.makeText(getActivity(), "注册成功", Toast.LENGTH_SHORT).show();
+                        final String account = (String) msg.obj;
+                        //弹出对话框显示新帐号
+                        AlertDialog.Builder show = new AlertDialog.Builder(getActivity());
+                        show.setTitle("请输入...");
+                        show.setMessage("你的帐号为:"+account);
+
+                        show.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //调用接口回调，跳转页面
+                                if(getActivity() instanceof SignBtnClickListener) {
+                                    //保存注册后的帐号
+                                    ((LoginSignActivity)getActivity()).setAccount(account);
+                                    ((SignBtnClickListener) getActivity()).onSignBtnClick();
+                                }
+                            }
+                        });
+                        show.create().show();
+                        break;
+                    case 102:
+                        Toast.makeText(getActivity(), "注册失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        ToastUtil.showShort(getActivity(), "连接不上服务器，请查看IP");
+                        break;
+                }
             }
+
         }
     };
 

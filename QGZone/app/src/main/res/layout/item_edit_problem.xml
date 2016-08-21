@@ -19,7 +19,12 @@
         android:layout_height="wrap_content"
         android:entries="@array/problems"
         android:spinnerMode="dropdown"
-        android:background="@drawable/rect_gray"/>
+        android:background="@null"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#80d0f6" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -51,7 +56,12 @@
         android:layout_height="wrap_content"
         android:entries="@array/problems"
         android:spinnerMode="dropdown"
-        android:background="@drawable/rect_gray"/>
+        android:background="@null"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#80d0f6" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

@@ -30,12 +30,15 @@ import com.example.ricco.utils.EditProblemItem;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.SelectPopupWindow;
+import com.example.ricco.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -55,6 +58,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
     private TextView problem;
     private TextView password;
     private SelectPopupWindow popupWindow;
+    private boolean isflag;
     String path;
     Map<String, String> model = new HashMap<>();
 
@@ -74,6 +78,8 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_info_layout);
 
+        isflag = true;
+
         //初始化控件
         initInfo();
         userPic = (CircleImageVIew) findViewById(R.id.user_pic);
@@ -91,6 +97,12 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
 
         //设置控件的监听
         setListener();
+    }
+
+    @Override
+    protected void onDestroy() {
+        isflag = false;
+        super.onDestroy();
     }
 
     public void setMessage() {
@@ -146,7 +158,11 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
                     model.put(ii.getTextView(), ii.getEditText());
                 }
                 model.put("userName", nickname.getText().toString());
-                HttpUtil.Get(Constant.Account.MessageChange+"?jsonObject="+JsonUtil.toJson(model), callBackListener);
+                try {
+                    HttpUtil.Get(Constant.Account.MessageChange+"?jsonObject="+ URLEncoder.encode(JsonUtil.toJson(model), "utf-8"), callBackListener);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -424,7 +440,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
 
         @Override
         public void OnError(Exception e) {
-
+            mHandler.sendEmptyMessage(0);
         }
     };
 
@@ -433,28 +449,35 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 171:
-                    ImageLoader.getInstance(1).loadImage(path, userPic, true);
-                case 131:
-                case 141:
-                    Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                    break;
-                case 151:
-                    finish();
-                    Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                    break;
-                case 132:
-                case 142:
-                case 152:
-                case 172:
-                    Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                    break;
-                case 173:
-                    Toast.makeText(EditInfoActivity.this, "文件格式错误", Toast.LENGTH_SHORT).show();
-                default:
-                    break;
+            if(isflag) {
+                switch (msg.what) {
+                    case 0:
+                        ToastUtil.showShort(EditInfoActivity.this, "服务器异常");
+                        break;
+                    case 171:
+                        ImageLoader.getInstance(1).loadImage(path, userPic, true);
+                    case 131:
+                    case 141:
+                        Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 151:
+                        finish();
+                        Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 132:
+                    case 142:
+                    case 152:
+                    case 172:
+                        Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 173:
+                        Toast.makeText(EditInfoActivity.this, "文件格式错误", Toast.LENGTH_SHORT).show();
+                    default:
+                        ToastUtil.showShort(EditInfoActivity.this, "连接不上服务器，请查看IP");
+                        break;
+                }
             }
+
         }
     };
 }

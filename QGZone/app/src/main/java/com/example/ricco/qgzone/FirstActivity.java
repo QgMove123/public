@@ -40,6 +40,5 @@ public class FirstActivity extends Activity implements View.OnClickListener {
 
         }
         startActivity(intent);
-        this.finish();
     }
 }

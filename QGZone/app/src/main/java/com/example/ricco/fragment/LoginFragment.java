@@ -26,6 +26,8 @@ import com.example.ricco.utils.ToastUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,12 +41,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private TextView forget;
     private EditText account;
     private EditText password;
+    private boolean isflag;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
         HttpUtil.sessionid = null;
+        isflag = true;
         account = (EditText) view.findViewById(R.id.account);
         password = (EditText) view.findViewById(R.id.password);
 
@@ -67,6 +71,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         forget = (TextView) view.findViewById(R.id.action_forget_password);
         forget.setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        isflag = false;
+        super.onDestroyView();
     }
 
     /**
@@ -129,7 +139,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         //检查密码是否有效
         if (!isPasswordValid(pass)) {
-            password.setError("密码长度出错");
+            password.setError("6-15位密码");
             focusView = password;
             cancel = true;
         }
@@ -140,7 +150,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             focusView = account;
             cancel = true;
         } else if (!isAccountValid(acc)) {
-            account.setError("帐号应为7位数字");
+            account.setError("7位数字帐号");
             focusView = account;
             cancel = true;
         }
@@ -154,7 +164,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             json.put("userId", acc);
             json.put("password", pass);
 
-            HttpUtil.Get(Constant.Account.userSignIn+"?jsonObject="+JsonUtil.toJson(json), callBackListener);
+            try {
+                HttpUtil.Get(Constant.Account.userSignIn+"?jsonObject="+ URLEncoder.encode(JsonUtil.toJson(json), "utf-8"), callBackListener);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -184,27 +198,32 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    ToastUtil.showShort(getActivity(), "服务器异常");
-                    break;
-                case 111:
-                    ToastUtil.showShort(getActivity(), "登录成功");
-                    //通过回调跳转到主页
-                    if (getActivity() instanceof LoginBtnClickListener) {
-                        ((LoginBtnClickListener) getActivity()).onLoginBtnClick();
-                    }
-                    UserModel um = JsonUtil.toObject(msg.obj.toString(), UserModel.class);
-                    Constant.HOST_ID = Integer.parseInt(um.getUserId());
-                    Constant.HOST_NAME = um.getUserName();
-                    break;
-                case 112:
-                    Log.e("handleMessage: ", "登录失败");
-                    ToastUtil.showShort(getActivity(), "登录失败");
-                    //清空sessionId
-                    HttpUtil.sessionid = null;
-                    break;
-                default:break;
+
+            if(isflag) {
+                switch (msg.what) {
+                    case 0:
+                        ToastUtil.showShort(getActivity(), "服务器异常");
+                        break;
+                    case 111:
+                        ToastUtil.showShort(getActivity(), "登录成功");
+                        //通过回调跳转到主页
+                        if (getActivity() instanceof LoginBtnClickListener) {
+                            ((LoginBtnClickListener) getActivity()).onLoginBtnClick();
+                        }
+                        UserModel um = JsonUtil.toObject(msg.obj.toString(), UserModel.class);
+                        Constant.HOST_ID = Integer.parseInt(um.getUserId());
+                        Constant.HOST_NAME = um.getUserName();
+                        break;
+                    case 112:
+                        Log.e("handleMessage: ", "登录失败");
+                        ToastUtil.showShort(getActivity(), "登录失败");
+                        //清空sessionId
+                        HttpUtil.sessionid = null;
+                        break;
+                    default:
+                        ToastUtil.showShort(getActivity(), "连接不上服务器，请查看IP");
+                        break;
+                }
             }
         }
     };
