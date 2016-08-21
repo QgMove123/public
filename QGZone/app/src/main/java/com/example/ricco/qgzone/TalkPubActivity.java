@@ -113,7 +113,7 @@ public class TalkPubActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            //// TODO: 2016/8/20 强制用户点击，待下次优化
+            // TODO: 2016/8/20 强制用户点击，待下次优化
             addPic.setClickable(false);
             /*加载图片到GridView*/
             //1.获取路径
