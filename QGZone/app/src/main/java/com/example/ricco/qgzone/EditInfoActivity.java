@@ -29,6 +29,7 @@ import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.EditProblemItem;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
+import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.SelectPopupWindow;
 import com.example.ricco.utils.ToastUtil;
 
@@ -329,6 +330,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                LogUtil.e("dialog", which+"");
                 ((InfoItem)findViewById(id)).setEditText(items[which]);
             }
         });

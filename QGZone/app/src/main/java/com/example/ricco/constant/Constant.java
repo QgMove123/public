@@ -92,7 +92,6 @@ public final class Constant {
 
     // 获取的头像的url
     public static final String civUrl = "http://"+ host + "/QGzone/jpg/";
-    public static final String picture = "http://"+ host + "/QGzone/twitterPhotos/_";
 
     //Btn的标识
     public static final int BTN_FLAG_DONGTAI = 1;

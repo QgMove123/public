@@ -21,6 +21,8 @@ import com.example.ricco.utils.ToastUtil;
 import com.example.ricco.others.TopBar;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,27 +155,31 @@ public class ApplyFriendActivity extends BaseActivity {
 
     private void getDatas(String identifier) {
 
-        HttpUtil.Get(mUrl + identifier, new HttpUtil.CallBackListener() {
-            Message msg = new Message();
+        try {
+            HttpUtil.Get(mUrl + URLEncoder.encode(identifier, "utf-8"), new HttpUtil.CallBackListener() {
+                Message msg = new Message();
 
-            @Override
-            public void OnFinish(String result) {
-                JsonModel<MessageModel, String> jsonModel = JsonUtil.toModel(result,
-                        new TypeToken<JsonModel<MessageModel, String>>() {
-                        }.getType());
-                msg.what = jsonModel.getState();
-                msg.obj = jsonModel.getJsonList();
+                @Override
+                public void OnFinish(String result) {
+                    JsonModel<MessageModel, String> jsonModel = JsonUtil.toModel(result,
+                            new TypeToken<JsonModel<MessageModel, String>>() {
+                            }.getType());
+                    msg.what = jsonModel.getState();
+                    msg.obj = jsonModel.getJsonList();
 
-                mHandler.sendMessage(msg);
-            }
+                    mHandler.sendMessage(msg);
+                }
 
-            @Override
-            public void OnError(Exception e) {
-                e.printStackTrace();
-                msg.what = 0;
-                mHandler.sendMessage(msg);
-            }
-        });
+                @Override
+                public void OnError(Exception e) {
+                    e.printStackTrace();
+                    msg.what = 0;
+                    mHandler.sendMessage(msg);
+                }
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

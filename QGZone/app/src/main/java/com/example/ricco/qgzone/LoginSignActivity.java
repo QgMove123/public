@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.ricco.fragment.ForgetPassFragment;
 import com.example.ricco.fragment.LoginFragment;
 import com.example.ricco.fragment.SignFragment;
+import com.example.ricco.utils.ActivityCollector;
 
 /**
  * 登录注册的Activity，在Fragment中切换不同的功能
@@ -78,6 +79,7 @@ public class LoginSignActivity extends Activity implements LoginFragment.LoginBt
     public void onLoginBtnClick() {
         Intent intent = new Intent(LoginSignActivity.this, MainActivity.class);
         startActivity(intent);
+        ActivityCollector.finishAll();
         finish();
 //        InfoActivity.actionStart(LoginSignActivity.this, "me", 0);
     }

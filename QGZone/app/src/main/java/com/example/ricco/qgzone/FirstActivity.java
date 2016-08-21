@@ -10,7 +10,7 @@ import android.widget.Button;
  * 系统进入界面，可进入登录注册
  * Created by chenyi on 2016/8/11.
  */
-public class FirstActivity extends Activity implements View.OnClickListener {
+public class FirstActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

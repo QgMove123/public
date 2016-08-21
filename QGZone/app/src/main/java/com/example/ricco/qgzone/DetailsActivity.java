@@ -147,7 +147,8 @@ public class DetailsActivity extends Activity {
                 for (int i = 0; i < n; i++) {
                     Map<String, Bitmap> listem = new HashMap<>();
                     try {
-                        final URL url = new URL(Constant.picture + id + "_" + (i + 1) + ".jpg");
+                        final URL url = new URL(Constant.TalkPub.getshuoshuopic
+                                                + id + "_" + (i + 1) + ".jpg");
                         Bitmap bitmap = BitmapFactory.decodeStream(url.openStream());
                         listem.put("image", bitmap);
                         listems.add(listem);

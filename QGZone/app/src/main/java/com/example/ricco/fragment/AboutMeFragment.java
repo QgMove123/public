@@ -122,7 +122,7 @@ public class AboutMeFragment extends BaseFragment {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_IDLE) {
                     if (view.getLastVisiblePosition() == view.getCount() - 1 && flag) {
-                        sendRelation(Constant.Account.RelationGet+"?jsonObject={\"page\"=\""+(++page)+"\"}");
+                        sendRelation(Constant.Account.RelationNextList+"?jsonObject={\"page\"=\""+(++page)+"\"}");
                     } else if (!flag) {
                         Toast.makeText(getActivity(), "已显示全部记录", LENGTH_SHORT).show();
                     }
