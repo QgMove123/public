@@ -26,7 +26,9 @@ import com.example.ricco.others.TopBar;
 import com.example.ricco.utils.HttpUtil;
 import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.LogUtil;
+import com.example.ricco.utils.ProgressDialogUtil;
 import com.example.ricco.utils.ToastUtil;
+import com.google.gson.reflect.TypeToken;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -82,29 +84,49 @@ public class TalkPubActivity extends BaseActivity {
 
             @Override
             public void RightClick(View view) {//发表说说
+                view.setEnabled(false);
+                ProgressDialogUtil.showDialog("请稍等","正在加载...",false,TalkPubActivity.this);
                 final EditText shuosEditText = (EditText) findViewById(R.id.shuos_edittext);
                 ArrayList<String> pathList = new ArrayList<String>();
-                for (int i = 0; imgPath != null && i < imgPath.length; i++)
+                for (int i = 0; imgPath != null && i < imgPath.length && imgPath[i] != null; i++)
                     pathList.add(imgPath[i]);
-
-                HttpUtil.Post(url, shuosEditText.getText().toString(), pathList, new HttpUtil.CallBackListener() {
-                    @Override
-                    public void OnFinish(String result) {
-                        LogUtil.e("SendDongtai", result);
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
+                if(!shuosEditText.getText().toString().equals("") || (imgPath!=null && imgPath.length>0)){
+                    HttpUtil.Post(url, shuosEditText.getText().toString(), pathList, new HttpUtil.CallBackListener() {
+                        @Override
+                        public void OnFinish(String result) {
+                            Map<String, Integer> jsonModel =
+                                    JsonUtil.toModel(result,
+                                            new TypeToken<Map<String, Integer>>(){}.getType());
+                            LogUtil.e("SendDongtai", result);
+                            if(jsonModel!=null && jsonModel.get("state").intValue() == 201) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ToastUtil.showShort(TalkPubActivity.this, "发送成功");
+                                        ProgressDialogUtil.deleteDialog();
+                                        shuosEditText.setText("");
+                                        finish();
+                                    }
+                                });
+                            }else{
+                                ToastUtil.showShort(TalkPubActivity.this, "网络异常");
+                                ProgressDialogUtil.deleteDialog();
                                 shuosEditText.setText("");
                                 finish();
                             }
-                        });
-                    }
+                        }
 
-                    @Override
-                    public void OnError(Exception e) {
-                        ToastUtil.showShort(TalkPubActivity.this, "服务器异常");
-                    }
-                });
+                        @Override
+                        public void OnError(Exception e) {
+                            ProgressDialogUtil.deleteDialog();
+                            ToastUtil.showShort(TalkPubActivity.this, "网络异常");
+                        }
+                    });
+                }else {
+                    ProgressDialogUtil.deleteDialog();
+                    view.setEnabled(true);
+                    ToastUtil.showShort(TalkPubActivity.this, "内容不能为空");
+                }
             }
         });
     }
@@ -113,16 +135,17 @@ public class TalkPubActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            // TODO: 2016/8/20 强制用户点击，待下次优化
-            addPic.setClickable(false);
+            //// TODO: 2016/8/20 强制用户点击，待下次优化
+            //addPic.setClickable(false);
             /*加载图片到GridView*/
             //1.获取路径
+            if(imgPath!=null)for(int i=0 ; i<imgPath.length; i++) imgPath[i] = null;
+            if(mPicGridViewList!=null)mPicGridViewList.clear();//// TODO: 2016/8/21  
             if (data.getStringExtra("Path") != null) {
                 LogUtil.e("Len", data.getStringExtra("Path"));
                 imgPath = data.getStringExtra("Path").split("@");
                 HashMap<String, String> map = new HashMap<>();
                 for (int i = 0; imgPath != null && i < imgPath.length && imgPath[i] != null; i++) {
-                    LogUtil.e("Len", imgPath[i]);
                     map.put("image", imgPath[i]);
                     mPicGridViewList.add(map);
                 }

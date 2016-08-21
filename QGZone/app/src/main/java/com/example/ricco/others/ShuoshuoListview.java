@@ -194,7 +194,6 @@ public class ShuoshuoListview extends RelativeLayout {
 
 
     private void loadData() {
-
         if (lv.getHeaderViewsCount() > 0) {
             lv.removeHeaderView(header);
             lv.addHeaderView(header);
@@ -225,8 +224,12 @@ public class ShuoshuoListview extends RelativeLayout {
                                         pics.add(pic_Map);
                                     }
                                 } catch (MalformedURLException e) {
+                                    handler.sendEmptyMessage(5);
+                                    ToastUtil.showShort(mContext,"网络可能出问题了");
                                     e.printStackTrace();
                                 } catch (IOException e) {
+                                    handler.sendEmptyMessage(5);
+                                    ToastUtil.showShort(mContext,"网络可能出问题了");
                                     e.printStackTrace();
                                 }
                             }
@@ -243,6 +246,7 @@ public class ShuoshuoListview extends RelativeLayout {
                                     handler.sendEmptyMessage(5);
                                 } else {
                                     itemAdapter.notifyDataSetChanged();
+
                                     handler.sendEmptyMessage(5);
                                 }
 
@@ -254,7 +258,8 @@ public class ShuoshuoListview extends RelativeLayout {
 
                         if (itemList.size() == 0) {
                             itemAdapter = new ShuoshuoAdapter(itemList, mContext, mPicGridViewList, handler);
-                            handler.sendEmptyMessage(9);
+                            handler.sendEmptyMessage(0);//取消下拉
+                            handler.sendEmptyMessage(9);//提示无说说
                         } else {
                             handler.sendEmptyMessage(4);
                         }
@@ -290,6 +295,7 @@ public class ShuoshuoListview extends RelativeLayout {
                         handler.sendEmptyMessage(4);
                         handler.sendEmptyMessage(0);
                     } else if (jsonModel.getState() == 506){
+                        handler.sendEmptyMessage(0);
                         handler.sendEmptyMessage(5);
                         handler.sendEmptyMessage(10);
                     }
@@ -298,6 +304,9 @@ public class ShuoshuoListview extends RelativeLayout {
 
             @Override
             public void OnError(Exception e) {
+                handler.sendEmptyMessage(0);
+                handler.sendEmptyMessage(5);
+                handler.sendEmptyMessage(10);
                 e.printStackTrace();
             }
         });

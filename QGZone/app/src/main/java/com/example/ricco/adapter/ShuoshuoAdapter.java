@@ -47,6 +47,7 @@ import com.example.ricco.utils.JsonUtil;
 import com.example.ricco.utils.LogUtil;
 import com.example.ricco.utils.TalkPicGridView;
 import com.example.ricco.utils.TalkRespondListView;
+import com.example.ricco.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +72,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
     private ArrayList<TwitterModel> twitterItems = null;
     private ArrayList<NoteModel> noteItems = null;
     private Context context;
+    private SimpleAdapter sAdapter;
     private TwitterModel twitterItem;
     private NoteModel noteItem;
     private TwitterCommentModel twitterCommentModel;
@@ -113,7 +115,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent){
-
+        
         final int sayItemPosition = position;
         if(twitterItems!=null&&twitterItems.size()>0)twitterItem = (TwitterModel) getItem(position);
         else if(noteItems != null&&noteItems.size()>0)noteItem = (NoteModel) getItem(position);
@@ -187,9 +189,6 @@ public class ShuoshuoAdapter extends BaseAdapter{
         }
 
 
-        LogUtil.e("position",position+"");
-        LogUtil.e("size",holders.size()+"");
-
         //加载头像
         if(twitterItems!=null&&twitterItems.size()>0)
             ImageLoader.getInstance(1).loadImage(Constant.civUrl+twitterItem.getTalkId()+".jpg",holder.perPhotoImageVIew,false);
@@ -209,24 +208,30 @@ public class ShuoshuoAdapter extends BaseAdapter{
             holder.wordTextView.setText(twitterItem.getTwitterWord());
             holder.timeTextView.setText(twitterItem.getTime());
             holder.nameTextView.setText(twitterItem.getTalkerName());
+
             final Respond_Adapter adapter = new Respond_Adapter(context,
                     R.layout.dongtai_respond_item, twitterItem.getComment());//说说回复的数据绑定
             holder.listView.setAdapter(adapter);
-            SimpleAdapter sAdapter = new SimpleAdapter(context, mPicGridViewList.get(position),
-                    R.layout.gridview_item_layout, new String[]{"image"}, new int[]{R.id.shuos_pic});
-            sAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-                @Override
-                public boolean setViewValue(View view, Object data,
-                                            String textRepresentation) {
-                    if (view instanceof ImageView && data instanceof Bitmap) {
-                        ImageView iv = (ImageView) view;
-                        iv.setImageBitmap((Bitmap) data);
-                        return true;
+            // TODO: 2016/8/21 加了条件判断
+            if(mPicGridViewList!=null&&mPicGridViewList.size()>position) {
+                // TODO: 2016/8/21 改成了private 
+                sAdapter = new SimpleAdapter(context, mPicGridViewList.get(position),
+                        R.layout.gridview_item_layout, new String[]{"image"}, new int[]{R.id.shuos_pic});
+
+                sAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                    @Override
+                    public boolean setViewValue(View view, Object data,
+                                                String textRepresentation) {
+                        if (view instanceof ImageView && data instanceof Bitmap) {
+                            ImageView iv = (ImageView) view;
+                            iv.setImageBitmap((Bitmap) data);
+                            return true;
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
-            holder.picGridView.setAdapter(sAdapter);
+                });
+                holder.picGridView.setAdapter(sAdapter);
+            }
             /*ImageView的监听*/
             holder.picGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 private int twitterId = twitterItem.getTwitterId();
@@ -282,6 +287,9 @@ public class ShuoshuoAdapter extends BaseAdapter{
                                             handler.sendEmptyMessage(1);
                                             Message msg = new Message();
                                             Bundle b = new Bundle();
+                                            //// TODO: 2016/8/21 添加了下两句
+                                            if(position<mPicGridViewList.size())mPicGridViewList.remove(position);
+                                            else return;
                                             b.putInt("position",position);
                                             msg.what = 7;
                                             msg.setData(b);
@@ -289,15 +297,16 @@ public class ShuoshuoAdapter extends BaseAdapter{
 //                                            handler.post(new Runnable() {
 //                                                @Override
 //                                                public void run() {
-//                                                    ShuoshuoListview.itemList.remove(position);
-//                                                    ShuoshuoListview.itemAdapter.notifyDataSetChanged();
-//                                                    handler.sendEmptyMessage(3);
+//                                                    sAdapter.notifyDataSetChanged();
 //                                                }
 //                                            });
                                         }
 
                                         @Override
                                         public void OnError(Exception e) {
+                                            handler.sendEmptyMessage(0);
+                                            handler.sendEmptyMessage(5);
+                                            handler.sendEmptyMessage(10);
                                             e.printStackTrace();
                                         }
                                     });
@@ -530,6 +539,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
 //                final int index = Integer.parseInt(v.getTag().toString());
+                handler.sendEmptyMessage(1);
                 holder = holders.get(position);
                 if (twitterItems != null) twitterItem = twitterItems.get(position);
                 else if(noteItems != null) noteItem = noteItems.get(position);
@@ -545,6 +555,7 @@ public class ShuoshuoAdapter extends BaseAdapter{
                     HttpUtil.Get(URL + holder.editText.getText().toString(), new HttpUtil.CallBackListener() {
                         @Override
                         public void OnFinish(String result) {
+                            handler.sendEmptyMessage(5);
                             if (twitterItems != null) {
                                 final JsonModel<TwitterCommentModel, TwitterCommentModel> jsonModel =
                                         JsonUtil.toModel((String) result, new TypeToken<JsonModel<TwitterCommentModel, TwitterCommentModel>>() {
@@ -586,6 +597,9 @@ public class ShuoshuoAdapter extends BaseAdapter{
 
                         @Override
                         public void OnError(Exception e) {
+                            handler.sendEmptyMessage(5);
+                            handler.sendEmptyMessage(0);
+                            handler.sendEmptyMessage(10);
                             e.printStackTrace();
                         }
                     });
@@ -628,10 +642,12 @@ public class ShuoshuoAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 mPopupWindow.dismiss();
+                handler.sendEmptyMessage(1);
                 if(!huifuEditText.getText().equals("")) {
                     HttpUtil.Get(url + huifuEditText.getText().toString(), new HttpUtil.CallBackListener() {
                         @Override
                         public void OnFinish(String result) {
+                            handler.sendEmptyMessage(5);
                             if (twitterItems != null) {
                                 final JsonModel<TwitterCommentModel, TwitterCommentModel> jsonModel =
                                         JsonUtil.toModel((String) result, new TypeToken<JsonModel<TwitterCommentModel, TwitterCommentModel>>() {
@@ -678,6 +694,8 @@ public class ShuoshuoAdapter extends BaseAdapter{
 
                         @Override
                         public void OnError(Exception e) {
+                            handler.sendEmptyMessage(5);
+                            ToastUtil.showShort(context,"网络可能出问题了");
                             e.printStackTrace();
                         }
                     });

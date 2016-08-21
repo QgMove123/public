@@ -147,9 +147,11 @@ public class UpLoadPhotoActivity extends BaseActivity {
                         }
                         intent.putExtra("Path", allPath);
                         setResult(RESULT_OK, intent);
+                        selectedImg.clear();//// TODO: 2016/8/21
                         finish();
                     }else{
                         ToastUtil.showShort(UpLoadPhotoActivity.this,"不能超过九张");
+                        selectedImg.clear();//// TODO: 2016/8/21
                         return;
                     }
                 }

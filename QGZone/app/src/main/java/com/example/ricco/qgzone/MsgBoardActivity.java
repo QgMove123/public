@@ -15,12 +15,16 @@ import com.example.ricco.others.TopBar;
  * 留言板
  */
 public class MsgBoardActivity extends BaseActivity{
+    private int friendId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ShuoshuoListview.setHeader(null);
         ShuoshuoListview.setisNote(true);
-        final int friendId = getIntent().getIntExtra("friendId", 0);
+        friendId = getIntent().getIntExtra("friendId", 0);//第一次启动时获取friendId
+        if (savedInstanceState != null) {//保存获取到的friendId
+            friendId = savedInstanceState.getInt("friendId");
+        }
         if(friendId == 0) return;
         ShuoshuoListview.setShuoshuoURL(Constant.Note.noteofothers+"?userId="+friendId+"&page=");
         setContentView(R.layout.activity_msgeboard);
@@ -43,6 +47,11 @@ public class MsgBoardActivity extends BaseActivity{
 
             }
         });
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putInt("friendId",friendId);
     }
 
     public static void actionStart(Context context, int friendId) {
