@@ -19,6 +19,7 @@ import com.example.ricco.qgzone.MsgBoardActivity;
 import com.example.ricco.qgzone.PerTalkActivity;
 import com.example.ricco.qgzone.R;
 import com.example.ricco.others.CircleImageVIew;
+import com.example.ricco.utils.LogUtil;
 
 /**
  * Created by Ricco on 2016/8/9.
@@ -49,6 +50,7 @@ public class ZoneFragment extends BaseFragment implements View.OnClickListener{
 
         ShuoshuoListview.setHeader(mHeadView);
         ShuoshuoListview.setShuoshuoURL(mUrl);
+        ShuoshuoListview.setisNote(false);
         View layout = inflater.inflate(R.layout.fragment_zone,
                 container, false);
 
@@ -79,6 +81,15 @@ public class ZoneFragment extends BaseFragment implements View.OnClickListener{
         super.onResume();
 
         MainActivity.nowFragTag = Constant.FRAGMENT_FLAG_ZONE;
+    }
+
+    @Override
+    public void onStart(){
+        // TODO: 2016/8/22 避免被新的Activity遮盖后导致数据改动
+        super.onStart();
+        ShuoshuoListview.setHeader(mHeadView);
+        ShuoshuoListview.setShuoshuoURL(mUrl);
+        ShuoshuoListview.setisNote(false);
     }
 
     private void initHeadView() {

@@ -90,7 +90,8 @@ public class TalkPubActivity extends BaseActivity {
                 ArrayList<String> pathList = new ArrayList<String>();
                 for (int i = 0; imgPath != null && i < imgPath.length && imgPath[i] != null; i++)
                     pathList.add(imgPath[i]);
-                if(!shuosEditText.getText().toString().equals("") || (imgPath!=null && imgPath.length>0)){
+                if((!shuosEditText.getText().toString().equals("") && shuosEditText.getText().toString().matches("^([\u4e00-\u9fa5]|[0-9]|[a-z]|[A-Z]|[,]|[，]|[“]|[\"]|[”]|[。]|[.]){0,200}$"))
+                        || (imgPath!=null && imgPath.length>0)){
                     HttpUtil.Post(url, shuosEditText.getText().toString(), pathList, new HttpUtil.CallBackListener() {
                         @Override
                         public void OnFinish(String result) {
@@ -102,13 +103,19 @@ public class TalkPubActivity extends BaseActivity {
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ToastUtil.showShort(TalkPubActivity.this, "发送成功");
-                                        ProgressDialogUtil.deleteDialog();
-                                        shuosEditText.setText("");
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ToastUtil.showShort(TalkPubActivity.this, "发送成功");
+                                                ProgressDialogUtil.deleteDialog();
+                                                shuosEditText.setText("");
+                                            }
+                                        });
                                         finish();
                                     }
                                 });
                             }else{
+
                                 ToastUtil.showShort(TalkPubActivity.this, "网络异常");
                                 ProgressDialogUtil.deleteDialog();
                                 shuosEditText.setText("");
@@ -125,7 +132,7 @@ public class TalkPubActivity extends BaseActivity {
                 }else {
                     ProgressDialogUtil.deleteDialog();
                     view.setEnabled(true);
-                    ToastUtil.showShort(TalkPubActivity.this, "内容不能为空");
+                    ToastUtil.showShort(TalkPubActivity.this, "内容不能为空且只能输入中文、数字、英文、逗号、句号、双引号和空格");
                 }
             }
         });

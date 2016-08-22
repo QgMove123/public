@@ -46,6 +46,9 @@ public class FriendTalkPubActivity extends BaseActivity implements View.OnClickL
         // 设置shuoShuoListView url
         ShuoshuoListview.setShuoshuoURL(mUrl + friendId + "&page=");
 
+        //设置shuoShuoListView 属性为说说
+        ShuoshuoListview.setisNote(false);
+
         // 加载主视图
         setContentView(R.layout.fragment_zone);
 

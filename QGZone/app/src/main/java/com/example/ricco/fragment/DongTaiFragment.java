@@ -50,6 +50,14 @@ public class DongTaiFragment extends BaseFragment {
                 .loadImage(Constant.civUrl + Constant.HOST_ID + ".jpg", civ, false);
     }
 
+    @Override 
+    public void onStart(){
+        // TODO: 2016/8/22 避免被新的Activity遮盖后导致数据改动
+        super.onStart();
+        ShuoshuoListview.setHeader(mHeadView);
+        ShuoshuoListview.setisNote(false);
+        ShuoshuoListview.setShuoshuoURL(Constant.TalkPub.dongtaitalkpub);
+    }
     @Override
     public void onResume() {
         // TODO Auto-generated method stub

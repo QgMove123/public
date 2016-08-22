@@ -1,6 +1,7 @@
 package com.example.ricco.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class NoteRespond_Adapter extends ArrayAdapter<NoteCommentModel>{
         TextView textView = (TextView) view.findViewById(R.id.respond_text);
         textView.setText(respond.getCommenterName()+" say to "+respond.getTargetName()
                 +": "+respond.getComment()+"\r\n            ---"+respond.getTime());
+
         return view;
     }
 

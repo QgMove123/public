@@ -31,6 +31,7 @@ public class PerTalkActivity extends BaseActivity {
         ShuoshuoListview.setHeader(null);
         // 设置shuoShuoListView url
         ShuoshuoListview.setShuoshuoURL(mUrl + friendId + "&page=");
+        ShuoshuoListview.setisNote(false);
 
         // 加载主视图
         setContentView(R.layout.fragment_zone);

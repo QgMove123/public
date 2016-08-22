@@ -46,7 +46,7 @@ public class WriteMsgBoardActivity extends BaseActivity {
             public void RightClick(View view) {
                 view.setEnabled(false);//不允许在发表过程多次点击
                 ProgressDialogUtil.showDialog("请稍等","正在加载",false,WriteMsgBoardActivity.this);
-                if(!msgBoard.getText().toString().equals("")) {
+                if(!msgBoard.getText().toString().equals("") && msgBoard.getText().toString().matches("^([\u4e00-\u9fa5]|[a-z]|[A-Z]|[0-9]|[,]|[，]|[“]|[\"]|[”]|[。]|[.]){0,200}$")) {
                     try {
                         HttpUtil.Get(url + URLEncoder.encode(msgBoard.getText().toString(),"utf-8"), new HttpUtil.CallBackListener() {
                             @Override
@@ -93,7 +93,7 @@ public class WriteMsgBoardActivity extends BaseActivity {
 //                        public void run() {
                     msgBoard.setText("");
                     ProgressDialogUtil.deleteDialog();
-                    ToastUtil.showShort(WriteMsgBoardActivity.this, "内容不能为空");
+                    ToastUtil.showShort(WriteMsgBoardActivity.this, "内容不能为空且只能输入中文、数字、英文、逗号、句号、双引号和空格");
                     view.setEnabled(true);
 //                        }
 //                    });

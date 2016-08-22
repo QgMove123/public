@@ -26,8 +26,6 @@ import java.util.List;
 public class Respond_Adapter extends ArrayAdapter<TwitterCommentModel> {
 
     private  int resourceId;
-    private RespondViewHolder respondViewHolder = new RespondViewHolder();
-    private static ArrayList<RespondViewHolder> respondViewHolders;
     public  Respond_Adapter(Context context, int textViewResourceId, List<TwitterCommentModel> objects){
         super(context,textViewResourceId,objects);
         resourceId = textViewResourceId;
@@ -36,12 +34,11 @@ public class Respond_Adapter extends ArrayAdapter<TwitterCommentModel> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         TwitterCommentModel respond = getItem(position);
-        if(respondViewHolders == null)respondViewHolders  = new ArrayList<RespondViewHolder>();
         convertView = LayoutInflater.from(getContext()).inflate(resourceId, null);
-        respondViewHolder.setTextView((TextView) convertView.findViewById(R.id.respond_text));
-        respondViewHolder.getTextView().setText(respond.getCommenterName()+" say to "+respond.getTargetName()
+        TextView textView = (TextView) convertView.findViewById(R.id.respond_text);
+        textView.setText(respond.getCommenterName()+" say to "+respond.getTargetName()
                 +": "+respond.getComment()+"\r\n            ---"+respond.getTime());
-        respondViewHolders.add(respondViewHolder);
+
 
         return convertView;
     }

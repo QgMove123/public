@@ -154,7 +154,10 @@ public class ShuoshuoListview extends RelativeLayout {
     }
 
     private void initView() {
-        if (header != null && lv.getHeaderViewsCount() == 0) lv.addHeaderView(header);
+        if (header != null && lv.getHeaderViewsCount() == 0) {
+            lv.addHeaderView(header);
+            header = null;
+        }
         lv.setOnScrollListener(new AbsListView.OnScrollListener() {//上拉下载
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -194,7 +197,7 @@ public class ShuoshuoListview extends RelativeLayout {
 
 
     private void loadData() {
-        if (lv.getHeaderViewsCount() > 0) {
+        if (lv!=null && header != null && lv.getHeaderViewsCount() > 0) {
             lv.removeHeaderView(header);
             lv.addHeaderView(header);
         }
@@ -214,8 +217,8 @@ public class ShuoshuoListview extends RelativeLayout {
                             ArrayList<HashMap<String, Object>> pics = new ArrayList<HashMap<String, Object>>();
                             for (int j = 0; j < itemList.get(mItemPosition).getTwitterPicture(); j++) {
                                 try {
-                                    Log.e("twitterpicture", itemList.get(mItemPosition).getTwitterPicture() + "  " + (mItemPosition - 12 * (mPage - 1)) + "  " + mItemPosition + "  " + (mPage - 1));
                                     URL url = new URL(Constant.TalkPub.getshuoshuopic + jsonModel.getJsonList().get(mItemPosition - 12 * (mPage - 1)).getTwitterId() + "_" + (j + 1) + ".jpg");//说说图片
+                                    Log.e("twitterpicture", Constant.TalkPub.getshuoshuopic + jsonModel.getJsonList().get(mItemPosition - 12 * (mPage - 1)).getTwitterId() + "_" + (j + 1) + ".jpg");
                                     Bitmap bitmap = BitmapFactory.decodeStream(url.openStream());
                                     Log.e("fileSize", bitmap.getByteCount() + "");
                                     if (bitmap != null) {
@@ -265,6 +268,10 @@ public class ShuoshuoListview extends RelativeLayout {
                         }
                         //结束progress dialog
                         handler.sendEmptyMessage(5);
+                    } else if (jsonModel.getState() != 201){
+                        handler.sendEmptyMessage(0);
+                        handler.sendEmptyMessage(5);
+                        handler.sendEmptyMessage(10);
                     }
                 } else {
                     final JsonModel<NoteModel, NoteModel> jsonModel = JsonUtil.toModel((String) result, new TypeToken<JsonModel<NoteModel, NoteModel>>() {
@@ -294,7 +301,8 @@ public class ShuoshuoListview extends RelativeLayout {
                         handler.sendEmptyMessage(5);
                         handler.sendEmptyMessage(4);
                         handler.sendEmptyMessage(0);
-                    } else if (jsonModel.getState() == 506){
+                    } else{
+                        Log.e("Load_Shuoshuo",jsonModel.getState()+"");
                         handler.sendEmptyMessage(0);
                         handler.sendEmptyMessage(5);
                         handler.sendEmptyMessage(10);
